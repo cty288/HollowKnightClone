@@ -7,7 +7,7 @@ namespace HollowKnight
 {
     public class HollowKnight : Architecture<HollowKnight> { 
         protected override void Init() {
-
+            this.RegisterSystem<IMapSystem>(new MapSystem());
         }
     }
 }
