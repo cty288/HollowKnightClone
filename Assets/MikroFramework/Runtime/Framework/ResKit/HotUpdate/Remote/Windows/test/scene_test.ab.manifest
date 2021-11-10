@@ -1,0 +1,50 @@
+ManifestFileVersion: 0
+CRC: 1424951567
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 49c15a3b1f47cd04083d6f4b27ce01eb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b84ba8528a2eb9b369183a0877cdf494
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 20
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 81
+  Script: {instanceID: 0}
+- Class: 89
+  Script: {instanceID: 0}
+- Class: 104
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 157
+  Script: {instanceID: 0}
+- Class: 196
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/MikroFramework/Runtime/Examples/ResKit/06. LoadSceneABExample/TestABScene.unity
+Dependencies:
+- D:/programming/unity/projects/MikroFramework/Assets/AssetBundleBuilds/0.1/Windows/mftest

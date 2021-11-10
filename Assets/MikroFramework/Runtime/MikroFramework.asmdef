@@ -1,0 +1,18 @@
+{
+    "name": "MikroFramework",
+    "rootNamespace": "MikroFramework",
+    "references": [
+        "GUID:00247fa89c0d34649bcc39e084a559b9",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:97f6a5745ed1da1469ecfbb4c6a93d8f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

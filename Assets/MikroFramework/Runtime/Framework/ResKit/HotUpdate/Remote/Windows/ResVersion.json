@@ -1,0 +1,91 @@
+{
+  "Version": "0.2",
+  "ABMD5List": [
+    {
+      "AssetName": "mftest",
+      "MD5": "63d1989bd9cbb3ad5502fe9c91fe069",
+      "FileSize": 432.416016,
+      "assetDatas": [
+        {
+          "Name": "War loop",
+          "OwnerBundleName": "mftest",
+          "AssetType": "UnityEngine.AudioClip, UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        },
+        {
+          "Name": "Asteroid_1",
+          "OwnerBundleName": "mftest",
+          "AssetType": "UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        },
+        {
+          "Name": "Cylinder",
+          "OwnerBundleName": "mftest",
+          "AssetType": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        },
+        {
+          "Name": "TestABObj",
+          "OwnerBundleName": "mftest",
+          "AssetType": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        }
+      ]
+    },
+    {
+      "AssetName": "mftest2",
+      "MD5": "3325646c3f3d907932bdcc5ca670ad36",
+      "FileSize": 4.96289063,
+      "assetDatas": [
+        {
+          "Name": "War loop",
+          "OwnerBundleName": "mftest2",
+          "AssetType": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        },
+        {
+          "Name": "TestABObj",
+          "OwnerBundleName": "mftest2",
+          "AssetType": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        }
+      ]
+    },
+    {
+      "AssetName": "scene",
+      "MD5": "9c09fc78a40a6e51ccd09bce96c78422",
+      "FileSize": 109.636719,
+      "assetDatas": [
+        {
+          "Name": "HotUpdateExampleScene",
+          "OwnerBundleName": "scene",
+          "AssetType": "UnityEditor.SceneAsset, UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        }
+      ]
+    },
+    {
+      "AssetName": "test_sphere",
+      "MD5": "a7ba4b4b27ec6a6bdc7ce69aa7fe2e47",
+      "FileSize": 40.4472656,
+      "assetDatas": [
+        {
+          "Name": "Sphere",
+          "OwnerBundleName": "test_sphere",
+          "AssetType": "UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        }
+      ]
+    },
+    {
+      "AssetName": "Windows",
+      "MD5": "a8f1435b0d9c9c62450283b38d4107d9",
+      "FileSize": 1.67089844,
+      "assetDatas": []
+    },
+    {
+      "AssetName": "test/scene_test.ab",
+      "MD5": "5e3c7e69f6c874ba8b423c3eb69134e9",
+      "FileSize": 131.959961,
+      "assetDatas": [
+        {
+          "Name": "TestABScene",
+          "OwnerBundleName": "test/scene_test.ab",
+          "AssetType": "UnityEditor.SceneAsset, UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        }
+      ]
+    }
+  ]
+}

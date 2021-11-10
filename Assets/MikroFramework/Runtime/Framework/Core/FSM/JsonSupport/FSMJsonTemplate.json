@@ -1,0 +1,38 @@
+{
+  "FsmJsonInfos": [
+    {
+      "Name": "Idle",
+      "Translations": {
+        "PressW": "Run",
+        "PressD": "Die"
+      }
+    },
+    {
+      "Name": "Run",
+      "Translations": {
+        "PressUp": "Jump",
+        "PressS": "Idle",
+        "PressD": "Die"
+      }
+    },
+    {
+      "Name": "Jump",
+      "Translations": {
+        "PressUp": "DoubleJump",
+        "PressDown": "Run",
+        "PressD": "Die"
+      }
+    },
+    {
+      "Name": "DoubleJump",
+      "Translations": {
+        "PressDown": "Run",
+        "PressD": "Die"
+      }
+    },
+    {
+      "Name": "Die",
+      "Translations": {}
+    }
+  ]
+}
