@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HollowKnight
 {
-    public class HallowKnight : Architecture<HallowKnight> { 
+    public class HollowKnight : Architecture<HollowKnight> { 
         protected override void Init() {
 
         }

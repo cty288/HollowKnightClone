@@ -1,0 +1,16 @@
+{
+    "name": "HollowKnight",
+    "rootNamespace": "HollowKnight",
+    "references": [
+        "GUID:f2b0d54d51e30694d86d80d43c7d5c90"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
