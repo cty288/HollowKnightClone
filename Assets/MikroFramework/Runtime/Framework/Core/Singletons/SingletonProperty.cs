@@ -25,7 +25,6 @@ namespace MikroFramework.Singletons
                         instance = SingletonCreator.CreateSingleton<T>();
                     }
                 }
-
                 return instance;
             }
 
