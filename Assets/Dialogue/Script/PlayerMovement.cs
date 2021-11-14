@@ -13,9 +13,6 @@ public class PlayerMovement : MonoBehaviour
     public GameObject strawberryManager;
     public GameObject hurtbox;
     public Animator animator;
-    //[SerializeField] private Sprite[] WalkSprites;
-    //[SerializeField] private Sprite[] JumpSprites;
-    //[SerializeField] private Sprite[] IdleSprites;
 
     public AudioSource audioSource;
     public AudioClip audioAttack;
