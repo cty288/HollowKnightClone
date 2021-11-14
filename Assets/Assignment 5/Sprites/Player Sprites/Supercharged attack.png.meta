@@ -1,0 +1,537 @@
+fileFormatVersion: 2
+guid: 3faa9190fade85f45aa0d13581cd4ebd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6699744644680977019
+    second: Supercharged attack_0
+  - first:
+      213: 3431564374946338229
+    second: Supercharged attack_1
+  - first:
+      213: 8547703609627722476
+    second: Supercharged attack_2
+  - first:
+      213: -5289729075586383365
+    second: Supercharged attack_3
+  - first:
+      213: -5275447098851720273
+    second: Supercharged attack_4
+  - first:
+      213: -7656268466210368283
+    second: Supercharged attack_5
+  - first:
+      213: -4859206576775446874
+    second: Supercharged attack_6
+  - first:
+      213: 3124136560627913205
+    second: Supercharged attack_7
+  - first:
+      213: 51299395553635032
+    second: Supercharged attack_8
+  - first:
+      213: 4010701650213423515
+    second: Supercharged attack_9
+  - first:
+      213: -5000309722457561336
+    second: Supercharged attack_10
+  - first:
+      213: -6071832439646009680
+    second: Supercharged attack_11
+  - first:
+      213: 5141099432936839388
+    second: Supercharged attack_12
+  - first:
+      213: 6042759305570187227
+    second: Supercharged attack_13
+  - first:
+      213: -2771413365016016655
+    second: Supercharged attack_14
+  - first:
+      213: -4524972091052032603
+    second: Supercharged attack_15
+  - first:
+      213: -2181247844905530899
+    second: Supercharged attack_16
+  - first:
+      213: -1274105174409438428
+    second: Supercharged attack_17
+  - first:
+      213: 7316262228266018586
+    second: Supercharged attack_18
+  - first:
+      213: 3461500963336534958
+    second: Supercharged attack_19
+  - first:
+      213: 3241405269117920504
+    second: Supercharged attack_20
+  - first:
+      213: 9044798695459222160
+    second: Supercharged attack_21
+  - first:
+      213: -8567256838260978310
+    second: Supercharged attack_22
+  - first:
+      213: -1794780126608087895
+    second: Supercharged attack_23
+  - first:
+      213: -7702615861805606692
+    second: Supercharged attack_24
+  - first:
+      213: -6896395791739586151
+    second: Supercharged attack_25
+  - first:
+      213: 1194281107329140639
+    second: Supercharged attack_26
+  - first:
+      213: 5192735060010749836
+    second: Supercharged attack_27
+  - first:
+      213: -5891641515304828429
+    second: Supercharged attack_28
+  - first:
+      213: 8941025167052089491
+    second: Supercharged attack_29
+  - first:
+      213: -6443444713845966748
+    second: Supercharged attack_30
+  - first:
+      213: -9213343295586845147
+    second: Supercharged attack_31
+  - first:
+      213: -4827346562790746215
+    second: Supercharged attack_32
+  - first:
+      213: -8945173119009471384
+    second: Supercharged attack_33
+  - first:
+      213: -1033305065131999958
+    second: Supercharged attack_34
+  - first:
+      213: -3787094867757607517
+    second: Supercharged attack_35
+  - first:
+      213: -408010409441325750
+    second: Supercharged attack_36
+  - first:
+      213: -2005509884201884340
+    second: Supercharged attack_37
+  - first:
+      213: -215613036713073872
+    second: Supercharged attack_38
+  - first:
+      213: 7055355811940864746
+    second: Supercharged attack_39
+  - first:
+      213: -1693250966176180790
+    second: Supercharged attack_40
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Supercharged attack_0
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 835
+        width: 58
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 585f6ff0eb9b503a0800000000000000
+      internalID: -6699744644680977019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_1
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 771
+        width: 58
+        height: 41
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b5df882e9d5f9f20800000000000000
+      internalID: 3431564374946338229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_2
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 717
+        width: 28
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce24f21352b8f9670800000000000000
+      internalID: 8547703609627722476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_3
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 640
+        width: 58
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf14e939e6b1796b0800000000000000
+      internalID: -5289729075586383365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_4
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 582
+        width: 44
+        height: 33
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa3049960d8d9c6b0800000000000000
+      internalID: -5275447098851720273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_5
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 521
+        width: 32
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e4918605687fb590800000000000000
+      internalID: -7656268466210368283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_6
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 448
+        width: 102
+        height: 61
+      alignment: 9
+      pivot: {x: 0.28431374, y: 0.36885247}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6aebe051d51a09cb0800000000000000
+      internalID: -4859206576775446874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_7
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 384
+        width: 102
+        height: 64
+      alignment: 9
+      pivot: {x: 0.18627451, y: 0.3515625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f1990646a92b5b20800000000000000
+      internalID: 3124136560627913205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_8
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 320
+        width: 102
+        height: 64
+      alignment: 9
+      pivot: {x: 0.19117647, y: 0.3515625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8daaa29478046b000800000000000000
+      internalID: 51299395553635032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_9
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 256
+        width: 102
+        height: 64
+      alignment: 9
+      pivot: {x: 0.18137255, y: 0.3515625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b994b09b6efd8a730800000000000000
+      internalID: 4010701650213423515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_10
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 192
+        width: 102
+        height: 64
+      alignment: 9
+      pivot: {x: 0.17156863, y: 0.3515625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8072cf9dcc45b9ab0800000000000000
+      internalID: -5000309722457561336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_11
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 128
+        width: 102
+        height: 64
+      alignment: 9
+      pivot: {x: 0.17156863, y: 0.3515625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b6c43be0948cbba0800000000000000
+      internalID: -6071832439646009680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_12
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 64
+        width: 102
+        height: 64
+      alignment: 9
+      pivot: {x: 0.17156863, y: 0.3515625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd8992f02bad85740800000000000000
+      internalID: 5141099432936839388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Supercharged attack_13
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 0
+        width: 102
+        height: 64
+      alignment: 9
+      pivot: {x: 0.17156863, y: 0.3515625}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd772bf82913cd350800000000000000
+      internalID: 6042759305570187227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
