@@ -11,6 +11,7 @@ public class DialogueTrigger : MonoBehaviour
     public TMP_Text dialogueText;
     public Image avatarSprite;
     public Image textboxSprite;
+    public Image nextButton;
     public GameObject Interactable;
 
     public bool triggered = false;
@@ -21,6 +22,11 @@ public class DialogueTrigger : MonoBehaviour
     private Queue<Sprite> avatars;
     private Queue<Sprite> textboxes;
 
+    string name;
+    string sentence;
+    Sprite avatar;
+    Sprite textbox;
+
     //GameObject player;
 
     void Start()
@@ -29,11 +35,13 @@ public class DialogueTrigger : MonoBehaviour
         sentences = new Queue<string>();
         avatars = new Queue<Sprite>();
         textboxes = new Queue<Sprite>();
-        Interactable = GameObject.Find("Interactable");
-        //avatarSprite.gameObject.SetActive(false);
-        //textboxSprite.gameObject.SetActive(false);
+
+        //Interactable = GameObject.Find("Interactable");
+
         avatarSprite.enabled = false;
         textboxSprite.enabled = false;
+        nextButton.enabled = false;
+
     }
     void Update()
     {
@@ -57,41 +65,92 @@ public class DialogueTrigger : MonoBehaviour
         }
         else if(Mathf.Abs(transform.position.x - GameObject.Find("Madeline").transform.position.x) <= 10)
         {
-            Interactable.GetComponent<MeshRenderer>().enabled = false;
+            //Interactable.GetComponent<MeshRenderer>().enabled = false;
         }
 
         if (triggered)
         {
-            
+            if (!textboxSprite.enabled)
+            {
+                Interactable.GetComponent<MeshRenderer>().enabled = true;
+                Interactable.transform.position = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z);
+            }
+            else
+            {
+                Interactable.GetComponent<MeshRenderer>().enabled = false;
+            }
 
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
-                //FindObjectOfType<playerMovement>().canMove = false;
-                talked = true;
 
-                if (sentences.Count == 0)
+                if (nextButton.enabled || !textboxSprite.enabled)
                 {
+                    FindObjectOfType<PlayerMovement>().canMove = false;
                     talked = true;
-                    EndDialogue();
-                    return;
-                }
 
-                string name = names.Dequeue();
-                string sentence = sentences.Dequeue();
-                Sprite avatar = avatars.Dequeue();
-                Sprite textbox = textboxes.Dequeue();
-                avatarSprite.enabled = true;
-                textboxSprite.enabled = true;   //show image
-                //avatarSprite.gameObject.SetActive(true);
-                //textboxSprite.gameObject.SetActive(true);
-                nameText.text = name;
-                dialogueText.text = sentence;
-                avatarSprite.GetComponent<Image>().sprite = avatar;
-                textboxSprite.GetComponent<Image>().sprite = textbox;
-                //Debug.Log(name);
-                //Debug.Log(sentence);
+                    if (sentences.Count == 0)
+                    {
+                        talked = true;
+                        EndDialogue();
+                        return;
+                    }
+
+                    name = names.Dequeue();
+                    sentence = sentences.Dequeue();
+                    avatar = avatars.Dequeue();
+                    textbox = textboxes.Dequeue();
+
+                    StopAllCoroutines();
+                    StartCoroutine(TypeSentence(sentence));
+
+                    avatarSprite.enabled = true;
+                    textboxSprite.enabled = true;
+
+                    nameText.text = name;
+                    //dialogueText.text = sentence;
+
+                    avatarSprite.GetComponent<Image>().sprite = avatar;
+                    textboxSprite.GetComponent<Image>().sprite = textbox;
+
+                    //Debug.Log(name);
+                    //Debug.Log(sentence);
+                }
+                else if (!nextButton.enabled && textboxSprite.enabled)
+                {
+                    StopAllCoroutines();
+                    dialogueText.text = sentence;
+                    nextButton.enabled = true;
+                }
             }
         }
+        else
+        {
+            Interactable.GetComponent<MeshRenderer>().enabled = false;
+        }
+    }
+
+
+
+    IEnumerator TypeSentence(string sentence)
+    {
+        dialogueText.text = "";
+        int charCount = 0;
+        foreach (char letter in sentence.ToCharArray())
+        {
+            charCount++;
+            dialogueText.text += letter;
+            yield return null;
+
+            if (charCount >= sentence.ToCharArray().Length)
+            {
+                nextButton.enabled = true;
+            }
+            else
+            {
+                nextButton.enabled = false;
+            }
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -143,14 +202,17 @@ public class DialogueTrigger : MonoBehaviour
     void EndDialogue()
     {
         //Debug.Log("End conversation ");
+
         avatarSprite.enabled = false;
         textboxSprite.enabled = false;
-        //avatarSprite.gameObject.SetActive(false);
-        //textboxSprite.gameObject.SetActive(false);
+        nextButton.enabled = false;
+
         nameText.text = "";
         dialogueText.text = "";
+
         avatarSprite.GetComponent<Image>().sprite = null;
         textboxSprite.GetComponent<Image>().sprite = null;
+
         names.Clear();  
         sentences.Clear();
         avatars.Clear();
@@ -176,7 +238,7 @@ public class DialogueTrigger : MonoBehaviour
             textboxes.Enqueue(textbox);
         }
 
-        //FindObjectOfType<playerMovement>().canMove = true;
+        FindObjectOfType<PlayerMovement>().canMove = true;
 
     }
 
