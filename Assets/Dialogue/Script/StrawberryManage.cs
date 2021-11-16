@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using HollowKnight;
 using UnityEngine;
 using TMPro;
 
@@ -80,9 +81,9 @@ public class StrawberryManage : MonoBehaviour
         if (strawberries >= 5)
         {
             GameObject.Find("Theo 0/5").GetComponent<SpriteRenderer>().enabled = false;
-            GameObject.Find("Theo 0/5").GetComponent<DialogueTrigger>().enabled = false;
+            GameObject.Find("Theo 0/5").GetComponent<DialogueViewController>().enabled = false;
             GameObject.Find("Theo 5/5").GetComponent<SpriteRenderer>().enabled = true;
-            GameObject.Find("Theo 5/5").GetComponent<DialogueTrigger>().enabled = true;
+            GameObject.Find("Theo 5/5").GetComponent<DialogueViewController>().enabled = true;
         }
     }
     void displayNum()
