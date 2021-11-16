@@ -1,21 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using HollowKnight;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
 public class DialogueTrigger : MonoBehaviour
 {
-    public Dialogue dialogue;
-    public TMP_Text nameText;
-    public TMP_Text dialogueText;
-    public Image avatarSprite;
-    public Image textboxSprite;
-    public Image nextButton;
-    public GameObject Interactable;
+    [SerializeField]
+    private Dialogue dialogue;
+    [SerializeField]
+    private TMP_Text nameText;
+    [SerializeField]
+    private TMP_Text dialogueText;
+    [SerializeField]
+    private Image avatarSprite;
+    [SerializeField]
+    private Image textboxSprite;
+    [SerializeField]
+    private Image nextButton;
+    [SerializeField]
+    private GameObject Interactable;
 
-    public bool triggered = false;
-    public bool talked = false;
+    [SerializeField]
+    private bool triggered = false;
+
+    [SerializeField]
+    private bool talked = false;
 
     private Queue<string> sentences;
     private Queue<string> names;
@@ -35,9 +46,6 @@ public class DialogueTrigger : MonoBehaviour
         sentences = new Queue<string>();
         avatars = new Queue<Sprite>();
         textboxes = new Queue<Sprite>();
-
-        //Interactable = GameObject.Find("Interactable");
-
         avatarSprite.enabled = false;
         textboxSprite.enabled = false;
         nextButton.enabled = false;
@@ -46,9 +54,9 @@ public class DialogueTrigger : MonoBehaviour
     void Update()
     {
 
-        if (Mathf.Abs(transform.position.x - GameObject.Find("Madeline").transform.position.x) <= 2.5f)
+        if (Mathf.Abs(transform.position.x - Player.Singleton.transform.position.x) <= 2.5f)
         {
-            if (Mathf.Sign(transform.position.x - GameObject.Find("Madeline").transform.position.x) == 1)
+            if (Mathf.Sign(transform.position.x - Player.Singleton.transform.position.x) == 1)
             {
                 GetComponent<SpriteRenderer>().flipX = true;
             }
@@ -58,15 +66,12 @@ public class DialogueTrigger : MonoBehaviour
             }
         }
 
-            if (!talked && Mathf.Abs(transform.position.x - GameObject.Find("Madeline").transform.position.x) <= 2.5f)
+        if (!talked && Mathf.Abs(transform.position.x - Player.Singleton.transform.position.x) <= 2.5f)
         {
             Interactable.GetComponent<MeshRenderer>().enabled = true;
             Interactable.transform.position = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z);
         }
-        else if(Mathf.Abs(transform.position.x - GameObject.Find("Madeline").transform.position.x) <= 10)
-        {
-            //Interactable.GetComponent<MeshRenderer>().enabled = false;
-        }
+        
 
         if (triggered)
         {
@@ -85,7 +90,7 @@ public class DialogueTrigger : MonoBehaviour
 
                 if (nextButton.enabled || !textboxSprite.enabled)
                 {
-                    FindObjectOfType<PlayerMovement>().canMove = false;
+                    //FindObjectOfType<PlayerMovement>().canMove = false;
                     talked = true;
 
                     if (sentences.Count == 0)
@@ -184,7 +189,6 @@ public class DialogueTrigger : MonoBehaviour
                 textboxes.Enqueue(textbox);
             }
 
-            //Debug.Log("Trigger conversation " + names.Peek());
 
         }
     }
@@ -238,7 +242,7 @@ public class DialogueTrigger : MonoBehaviour
             textboxes.Enqueue(textbox);
         }
 
-        FindObjectOfType<PlayerMovement>().canMove = true;
+       // FindObjectOfType<PlayerMovement>().canMove = true;
 
     }
 

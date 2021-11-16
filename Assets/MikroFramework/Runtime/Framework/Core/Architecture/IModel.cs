@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MikroFramework.Architecture
 {
-    public interface IModel:IBelongToArchitecture, ICanSetArchitecture, ICanGetUtility, ICanSendEvent {
+    public interface IModel:IBelongToArchitecture, ICanSetArchitecture, ICanGetUtility, ICanSendEvent, ICanGetModel {
         void Init();
     }
 }
