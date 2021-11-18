@@ -28,7 +28,7 @@ namespace HollowKnight
         }
 
         public float MovementAcceleration { get; } = 42;
-        public float MaxMoveSpeed { get; } = 8;
+        public float MaxMoveSpeed { get; } = 15;
         public float GroundLinearDrag { get; } = 18;
         public float AirLinearDrag { get; } = 2.5f; 
         public float JumpForce { get; } = 25;

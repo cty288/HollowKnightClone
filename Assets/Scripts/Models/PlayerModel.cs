@@ -53,6 +53,7 @@ namespace HollowKnight
             MovementAcceleration.Value = playerConfigurationModel.MovementAcceleration;
             GroundLinearDrag.Value = playerConfigurationModel.GroundLinearDrag;
             AirLinearDrag.Value = playerConfigurationModel.AirLinearDrag;
+            MaxMoveSpeed.Value = playerConfigurationModel.MaxMoveSpeed;
             JumpForce.Value = playerConfigurationModel.JumpForce;
             FallMultiplier.Value = playerConfigurationModel.FallMultiplier;
             LowFallMultiplier.Value = playerConfigurationModel.LowFallMultiplier;

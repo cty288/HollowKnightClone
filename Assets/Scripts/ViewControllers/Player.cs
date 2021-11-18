@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MikroFramework.Architecture;
+using MikroFramework.BindableProperty;
 using MikroFramework.Singletons;
 using UnityEngine;
 using Object = System.Object;
@@ -28,7 +29,7 @@ namespace HollowKnight {
 
         private bool changingDirection => ((rb.velocity.x > 0f && horizontalDirection < 0f) || (rb.velocity.x < 0f && horizontalDirection > 0f));
 
-
+        public BindableProperty<float> Speed = new BindableProperty<float>();
         private bool canJump {
             get {
                 return Input.GetButtonDown("Jump") &&
@@ -74,9 +75,13 @@ namespace HollowKnight {
             return new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
 
-        private void MoveCharacter()
-        {
-            rb.AddForce(new Vector2(horizontalDirection, 0f) * playerModel.MovementAcceleration.Value);
+        private void MoveCharacter() {
+            Speed.Value = Mathf.Abs(rb.velocity.magnitude);
+
+            if (Speed.Value < playerModel.MaxMoveSpeed.Value) {
+                rb.AddForce(new Vector2(horizontalDirection, 0f) * playerModel.MovementAcceleration.Value);
+            }
+           
         }
 
         private void ApplyGroundLinearDrag()
