@@ -7,8 +7,12 @@ using UnityEngine;
 namespace HollowKnight
 {
     public interface IPlayerModel : IModel {
-        BindableProperty<float> MovementAcceleration { get; }
-        BindableProperty<float> MaxMoveSpeed { get; }
+      
+        BindableProperty<float> WalkSpeed { get; }
+        BindableProperty<float> RunSpeed { get; }
+
+        BindableProperty<float> MaxWalkSpeed { get; }
+        BindableProperty<float> MaxRunSpeed { get; }
 
         BindableProperty<float> GroundLinearDrag { get; }
 
@@ -30,8 +34,12 @@ namespace HollowKnight
     }
     public class PlayerModel : AbstractModel, IPlayerModel
     {
-        public BindableProperty<float> MovementAcceleration { get; } = new BindableProperty<float>();
-        public BindableProperty<float> MaxMoveSpeed { get; } = new BindableProperty<float>();
+       
+        public BindableProperty<float> WalkSpeed { get; } = new BindableProperty<float>();
+        public BindableProperty<float> RunSpeed { get; } = new BindableProperty<float>();
+
+        public BindableProperty<float> MaxWalkSpeed { get; } = new BindableProperty<float>();
+        public BindableProperty<float> MaxRunSpeed { get; } = new BindableProperty<float>();
         public BindableProperty<float> GroundLinearDrag { get; } = new BindableProperty<float>();
         public BindableProperty<float> AirLinearDrag { get; } = new BindableProperty<float>();
         public BindableProperty<float> JumpForce { get; } = new BindableProperty<float>();
@@ -50,10 +58,14 @@ namespace HollowKnight
 
         protected override void OnInit() {
             IPlayerConfigurationModel playerConfigurationModel = this.GetModel<IPlayerConfigurationModel>();
-            MovementAcceleration.Value = playerConfigurationModel.MovementAcceleration;
+            WalkSpeed.Value = playerConfigurationModel.WalkSpeed;
+            RunSpeed.Value = playerConfigurationModel.RunSpeed;
+
             GroundLinearDrag.Value = playerConfigurationModel.GroundLinearDrag;
            
-            MaxMoveSpeed.Value = playerConfigurationModel.MaxMoveSpeed;
+            MaxWalkSpeed.Value = playerConfigurationModel.MaxWalkSpeed;
+            MaxRunSpeed.Value = playerConfigurationModel.MaxRunSpeed;
+
             JumpForce.Value = playerConfigurationModel.JumpForce;
          
             RemainingExtraJump.Value = playerConfigurationModel.ExtraJumps;

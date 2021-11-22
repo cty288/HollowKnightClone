@@ -6,9 +6,11 @@ using UnityEngine;
 namespace HollowKnight
 {
     public interface IPlayerConfigurationModel : IModel {
-        float MovementAcceleration { get; }
-        float MaxMoveSpeed { get; }
-
+       
+        float MaxWalkSpeed { get; }
+        float MaxRunSpeed { get; }
+        float WalkSpeed { get; }
+        float RunSpeed { get; }
         float GroundLinearDrag { get; } 
       
         float JumpForce { get; }
@@ -26,8 +28,11 @@ namespace HollowKnight
             
         }
 
-        public float MovementAcceleration { get; } = 15;
-        public float MaxMoveSpeed { get; } = 6;
+       
+        public float WalkSpeed { get; } = 6;
+        public float RunSpeed { get; } = 12;
+        public float MaxWalkSpeed { get; } = 3;
+        public float MaxRunSpeed { get; } = 6;
         public float GroundLinearDrag { get; } = 0.9f;
        
         public float JumpForce { get; } = 15;

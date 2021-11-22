@@ -1,16 +1,31 @@
 fileFormatVersion: 2
-guid: 362c15ffc60973744b4e81a2bba3d828
+guid: a09020c5dac954b42932787b84592b1a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5414671165136594617
-    second: mouseSheet_0
+      213: 6697997137897204896
+    second: playerWalk-Sheet_0
   - first:
-      213: -4690148995994555854
-    second: mouseSheet_1
+      213: -143023436991319545
+    second: playerWalk-Sheet_1
   - first:
-      213: 5097868238268780641
-    second: mouseSheet_2
+      213: 6769957683527020020
+    second: playerWalk-Sheet_2
+  - first:
+      213: -2502939560323799700
+    second: playerWalk-Sheet_3
+  - first:
+      213: -6115086992214613229
+    second: playerWalk-Sheet_4
+  - first:
+      213: -4820326211634106887
+    second: playerWalk-Sheet_5
+  - first:
+      213: -8810037803954842984
+    second: playerWalk-Sheet_6
+  - first:
+      213: -7053335837465047631
+    second: playerWalk-Sheet_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -77,7 +92,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -89,7 +104,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -101,7 +116,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -113,7 +128,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -125,7 +140,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,13 +151,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mouseSheet_0
+      name: playerWalk-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 96
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +165,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7499b7273493bd4b0800000000000000
-      internalID: -5414671165136594617
+      spriteID: 0ac22fec8e014fc50800000000000000
+      internalID: 6697997137897204896
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mouseSheet_1
+      name: playerWalk-Sheet_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 96
         y: 0
-        width: 32
-        height: 32
+        width: 96
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +186,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 23ae61e665e39eeb0800000000000000
-      internalID: -4690148995994555854
+      spriteID: 702b39b11f0e30ef0800000000000000
+      internalID: -143023436991319545
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: mouseSheet_2
+      name: playerWalk-Sheet_2
       rect:
         serializedVersion: 2
-        x: 64
+        x: 192
         y: 0
-        width: 32
-        height: 32
+        width: 96
+        height: 96
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,8 +207,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 160d1cd27244fb640800000000000000
-      internalID: 5097868238268780641
+      spriteID: 4fded07f4a8b3fd50800000000000000
+      internalID: 6769957683527020020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerWalk-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c65a0a42bb5c34dd0800000000000000
+      internalID: -2502939560323799700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerWalk-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 313af6a97c8d22ba0800000000000000
+      internalID: -6115086992214613229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerWalk-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fd6b0689d2ca1db0800000000000000
+      internalID: -4820326211634106887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerWalk-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 892528d7b457cb580800000000000000
+      internalID: -8810037803954842984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerWalk-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bd0d5e0d648d1e90800000000000000
+      internalID: -7053335837465047631
       vertices: []
       indices: 
       edges: []

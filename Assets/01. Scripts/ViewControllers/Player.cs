@@ -8,6 +8,7 @@ using MikroFramework.BindableProperty;
 using MikroFramework.Event;
 using MikroFramework.Singletons;
 using MikroFramework.Utilities;
+using UnityEditor.UIElements;
 using UnityEngine;
 using Object = System.Object;
 
@@ -45,6 +46,7 @@ namespace HollowKnight {
 
    
         [SerializeField] private float horizontalDirection;
+
 
         private bool changingDirection => ((rb.velocity.x > 0f && horizontalDirection < 0f) || (rb.velocity.x < 0f && horizontalDirection > 0f));
 
@@ -262,8 +264,9 @@ namespace HollowKnight {
         private void AnimationControl() {
             float horizontalSpeed = Mathf.Abs(rb.velocity.x);
             animator.SetBool("Idle", horizontalSpeed <= 1);
-            animator.SetBool("Run", horizontalSpeed > 1);
-            animator.SetFloat("RunSpeed", Mathf.Max(0.4f, horizontalSpeed / playerModel.MaxMoveSpeed.Value));
+            animator.SetBool("Move", horizontalSpeed > 1);
+            animator.SetFloat("RunSpeed", Mathf.Max(0.4f, horizontalSpeed / playerModel.MaxRunSpeed.Value));
+            animator.SetFloat("MoveSpeed", horizontalSpeed / playerModel.MaxRunSpeed.Value);
 
             if (currentState != PlayerState.Teleport) {
                 if (rb.velocity.x > 0)
@@ -297,11 +300,16 @@ namespace HollowKnight {
             }
 
             if (currentState == PlayerState.Normal) {
+                bool isWalking = !Input.GetKey(KeyCode.LeftShift);
+
+                float speed = !isWalking ? playerModel.RunSpeed.Value : playerModel.WalkSpeed.Value;
+                float maxSpeed = isWalking ? playerModel.MaxWalkSpeed.Value : playerModel.MaxRunSpeed.Value;
+
                 float targetSpeedX = Mathf.Abs((rb.velocity +
                                                 new Vector2(horizontalDirection *
-                                                            playerModel.MovementAcceleration.Value * Time.deltaTime, 0)).x);
+                                                            speed * Time.deltaTime, 0)).x);
 
-                if (targetSpeedX <= playerModel.MaxMoveSpeed.Value)
+                if (targetSpeedX <= maxSpeed)
                 {
                     if (!onGround)
                     {
@@ -310,7 +318,10 @@ namespace HollowKnight {
                             return;
                         }
                     }
-                    rb.velocity = rb.velocity + new Vector2(horizontalDirection * playerModel.MovementAcceleration.Value * Time.deltaTime, 0);
+                    rb.velocity = rb.velocity + new Vector2(horizontalDirection * speed * Time.deltaTime, 0);
+                }
+                else {
+                    rb.velocity = rb.velocity - new Vector2(horizontalDirection * speed * Time.deltaTime, 0);
                 }
             }
             else {
