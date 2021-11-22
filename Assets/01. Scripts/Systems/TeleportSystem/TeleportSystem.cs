@@ -59,6 +59,8 @@ namespace HollowKnight
         public float MinTeleportDistance { get; } = 4;
         public float MaxTeleportDistance { get; } = 18;
 
+        private DateTime teleportTime;
+
         public void Teleport(Vector2 mousePosition) {
             if (TeleportState == TeleportState.NotTeleporting) {
                 Vector2 pos =  cam.ScreenToWorldPoint(mousePosition);
@@ -72,12 +74,16 @@ namespace HollowKnight
                     timer.AddDelayTask(TeleportPrepareTime, () => {
                         this.SendEvent<OnTeleportStart>(new OnTeleportStart() { targetDest = pos });
                         TeleportState = TeleportState.Teleporting;
+                        teleportTime = DateTime.Now;
                         Debug.Log("Teleporting");
                     });
                     
                 }
             }else if (TeleportState == TeleportState.Teleporting) { //stop teleport
-                this.SendEvent<OnTeleportInterrupted>();
+                if ((DateTime.Now - teleportTime).TotalMilliseconds >= 100) {
+                    this.SendEvent<OnTeleportInterrupted>();
+                }
+              
 
                 
             }
@@ -94,6 +100,6 @@ namespace HollowKnight
         }
 
         public float TeleportPrepareTime { get; } = 0.4f;
-        public float TeleportFinishTime { get; } = 0.5f;
+        public float TeleportFinishTime { get; } = 0.7f;
     }
 }

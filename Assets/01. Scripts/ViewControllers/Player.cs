@@ -167,8 +167,6 @@ namespace HollowKnight {
                     else {
                         teleportSystem.Teleport(Input.mousePosition);
                     }
-                    
-                   
                 }
             }
         }
