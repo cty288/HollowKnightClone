@@ -1,25 +1,34 @@
 fileFormatVersion: 2
-guid: 8fae71141f4127540a17627c904f692c
+guid: afba716254f062a48a33e8c800747551
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7260719708428711002
-    second: idle 92x36_0
+      213: -2895204484857489925
+    second: playerIdleRunSheet_0
   - first:
-      213: 902656409549127844
-    second: idle 92x36_1
+      213: -3496634515029291076
+    second: playerIdleRunSheet_1
   - first:
-      213: -2715255330596315739
-    second: idle 92x36_2
+      213: -8253534033179462738
+    second: playerIdleRunSheet_2
   - first:
-      213: 4557243690223785050
-    second: idle 92x36_3
+      213: -4658840076431569889
+    second: playerIdleRunSheet_3
   - first:
-      213: -6112292879612327239
-    second: idle 92x36_4
+      213: 7763502904788095333
+    second: playerIdleRunSheet_4
   - first:
-      213: -2698057951070911965
-    second: idle 92x36_5
+      213: 7597470746842626867
+    second: playerIdleRunSheet_5
+  - first:
+      213: -4565356303911070928
+    second: playerIdleRunSheet_6
+  - first:
+      213: 3020226465442173161
+    second: playerIdleRunSheet_7
+  - first:
+      213: -1140009701350445408
+    second: playerIdleRunSheet_8
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -64,7 +73,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 8
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -106,18 +115,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -141,131 +138,206 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: idle 92x36_0
+      name: playerIdleRunSheet_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 181
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 0
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a54329a1b1243c460800000000000000
-      internalID: 7260719708428711002
+      spriteID: bf593f74cda22d7d0800000000000000
+      internalID: -2895204484857489925
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_1
+      name: playerIdleRunSheet_1
       rect:
         serializedVersion: 2
-        x: 2
-        y: 145
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 96
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a0c765d831e68c00800000000000000
-      internalID: 902656409549127844
+      spriteID: cbf0f4e3f65797fc0800000000000000
+      internalID: -3496634515029291076
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_2
+      name: playerIdleRunSheet_2
       rect:
         serializedVersion: 2
-        x: 2
-        y: 109
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 192
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ad1251b9a9715ad0800000000000000
-      internalID: -2715255330596315739
+      spriteID: ea3bdb2a68e857d80800000000000000
+      internalID: -8253534033179462738
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_3
+      name: playerIdleRunSheet_3
       rect:
         serializedVersion: 2
-        x: 2
-        y: 73
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 288
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a54ddaeadf49e3f30800000000000000
-      internalID: 4557243690223785050
+      spriteID: f1c41f252a9785fb0800000000000000
+      internalID: -4658840076431569889
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_4
+      name: playerIdleRunSheet_4
       rect:
         serializedVersion: 2
-        x: 2
-        y: 37
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 384
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9bace83a206cc2ba0800000000000000
-      internalID: -6112292879612327239
+      spriteID: 5619b9452c08dbb60800000000000000
+      internalID: 7763502904788095333
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_5
+      name: playerIdleRunSheet_5
       rect:
         serializedVersion: 2
-        x: 2
-        y: 1
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 480
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3220003a6929e8ad0800000000000000
-      internalID: -2698057951070911965
+      spriteID: 33bf9f02463af6960800000000000000
+      internalID: 7597470746842626867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerIdleRunSheet_6
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0335a4041a894a0c0800000000000000
+      internalID: -4565356303911070928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerIdleRunSheet_7
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e01aede7fff9e920800000000000000
+      internalID: 3020226465442173161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerIdleRunSheet_8
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0aee186773fdd20f0800000000000000
+      internalID: -1140009701350445408
       vertices: []
       indices: 
       edges: []

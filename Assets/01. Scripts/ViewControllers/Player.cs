@@ -1,13 +1,29 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CodiceApp.EventTracking;
+using DG.Tweening;
 using MikroFramework.Architecture;
 using MikroFramework.BindableProperty;
+using MikroFramework.Event;
 using MikroFramework.Singletons;
+using MikroFramework.Utilities;
 using UnityEngine;
 using Object = System.Object;
 
 namespace HollowKnight {
+    public enum AttackState {
+        NotAttacking,
+        Preparing,
+        Attacking
+    }
+
+    public enum PlayerState {
+        Normal,
+        Attack,
+        Teleport
+    }
+
     public class Player : AbstractMikroController<HollowKnight>, ISingleton {
         public static Player Singleton {
             get {
@@ -15,6 +31,9 @@ namespace HollowKnight {
             }
         }
         private IPlayerModel playerModel;
+
+        [SerializeField]
+        private PlayerState currentState;
 
         [Header("Components")]
         private Rigidbody2D rb;
@@ -30,10 +49,15 @@ namespace HollowKnight {
         private bool changingDirection => ((rb.velocity.x > 0f && horizontalDirection < 0f) || (rb.velocity.x < 0f && horizontalDirection > 0f));
 
         public BindableProperty<float> Speed = new BindableProperty<float>();
+
+        private Trigger2DCheck groundCheck;
+
+        private Animator animator;
+
+        private ITeleportSystem teleportSystem;
         private bool canJump {
             get {
-                return Input.GetButtonDown("Jump") &&
-                       (onGround || this.GetModel<IPlayerModel>().RemainingExtraJump.Value > 0);
+                return (onGround);
             }
         } 
 
@@ -45,31 +69,191 @@ namespace HollowKnight {
         {
             rb = GetComponent<Rigidbody2D>();
             playerModel = this.GetModel<IPlayerModel>();
-            Debug.Log("Awake");
+            groundCheck = transform.Find("GroundCheck").GetComponent<Trigger2DCheck>();
+            animator = GetComponent<Animator>();
+            teleportSystem = this.GetSystem<ITeleportSystem>();
+            currentState = PlayerState.Normal;
+            RegisterEvents();
 
         }
 
+        private void RegisterEvents() {
+            this.RegisterEvent<OnTeleportPrepare>(OnTeleportStartPrepare).UnRegisterWhenGameObjectDestroyed(gameObject);
+        }
+
+        private void OnTeleportStartPrepare(OnTeleportPrepare e) {
+            if (e.targetDest.x > transform.position.x)
+            {
+                transform.DOScaleX(1, 0);
+            }
+
+            if (e.targetDest.x < transform.position.x)
+            {
+                transform.DOScaleX(-1, 0);
+            }
+
+            animator.SetTrigger("Teleport");
+
+        }
+
+        [SerializeField]
+        private AttackState attackState = AttackState.NotAttacking;
         
+        private float attackTimer = 0;
+        private float attackStopTimer = 0;
+        [SerializeField] 
+        private float chargeAttackTimeThreshold = 0.2f;
+
+        [SerializeField]
+        private float attackStopTimeThreshold = 1f;
+
+        [SerializeField] private float attackPrepareTime = 0.5f;
 
         private void Update()
         {
             horizontalDirection = GetInput().x;
-            if (canJump) Jump();
-            WeaponInfo info =  this.GetSystem<IWeaponSystem>().EquippedWeapons[0];
-            Debug.Log(info.Name.Value.ToString()+ "   " + info.AttackDamage.Value);
+            if (canJump) {
+                if (Input.GetKeyDown(KeyCode.Space)) {
+                    Jump();
+                }
+            }
+
+            StateCheck();
+            if (onGround) {
+                //attack
+                AttackControl();
+            }
+
+            AnimationControl();
+            CheckTeleport();
         }
+
+        private void StateCheck() {
+            if (attackState == AttackState.NotAttacking &&
+                teleportSystem.TeleportState == TeleportState.NotTeleporting) {
+                currentState = PlayerState.Normal;
+            }else if (attackState == AttackState.Attacking || attackState == AttackState.Preparing) {
+                currentState = PlayerState.Attack;
+            }else if (teleportSystem.TeleportState == TeleportState.PrepareTeleport ||
+                      teleportSystem.TeleportState == TeleportState.TeleportAppearing ||
+                      teleportSystem.TeleportState == TeleportState.Teleporting) {
+                currentState = PlayerState.Teleport;
+            }
+        }
+
+        private void CheckTeleport() {
+
+            if (currentState == PlayerState.Normal || attackState == AttackState.Attacking) {
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    StopAttack();
+                    teleportSystem.Teleport(Input.mousePosition);
+                }
+            }
+          
+        }
+
+        private void AttackControl() {
+            
+            //stop timer
+            if (attackState == AttackState.Attacking)
+            {
+                attackStopTimer += Time.deltaTime;
+                if (attackStopTimer >= attackStopTimeThreshold)
+                {
+                    StopAttack();
+                }
+            }
+
+            if (attackState == AttackState.NotAttacking && currentState == PlayerState.Normal)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    PrepareAttack();
+                }
+            }
+
+
+            if (attackState == AttackState.Preparing || attackState == AttackState.Attacking)
+            {
+                if (attackState == AttackState.Preparing)
+                {
+                    attackTimer += Time.deltaTime;
+                    if (attackTimer >= attackPrepareTime)
+                    {
+                        attackTimer = 0;
+                        attackState = AttackState.Attacking;
+                        NormalAttack();
+                        Debug.Log("Normal Attack");
+                    }
+                }
+
+                if (attackState == AttackState.Attacking)
+                {
+                    if (Input.GetMouseButton(0))
+                    { //charge
+                        attackStopTimer = 0;
+                        attackTimer += Time.deltaTime;
+                    }
+
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        if (attackTimer <= chargeAttackTimeThreshold)
+                        {
+                            //normal attack
+                            NormalAttack();
+                            Debug.Log("Normal Attack");
+                        }
+                        else
+                        {
+                            //charge attack
+                            Debug.Log("Charge Attack");
+                        }
+
+                        attackTimer = 0;
+                    }
+                }
+            }
+
+
+        }
+
+        private void NormalAttack() {
+
+        }
+
+       
 
         private void FixedUpdate()
         {
             CheckCollisions();
+           
             MoveCharacter();
-            if (onGround)
+                if (onGround)
             {
                 playerModel.ResetRemainingJumpValue();
-                ApplyGroundLinearDrag();
             }
-            else ApplyAirLinearDrag();
-            FallMultiplier();
+        }
+
+       
+        private void AnimationControl() {
+            float horizontalSpeed = Mathf.Abs(rb.velocity.x);
+            animator.SetBool("Idle", horizontalSpeed <= 1);
+            animator.SetBool("Run", horizontalSpeed > 1);
+            animator.SetFloat("RunSpeed", Mathf.Max(0.4f, horizontalSpeed / playerModel.MaxMoveSpeed.Value));
+
+            if (currentState != PlayerState.Teleport) {
+                if (rb.velocity.x > 0)
+                {
+                    transform.DOScaleX(1, 0);
+                }
+
+                if (rb.velocity.x < 0)
+                {
+                    transform.DOScaleX(-1, 0);
+                }
+            }
+            
         }
 
         private Vector2 GetInput()
@@ -80,63 +264,60 @@ namespace HollowKnight {
         private void MoveCharacter() {
             Speed.Value = Mathf.Abs(rb.velocity.magnitude);
 
-            if (Speed.Value < playerModel.MaxMoveSpeed.Value) {
-                rb.AddForce(new Vector2(horizontalDirection, 0f) * playerModel.MovementAcceleration.Value);
+            if (horizontalDirection == 0) {
+                rb.velocity = new Vector2(rb.velocity.x * playerModel.GroundLinearDrag.Value,
+                    rb.velocity.y);
             }
-           
+
+            if (horizontalDirection != 0 && attackState == AttackState.Attacking && !Input.GetMouseButton(0)) {
+                StopAttack();
+            }
+
+            if (currentState == PlayerState.Normal) {
+                float targetSpeedX = Mathf.Abs((rb.velocity +
+                                                new Vector2(horizontalDirection *
+                                                            playerModel.MovementAcceleration.Value * Time.deltaTime, 0)).x);
+
+                if (targetSpeedX <= playerModel.MaxMoveSpeed.Value)
+                {
+                    if (!onGround)
+                    {
+                        if (targetSpeedX < 0.5)
+                        {
+                            return;
+                        }
+                    }
+                    rb.velocity = rb.velocity + new Vector2(horizontalDirection * playerModel.MovementAcceleration.Value * Time.deltaTime, 0);
+                }
+            }
+            else {
+                rb.velocity = Vector2.zero;
+            }
         }
 
-        private void ApplyGroundLinearDrag()
-        {
-            if (Mathf.Abs(horizontalDirection) < 0.4f || changingDirection)
-            {
-                rb.drag = playerModel.GroundLinearDrag.Value;
-            }
-            else rb.drag = 0f;
+        private void StopAttack() {
+            attackState = AttackState.NotAttacking;
+            attackStopTimer = 0;
+            animator.SetTrigger("Attack_Stop");
         }
 
-        private void ApplyAirLinearDrag()
-        {
-            rb.drag = playerModel.AirLinearDrag.Value;
+        private void PrepareAttack() {
+            attackState = AttackState.Preparing;
+            animator.SetTrigger("Attack");
         }
+
 
         private void Jump()
         {
-            if (!onGround)
-            {
-                playerModel.ChangeRemainingJumpValue(-1);
-            }
-            rb.velocity = new Vector2(rb.velocity.x, 0f);
+            animator.SetTrigger("Jump");
             rb.AddForce(Vector2.up * playerModel.JumpForce.Value, ForceMode2D.Impulse);
+          
         }
 
-        private void FallMultiplier()
-        {
-            if (rb.velocity.y < 0)
-            {
-                rb.gravityScale = playerModel.FallMultiplier.Value;
-            }
-            else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
-            {
-                rb.gravityScale = playerModel.LowFallMultiplier.Value;
-            }
-            else
-            {
-                rb.gravityScale = 1f;
-            }
+       
+        private void CheckCollisions() {
 
-        }
-
-        private void Dash(float x, float y)
-        {
-
-        }
-
-        private void CheckCollisions()
-        {
-            
-            onGround = Physics2D.Raycast(transform.position * playerModel.GroundRaycastLength.Value, Vector2.down, 
-                playerModel.GroundRaycastLength.Value, groundLayer);
+            onGround = groundCheck.Triggered;
         }
 
 

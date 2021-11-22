@@ -1,25 +1,31 @@
 fileFormatVersion: 2
-guid: 8fae71141f4127540a17627c904f692c
+guid: b47725e368704c747ab8ae13a4d21d74
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7260719708428711002
-    second: idle 92x36_0
+      213: 5937769666225134930
+    second: playerAbsorbSheet_0
   - first:
-      213: 902656409549127844
-    second: idle 92x36_1
+      213: -7171320410838464130
+    second: playerAbsorbSheet_1
   - first:
-      213: -2715255330596315739
-    second: idle 92x36_2
+      213: -692011221527627817
+    second: playerAbsorbSheet_2
   - first:
-      213: 4557243690223785050
-    second: idle 92x36_3
+      213: -5038834154464902291
+    second: playerAbsorbSheet_3
   - first:
-      213: -6112292879612327239
-    second: idle 92x36_4
+      213: 5848249821768361395
+    second: playerAbsorbSheet_4
   - first:
-      213: -2698057951070911965
-    second: idle 92x36_5
+      213: 2118491500853209071
+    second: playerAbsorbSheet_5
+  - first:
+      213: -8356387787046179871
+    second: playerAbsorbSheet_6
+  - first:
+      213: -675728658775210511
+    second: playerAbsorbSheet_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -64,7 +70,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 8
+  spritePixelsToUnits: 85.333336
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -106,18 +112,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -141,131 +135,185 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: idle 92x36_0
+      name: playerAbsorbSheet_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 181
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 0
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a54329a1b1243c460800000000000000
-      internalID: 7260719708428711002
+      spriteID: 25d50714d02376250800000000000000
+      internalID: 5937769666225134930
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_1
+      name: playerAbsorbSheet_1
       rect:
         serializedVersion: 2
-        x: 2
-        y: 145
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 256
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a0c765d831e68c00800000000000000
-      internalID: 902656409549127844
+      spriteID: e790775e41a5a7c90800000000000000
+      internalID: -7171320410838464130
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_2
+      name: playerAbsorbSheet_2
       rect:
         serializedVersion: 2
-        x: 2
-        y: 109
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 512
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ad1251b9a9715ad0800000000000000
-      internalID: -2715255330596315739
+      spriteID: 7d7f240e57b7566f0800000000000000
+      internalID: -692011221527627817
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_3
+      name: playerAbsorbSheet_3
       rect:
         serializedVersion: 2
-        x: 2
-        y: 73
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 768
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a54ddaeadf49e3f30800000000000000
-      internalID: 4557243690223785050
+      spriteID: d63830d8807721ab0800000000000000
+      internalID: -5038834154464902291
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_4
+      name: playerAbsorbSheet_4
       rect:
         serializedVersion: 2
-        x: 2
-        y: 37
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 1024
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9bace83a206cc2ba0800000000000000
-      internalID: -6112292879612327239
+      spriteID: 3b5ae304a38292150800000000000000
+      internalID: 5848249821768361395
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_5
+      name: playerAbsorbSheet_5
       rect:
         serializedVersion: 2
-        x: 2
-        y: 1
-        width: 36
-        height: 35
-      alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+        x: 1280
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3220003a6929e8ad0800000000000000
-      internalID: -2698057951070911965
+      spriteID: fe72a08bbc4666d10800000000000000
+      internalID: 2118491500853209071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorbSheet_6
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1eb23bbe495280c80800000000000000
+      internalID: -8356387787046179871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorbSheet_7
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f507217d545f96f0800000000000000
+      internalID: -675728658775210511
       vertices: []
       indices: 
       edges: []

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using MikroFramework.Architecture;
+using MikroFramework.BindableProperty;
 using UnityEngine;
 
 namespace HollowKnight
@@ -8,6 +9,8 @@ namespace HollowKnight
     public interface IWeaponSystem : ISystem {
         WeaponInfo SelectedWeapon { get; }
         List<WeaponInfo> EquippedWeapons { get; }
+
+        int WeaponCount { get; }
         void ShiftWeapon(bool up);
     }
 
@@ -16,6 +19,9 @@ namespace HollowKnight
 
         private int selectIndex = 0;
         private IWeaponConfigModel configModel;
+
+       
+
         public WeaponInfo SelectedWeapon {
             get {
                 if (equippedWeapons.Count > 0) {
@@ -32,6 +38,12 @@ namespace HollowKnight
                 return equippedWeapons;
             }
         }
+        public int WeaponCount {
+            get {
+                return equippedWeapons.Count;
+            }
+        }
+
         protected override void OnInit() {
             configModel = this.GetModel<IWeaponConfigModel>();
 
@@ -64,7 +76,9 @@ namespace HollowKnight
         }
 
         public void ShiftWeapon(bool up) {
-            
+            int weaponCount = WeaponCount;
+            selectIndex++;
+            selectIndex %= weaponCount;
         }
     }
 }

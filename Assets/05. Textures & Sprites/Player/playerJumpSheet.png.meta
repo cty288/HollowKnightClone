@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: 8fae71141f4127540a17627c904f692c
+guid: e10be40e659766d4d81d347377bbfa3f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7260719708428711002
-    second: idle 92x36_0
+      213: 8672615545782733241
+    second: playerJumpSheet_0
   - first:
-      213: 902656409549127844
-    second: idle 92x36_1
+      213: 6278871514680791833
+    second: playerJumpSheet_1
   - first:
-      213: -2715255330596315739
-    second: idle 92x36_2
+      213: -5257837384127306762
+    second: playerJumpSheet_2
   - first:
-      213: 4557243690223785050
-    second: idle 92x36_3
+      213: -8048162976443702512
+    second: playerJumpSheet_3
   - first:
-      213: -6112292879612327239
-    second: idle 92x36_4
+      213: 7039229937934299721
+    second: playerJumpSheet_4
   - first:
-      213: -2698057951070911965
-    second: idle 92x36_5
+      213: -4546934663303922357
+    second: playerJumpSheet_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -64,7 +64,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 8
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -106,18 +106,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -141,131 +129,143 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: idle 92x36_0
+      name: playerJumpSheet_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 181
-        width: 36
-        height: 35
+        x: 0
+        y: 0
+        width: 96
+        height: 160
       alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a54329a1b1243c460800000000000000
-      internalID: 7260719708428711002
+      spriteID: 9b909efa3e15b5870800000000000000
+      internalID: 8672615545782733241
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_1
+      name: playerJumpSheet_1
       rect:
         serializedVersion: 2
-        x: 2
-        y: 145
-        width: 36
-        height: 35
+        x: 96
+        y: 0
+        width: 96
+        height: 160
       alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a0c765d831e68c00800000000000000
-      internalID: 902656409549127844
+      spriteID: 9131ede2068032750800000000000000
+      internalID: 6278871514680791833
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_2
+      name: playerJumpSheet_2
       rect:
         serializedVersion: 2
-        x: 2
-        y: 109
-        width: 36
-        height: 35
+        x: 192
+        y: 0
+        width: 96
+        height: 160
       alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5ad1251b9a9715ad0800000000000000
-      internalID: -2715255330596315739
+      spriteID: 6f3a250a1c86807b0800000000000000
+      internalID: -5257837384127306762
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_3
+      name: playerJumpSheet_3
       rect:
         serializedVersion: 2
-        x: 2
-        y: 73
-        width: 36
-        height: 35
+        x: 288
+        y: 0
+        width: 96
+        height: 160
       alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a54ddaeadf49e3f30800000000000000
-      internalID: 4557243690223785050
+      spriteID: 0136f96f96e2f4090800000000000000
+      internalID: -8048162976443702512
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_4
+      name: playerJumpSheet_4
       rect:
         serializedVersion: 2
-        x: 2
-        y: 37
-        width: 36
-        height: 35
+        x: 384
+        y: 0
+        width: 96
+        height: 160
       alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9bace83a206cc2ba0800000000000000
-      internalID: -6112292879612327239
+      spriteID: 9427ed6455e50b160800000000000000
+      internalID: 7039229937934299721
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: idle 92x36_5
+      name: playerJumpSheet_5
       rect:
         serializedVersion: 2
-        x: 2
-        y: 1
-        width: 36
-        height: 35
+        x: 480
+        y: 0
+        width: 96
+        height: 160
       alignment: 9
-      pivot: {x: 0.5, y: 0.35}
+      pivot: {x: 0.5, y: 0.3}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3220003a6929e8ad0800000000000000
-      internalID: -2698057951070911965
+      spriteID: b4dfbd0b30b06e0c0800000000000000
+      internalID: -4546934663303922357
       vertices: []
       indices: 
       edges: []

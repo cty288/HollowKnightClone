@@ -9,6 +9,7 @@ namespace HollowKnight
         protected override void Init() {
             this.RegisterSystem<IMapSystem>(new MapSystem());
             this.RegisterSystem<IWeaponSystem>(new WeaponSystem());
+            this.RegisterSystem<ITeleportSystem>(new TeleportSystem());
 
            
             this.RegisterModel<IPlayerConfigurationModel>(new PlayerConfigurationModel());
