@@ -79,6 +79,19 @@ namespace HollowKnight {
 
         private void RegisterEvents() {
             this.RegisterEvent<OnTeleportPrepare>(OnTeleportStartPrepare).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnTeleportAppearing>(OnTeleportAppearing).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnTeleportFinished>(OnTeleportFinished).UnRegisterWhenGameObjectDestroyed(gameObject);
+            
+        }
+
+        private void OnTeleportFinished(OnTeleportFinished obj) {
+            rb.simulated = true;
+        }
+
+        private void OnTeleportAppearing(OnTeleportAppearing e) {
+            this.transform.position = e.pos;
+            rb.simulated = false;
+            animator.SetTrigger("Teleport_Appear");
         }
 
         private void OnTeleportStartPrepare(OnTeleportPrepare e) {
@@ -93,7 +106,7 @@ namespace HollowKnight {
             }
 
             animator.SetTrigger("Teleport");
-
+            rb.simulated = false;
         }
 
         [SerializeField]
@@ -143,14 +156,26 @@ namespace HollowKnight {
 
         private void CheckTeleport() {
 
-            if (currentState == PlayerState.Normal || attackState == AttackState.Attacking) {
+            if (currentState == PlayerState.Normal || attackState == AttackState.Attacking 
+            || this.GetSystem<ITeleportSystem>().TeleportState == TeleportState.Teleporting) {
                 if (Input.GetKeyDown(KeyCode.T))
                 {
-                    StopAttack();
-                    teleportSystem.Teleport(Input.mousePosition);
+                    if (attackState == AttackState.Attacking) {
+                        StopAttack();
+                        StartCoroutine(AttackToTeleport(Input.mousePosition));
+                    }
+                    else {
+                        teleportSystem.Teleport(Input.mousePosition);
+                    }
+                    
+                   
                 }
             }
-          
+        }
+
+        IEnumerator AttackToTeleport(Vector2 mousePos) {
+            yield return new WaitForSeconds(0.6f);
+            teleportSystem.Teleport(mousePos);
         }
 
         private void AttackControl() {

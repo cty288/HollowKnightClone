@@ -179,7 +179,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.31, y: 0}
@@ -197,3 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4e58350c3ff6047aabe291a7f04ce2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Target: {x: 0, y: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 256

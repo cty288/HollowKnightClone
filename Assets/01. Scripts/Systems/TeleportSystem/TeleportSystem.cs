@@ -19,6 +19,7 @@ namespace HollowKnight
         float MaxTeleportDistance { get; }
         void Teleport(Vector2 mousePosition);
 
+        void OnReachDest(Vector2 arrowDest);
         float TeleportPrepareTime { get; }
         float TeleportFinishTime { get; }
     }
@@ -33,6 +34,14 @@ namespace HollowKnight
 
     public struct OnTeleportInterrupted {
         
+    }
+
+    public struct OnTeleportAppearing {
+        public Vector2 pos;
+    }
+
+    public struct OnTeleportFinished {
+
     }
 
     public class TeleportSystem : AbstractSystem, ITeleportSystem {
@@ -69,10 +78,22 @@ namespace HollowKnight
                 }
             }else if (TeleportState == TeleportState.Teleporting) { //stop teleport
                 this.SendEvent<OnTeleportInterrupted>();
+
+                
             }
         }
 
-        public float TeleportPrepareTime { get; } = 0.28f;
+        public void OnReachDest(Vector2 arrowDest) {
+            TeleportState = TeleportState.TeleportAppearing;
+            this.SendEvent<OnTeleportAppearing>(new OnTeleportAppearing(){pos = arrowDest});
+
+            timer.AddDelayTask(TeleportFinishTime, () => {
+                this.SendEvent<OnTeleportFinished>();
+                TeleportState = TeleportState.NotTeleporting;
+            });
+        }
+
+        public float TeleportPrepareTime { get; } = 0.4f;
         public float TeleportFinishTime { get; } = 0.5f;
     }
 }
