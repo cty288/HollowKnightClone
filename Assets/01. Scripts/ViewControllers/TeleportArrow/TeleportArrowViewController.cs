@@ -1,21 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using MikroFramework.Architecture;
 using UnityEngine;
 
 namespace HollowKnight
 {
-    public class TeleportArrowViewController : MonoBehaviour
+    public class TeleportArrowViewController : AbstractMikroController<HollowKnight>
     {
-        // Start is called before the first frame update
-        void Start()
-        {
         
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }
