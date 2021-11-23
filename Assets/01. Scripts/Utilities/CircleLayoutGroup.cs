@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -180,7 +181,7 @@ namespace HollowKnight
                 var rad = initRad + perRad * i;
                 vPos.x = this.radius * Mathf.Cos(rad);
                 vPos.y = this.radius * Mathf.Sin(rad);
-                child.localPosition = vPos;
+                child.transform.DOLocalMove(vPos,0.5f);
 
                 var left = vPos.x - size.x;
                 if (left < minX) minX = left;

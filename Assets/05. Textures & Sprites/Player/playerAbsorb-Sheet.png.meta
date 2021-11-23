@@ -1,31 +1,34 @@
 fileFormatVersion: 2
-guid: b47725e368704c747ab8ae13a4d21d74
+guid: ac996e678b5e0144db18491977283b0c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5937769666225134930
-    second: playerAbsorbSheet_0
+      213: -2409577669531453688
+    second: playerAbsorb-Sheet_0
   - first:
-      213: -7171320410838464130
-    second: playerAbsorbSheet_1
+      213: -1214807628694347761
+    second: playerAbsorb-Sheet_1
   - first:
-      213: -692011221527627817
-    second: playerAbsorbSheet_2
+      213: -7063975308393737606
+    second: playerAbsorb-Sheet_2
   - first:
-      213: -5038834154464902291
-    second: playerAbsorbSheet_3
+      213: 170380013784104345
+    second: playerAbsorb-Sheet_3
   - first:
-      213: 5848249821768361395
-    second: playerAbsorbSheet_4
+      213: 4816575950533621657
+    second: playerAbsorb-Sheet_4
   - first:
-      213: 2118491500853209071
-    second: playerAbsorbSheet_5
+      213: 9171856444731583151
+    second: playerAbsorb-Sheet_5
   - first:
-      213: -8356387787046179871
-    second: playerAbsorbSheet_6
+      213: 9029657199459500759
+    second: playerAbsorb-Sheet_6
   - first:
-      213: -675728658775210511
-    second: playerAbsorbSheet_7
+      213: -2166292161681052416
+    second: playerAbsorb-Sheet_7
+  - first:
+      213: -4206129902126634664
+    second: playerAbsorb-Sheet_8
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -70,7 +73,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 85.333336
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -92,7 +95,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -104,7 +107,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -116,7 +119,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -128,7 +131,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -140,7 +143,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -151,169 +154,190 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: playerAbsorbSheet_0
+      name: playerAbsorb-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 25d50714d02376250800000000000000
-      internalID: 5937769666225134930
+      spriteID: 8073dd440e57f8ed0800000000000000
+      internalID: -2409577669531453688
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerAbsorbSheet_1
+      name: playerAbsorb-Sheet_1
       rect:
         serializedVersion: 2
-        x: 256
+        x: 96
         y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e790775e41a5a7c90800000000000000
-      internalID: -7171320410838464130
+      spriteID: f002d35e5e2242fe0800000000000000
+      internalID: -1214807628694347761
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerAbsorbSheet_2
+      name: playerAbsorb-Sheet_2
       rect:
         serializedVersion: 2
-        x: 512
+        x: 192
         y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7d7f240e57b7566f0800000000000000
-      internalID: -692011221527627817
+      spriteID: a729f0132e7b7fd90800000000000000
+      internalID: -7063975308393737606
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerAbsorbSheet_3
+      name: playerAbsorb-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 99d7d6648bf4d5200800000000000000
+      internalID: 170380013784104345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorb-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 997fe35ce4ae7d240800000000000000
+      internalID: 4816575950533621657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorb-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: faa6a1787daf84f70800000000000000
+      internalID: 9171856444731583151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorb-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d20559b169cf4d70800000000000000
+      internalID: 9029657199459500759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorb-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00da947a1c8cfe1e0800000000000000
+      internalID: -2166292161681052416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorb-Sheet_8
       rect:
         serializedVersion: 2
         x: 768
         y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d63830d8807721ab0800000000000000
-      internalID: -5038834154464902291
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerAbsorbSheet_4
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3b5ae304a38292150800000000000000
-      internalID: 5848249821768361395
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerAbsorbSheet_5
-      rect:
-        serializedVersion: 2
-        x: 1280
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fe72a08bbc4666d10800000000000000
-      internalID: 2118491500853209071
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerAbsorbSheet_6
-      rect:
-        serializedVersion: 2
-        x: 1536
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1eb23bbe495280c80800000000000000
-      internalID: -8356387787046179871
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerAbsorbSheet_7
-      rect:
-        serializedVersion: 2
-        x: 1792
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1f507217d545f96f0800000000000000
-      internalID: -675728658775210511
+      spriteID: 859e7989323d0a5c0800000000000000
+      internalID: -4206129902126634664
       vertices: []
       indices: 
       edges: []

@@ -15,10 +15,14 @@ namespace HollowKnight
         [SerializeField] private float lerp = 0.1f;
 
         private float targetLerp;
+
+        private CircleLayoutGroup circleLayoutGroup;
+        private float targetValue = 90;
         private void Awake() {
             player = Player.Singleton;
             playerRb = player.GetComponent<Rigidbody2D>();
             targetLerp = lerp;
+            circleLayoutGroup = GetComponentInChildren<CircleLayoutGroup>();
         }
 
       
@@ -29,14 +33,20 @@ namespace HollowKnight
         }
 
         private void UpdateRotation() {
+            
             if (playerRb.velocity.x > 0) {
-                transform.DOScaleX(1,0.05f);
+                targetValue = 90;
+               
             }
 
-            if (playerRb.velocity.x < 0)
-            {
-                transform.DOScaleX(-1, 0.05f);
+            if (playerRb.velocity.x < 0) {
+                targetValue = 0;
             }
+
+            DOTween.To(() => circleLayoutGroup.initAngle,
+                x => circleLayoutGroup.initAngle = x,
+                targetValue, 0.1f
+            );
         }
 
         private void UpdateLerpSpeed() {

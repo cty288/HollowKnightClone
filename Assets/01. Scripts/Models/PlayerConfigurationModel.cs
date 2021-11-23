@@ -29,10 +29,10 @@ namespace HollowKnight
         }
 
        
-        public float WalkSpeed { get; } = 6;
-        public float RunSpeed { get; } = 12;
-        public float MaxWalkSpeed { get; } = 3;
-        public float MaxRunSpeed { get; } = 6;
+        public float WalkSpeed { get; } = 8;
+        public float RunSpeed { get; } = 14;
+        public float MaxWalkSpeed { get; } = 4;
+        public float MaxRunSpeed { get; } = 8;
         public float GroundLinearDrag { get; } = 0.9f;
        
         public float JumpForce { get; } = 15;

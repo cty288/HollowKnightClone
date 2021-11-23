@@ -10,13 +10,14 @@ namespace HollowKnight
             this.RegisterSystem<IMapSystem>(new MapSystem());
             this.RegisterSystem<IWeaponSystem>(new WeaponSystem());
             this.RegisterSystem<ITeleportSystem>(new TeleportSystem());
+            this.RegisterSystem<IAbsorbSystem>(new AbsorbSystem());
 
            
             this.RegisterModel<IPlayerConfigurationModel>(new PlayerConfigurationModel());
             this.RegisterModel<IPlayerModel>(new PlayerModel());
             this.RegisterModel<IWeaponTypeConfigModel>(new WeaponTypeConfigModel());
             this.RegisterModel<IWeaponConfigModel>(new WeaponConfigModel());
-
+            this.RegisterModel<IEnemyConfigurationModel>(new EnemyConfigurationModel());
         }
     }
 }

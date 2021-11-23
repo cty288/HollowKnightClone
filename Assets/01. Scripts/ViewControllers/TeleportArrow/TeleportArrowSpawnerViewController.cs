@@ -18,6 +18,7 @@ namespace HollowKnight
         private float arrowSpeed = 20f;
 
         private void Awake() {
+            
             this.RegisterEvent<OnTeleportStart>(OnTeleportStart).UnRegisterWhenGameObjectDestroyed(gameObject);
         }
 

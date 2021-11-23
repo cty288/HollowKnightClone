@@ -24,7 +24,7 @@ namespace MikroFramework.Examples
             //doubleJump->"down"->run
             //"d"->die
 
-
+            
             fsm.AddTranslation("idle", "w", "run", null)
                 .AddTranslation("run", "up", "jump", null).
                 AddTranslation("run", "s", "idle", null)

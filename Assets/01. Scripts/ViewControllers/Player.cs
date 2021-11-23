@@ -22,7 +22,8 @@ namespace HollowKnight {
     public enum PlayerState {
         Normal,
         Attack,
-        Teleport
+        Teleport,
+        Absorb
     }
 
     public class Player : AbstractMikroController<HollowKnight>, ISingleton {
@@ -141,6 +142,11 @@ namespace HollowKnight {
 
             AnimationControl();
             CheckTeleport();
+            CheckAbsorb();
+        }
+
+        private void CheckAbsorb() {
+            
         }
 
         private void StateCheck() {
@@ -263,8 +269,8 @@ namespace HollowKnight {
        
         private void AnimationControl() {
             float horizontalSpeed = Mathf.Abs(rb.velocity.x);
-            animator.SetBool("Idle", horizontalSpeed <= 1);
-            animator.SetBool("Move", horizontalSpeed > 1);
+            animator.SetBool("Idle", horizontalSpeed <= 0.5);
+            animator.SetBool("Move", horizontalSpeed > 0.5);
             animator.SetFloat("RunSpeed", Mathf.Max(0.4f, horizontalSpeed / playerModel.MaxRunSpeed.Value));
             animator.SetFloat("MoveSpeed", horizontalSpeed / playerModel.MaxRunSpeed.Value);
 
@@ -318,10 +324,19 @@ namespace HollowKnight {
                             return;
                         }
                     }
-                    rb.velocity = rb.velocity + new Vector2(horizontalDirection * speed * Time.deltaTime, 0);
+
+                    if (Mathf.Sign(horizontalDirection) == Mathf.Sign(rb.velocity.x)) {
+                        rb.velocity = rb.velocity + new Vector2(horizontalDirection * speed * Time.deltaTime, 0);
+                    }
+                    else {
+                        rb.velocity = rb.velocity + new Vector2(4* horizontalDirection * speed * Time.deltaTime, 0);
+                    }
+                    
                 }
                 else {
-                    rb.velocity = rb.velocity - new Vector2(horizontalDirection * speed * Time.deltaTime, 0);
+                    float multiplier = Mathf.Sign(rb.velocity.x) * Mathf.Sign(horizontalDirection);
+                    rb.velocity = rb.velocity - new Vector2(horizontalDirection * speed * Time.deltaTime, 0) * multiplier;
+
                 }
             }
             else {

@@ -20,6 +20,7 @@ namespace MikroFramework.FSM
         public delegate void FSMTranslationCallback();
         
         private FSMState currentState;
+        public FSMState CurrentState => currentState;
 
         /// <summary>
         /// All states
