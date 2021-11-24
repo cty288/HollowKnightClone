@@ -64,7 +64,7 @@ namespace HollowKnight
         public void Teleport(Vector2 mousePosition) {
             if (TeleportState == TeleportState.NotTeleporting) {
                 Vector2 pos =  cam.ScreenToWorldPoint(mousePosition);
-                Debug.Log(pos);
+               
                 float dist = Mathf.Abs(Vector2.Distance(pos, player.transform.position));
                 if (dist < MaxTeleportDistance && dist > MinTeleportDistance) {
                     //teleport success

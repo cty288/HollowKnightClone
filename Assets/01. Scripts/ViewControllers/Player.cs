@@ -58,6 +58,7 @@ namespace HollowKnight {
         private Animator animator;
 
         private ITeleportSystem teleportSystem;
+        private IAbsorbSystem absorbSystem;
         private bool canJump {
             get {
                 return (onGround);
@@ -75,6 +76,7 @@ namespace HollowKnight {
             groundCheck = transform.Find("GroundCheck").GetComponent<Trigger2DCheck>();
             animator = GetComponent<Animator>();
             teleportSystem = this.GetSystem<ITeleportSystem>();
+            absorbSystem = this.GetSystem<IAbsorbSystem>();
             currentState = PlayerState.Normal;
             RegisterEvents();
 
@@ -84,6 +86,22 @@ namespace HollowKnight {
             this.RegisterEvent<OnTeleportPrepare>(OnTeleportStartPrepare).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnTeleportAppearing>(OnTeleportAppearing).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnTeleportFinished>(OnTeleportFinished).UnRegisterWhenGameObjectDestroyed(gameObject);
+            
+            this.RegisterEvent<OnAbsorbInterrupted>(OnAbsorbInterrupted).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnEnemyAbsorbPreparing>(OnAbsorbStart).UnRegisterWhenGameObjectDestroyed(gameObject);
+            //this.RegisterEvent<OnEnemyAbsorbed>(OnAbsorb).UnRegisterWhenGameObjectDestroyed(gameObject);
+        }
+
+        private void OnAbsorbStart(OnEnemyAbsorbPreparing e) {
+            
+            animator.SetTrigger("Absorb");
+        }
+
+        private void OnAbsorbInterrupted(OnAbsorbInterrupted obj) {
+            animator.SetTrigger("AbsorbInterrupt");
+        }
+
+        private void OnAbsorb(OnEnemyAbsorbed obj) {
             
         }
 
@@ -140,18 +158,74 @@ namespace HollowKnight {
                 AttackControl();
             }
 
+            CheckShiftWeapon();
             AnimationControl();
             CheckTeleport();
             CheckAbsorb();
         }
 
+        private float scrollWheel;
+        private float lastScroll;
+        private void CheckShiftWeapon() {
+            scrollWheel = Input.GetAxis("Mouse ScrollWheel");
+
+            if (lastScroll == 0) {
+                if (scrollWheel > 0f) {
+                    this.SendCommand<ShiftWeaponCommand>(ShiftWeaponCommand.Allocate(true));
+                }
+
+                if (scrollWheel < -0f) {
+                    this.SendCommand<ShiftWeaponCommand>(ShiftWeaponCommand.Allocate(false));
+                }
+            }
+
+            lastScroll = scrollWheel;
+
+        }
+
+        private float absorbMouseHoldTime = 0;
         private void CheckAbsorb() {
-            
+            if (currentState == PlayerState.Normal || attackState == AttackState.Attacking || currentState==PlayerState.Absorb) {
+                if (Input.GetMouseButton(1)) { //keep absorbing per frame
+                    
+                   
+
+                    absorbMouseHoldTime += Time.deltaTime;
+                    if (absorbMouseHoldTime >= 0.3f) {
+                        bool result = absorbSystem.Absorb(Input.mousePosition);
+
+                        if (result) {
+                            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                            if (mousePos.x > transform.position.x)
+                            {
+                                transform.DOScaleX(1, 0);
+                            }
+
+                            if (mousePos.x < transform.position.x)
+                            {
+                                transform.DOScaleX(-1, 0);
+                            }
+                        }
+                        
+
+                        attackState = AttackState.NotAttacking;
+                        attackStopTimer = 0;
+                    }
+                    
+                }
+                else { //mouse up
+                    absorbMouseHoldTime = 0;
+                    if (currentState == PlayerState.Absorb) {
+                        absorbSystem.AbsorbInterrupt();
+                    }
+                }
+
+            }
         }
 
         private void StateCheck() {
             if (attackState == AttackState.NotAttacking &&
-                teleportSystem.TeleportState == TeleportState.NotTeleporting) {
+                teleportSystem.TeleportState == TeleportState.NotTeleporting && absorbSystem.AbsorbState == AbsorbState.NotAbsorbing) {
                 currentState = PlayerState.Normal;
             }else if (attackState == AttackState.Attacking || attackState == AttackState.Preparing) {
                 currentState = PlayerState.Attack;
@@ -159,6 +233,9 @@ namespace HollowKnight {
                       teleportSystem.TeleportState == TeleportState.TeleportAppearing ||
                       teleportSystem.TeleportState == TeleportState.Teleporting) {
                 currentState = PlayerState.Teleport;
+            }else if (absorbSystem.AbsorbState == AbsorbState.Absorbing 
+                      || absorbSystem.AbsorbState == AbsorbState.AbsorbPreparing) {
+                currentState = PlayerState.Absorb;
             }
         }
 

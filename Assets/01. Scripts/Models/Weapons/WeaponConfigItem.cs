@@ -5,7 +5,7 @@ using UnityEngine;
 namespace HollowKnight
 {
     public enum WeaponName {
-        Chicken
+        Rat
     }
     public class WeaponConfigItem {
         public WeaponTypeConfigItem TypeConfigItem;

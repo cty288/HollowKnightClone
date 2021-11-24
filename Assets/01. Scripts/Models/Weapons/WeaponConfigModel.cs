@@ -22,7 +22,7 @@ namespace HollowKnight
         }
 
         private void RegisterWeapons() {
-            RegisterWeapon(WeaponName.Chicken, WeaponType.SmallAnimal, 10);
+            RegisterWeapon(WeaponName.Rat, WeaponType.SmallAnimal, 3);
         }
 
 

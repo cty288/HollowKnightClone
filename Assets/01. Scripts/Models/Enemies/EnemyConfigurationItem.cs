@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using MikroFramework.BindableProperty;
 using MikroFramework.Examples.ServiceLocator;
 using UnityEngine;
 using FSM = MikroFramework.FSM.FSM;
@@ -10,11 +11,18 @@ namespace HollowKnight
         Rat
     }
     public interface IAbsorbable: IAttackable {
+        public BindableProperty<bool> Absorbed { get; }
         public bool CanAbsorbWhenAlive { get; }
+        public WeaponName WeaponName { get; }
+        public void Absorb();
     }
 
     public interface IAttackable {
-        public int Health { get; }
+        public BindableProperty<int> Health { get; }
+
+        public void Attack(int damage);
+
+        public void Kill();
     }
 
     public interface ICanAttack {
@@ -34,8 +42,23 @@ namespace HollowKnight
     }
 
     public class RatConfiguration : EnemyConfigurationItem, IAbsorbable {
-        public int Health { get; } = 1;
+        public BindableProperty<int> Health { get; } = new BindableProperty<int>(){Value = 1};
+        public void Attack(int damage) {
+            Health.Value -= damage;
+        }
+
+        public void Kill() {
+            Health.Value = 0;
+        }
+
+        public BindableProperty<bool> Absorbed { get; } = new BindableProperty<bool>() {Value = false};
         public bool CanAbsorbWhenAlive { get; } = true;
+        public WeaponName WeaponName { get; } = WeaponName.Rat;
+
+        public void Absorb() {
+            Absorbed.Value = true;
+        }
+
         public override EnemyName name { get; } = EnemyName.Rat;
 
         protected override void AddStateMachineState() {

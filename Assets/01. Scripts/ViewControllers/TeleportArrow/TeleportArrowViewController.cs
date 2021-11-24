@@ -47,7 +47,7 @@ namespace HollowKnight
         }
 
         private void OnArrowReach() {
-            camera.DOShakePosition(0.3f, 0.7f, 30, 100);
+            this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(0.3f,0.7f,30,100));
             this.GetSystem<ITeleportSystem>().OnReachDest(transform.Find("PlayerSpawnPoint").transform.position);
         }
     }
