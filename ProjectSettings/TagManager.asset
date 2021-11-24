@@ -15,8 +15,8 @@ TagManager:
   - Traversable
   - Ground
   - Player
-  - 
-  - 
+  - Enemy
+  - EnemyTraversable
   - 
   - 
   - 
