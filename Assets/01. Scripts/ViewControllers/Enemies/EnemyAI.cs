@@ -20,6 +20,9 @@ namespace HollowKnight
         [SerializeField] private float patrolRange;
         [SerializeField] private SpriteRenderer spriteRender;
 
+        [SerializeField] private Animator animator;
+        [SerializeField] private Vector3 spriteScale;
+
         private float min_X;
         private float max_X;
         private float waitTime;
@@ -37,7 +40,7 @@ namespace HollowKnight
             min_X = startLocation.x - patrolRange;
             max_X = startLocation.x + patrolRange;
             waitTime = startWaitTime;
-            
+            spriteScale = transform.localScale;
 
             nextSpot.position = new Vector2(Random.Range(min_X, max_X), startLocation.y);
         }
@@ -46,6 +49,7 @@ namespace HollowKnight
         {
             if (currentState == EnemyState.Patrolling)
             {
+                animator.SetInteger("EnemyState", 2);
                 Debug.Log("Patrolling");
                 Patrolling();
             }
@@ -56,6 +60,7 @@ namespace HollowKnight
             }
             else if(currentState == EnemyState.Attacking)
             {
+                animator.SetInteger("EnemyState", 3);
                 Debug.Log("Attacking");
             }
         }
@@ -71,6 +76,8 @@ namespace HollowKnight
         private void Patrolling()
         {
             transform.position = Vector2.MoveTowards(transform.position, nextSpot.position, speed * Time.deltaTime);
+            if ((nextSpot.transform.position.x - transform.position.x) <= 0) spriteScale.x = 1;
+            else spriteScale.x = -1;
             if (Vector2.Distance(transform.position, nextSpot.position) < 0.25f)
             {
                 if (waitTime <= 0)
@@ -78,12 +85,18 @@ namespace HollowKnight
                     nextSpot.position = new Vector2(Random.Range(min_X, max_X), startLocation.y);
                     waitTime = startWaitTime;
                 }
-                else waitTime -= Time.deltaTime;
+                else
+                {
+                    animator.SetInteger("EnemyState", 1);
+                    waitTime -= Time.deltaTime;
+                }
             }
         }
         private void Chasing()
         {
             transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+            if ((target.transform.position.x - transform.position.x) <= 0) spriteScale.x = 1;
+            else spriteScale.x = -1;
         }
 
         private void OnTriggerStay2D(Collider2D collision)
@@ -105,6 +118,7 @@ namespace HollowKnight
                     enemyState = EnemyState.Patrolling;
                 }
             }
+            transform.localScale = spriteScale;
         }
 
         private void OnDrawGizmos()
