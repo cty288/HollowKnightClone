@@ -11,7 +11,7 @@ namespace HollowKnight
             this.RegisterSystem<IWeaponSystem>(new WeaponSystem());
             this.RegisterSystem<ITeleportSystem>(new TeleportSystem());
             this.RegisterSystem<IAbsorbSystem>(new AbsorbSystem());
-
+            this.RegisterSystem<IAttackSystem>(new AttackSystem());
            
             this.RegisterModel<IPlayerConfigurationModel>(new PlayerConfigurationModel());
             this.RegisterModel<IPlayerModel>(new PlayerModel());

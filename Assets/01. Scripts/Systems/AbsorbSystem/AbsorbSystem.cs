@@ -148,9 +148,9 @@ namespace HollowKnight
             return false;
         }
 
-        public float CutSelfTime { get; } = 0.83f;
+        public float CutSelfTime { get; } = 0.9f;
 
-        public float AbsorbPrepareTime { get; } = 1.5f;
+        public float AbsorbPrepareTime { get; } = 1.4f;
         public float AbsorbingTime { get; } = 1f;
         public float MaxAbsorbDistance { get; } = 7f;
 

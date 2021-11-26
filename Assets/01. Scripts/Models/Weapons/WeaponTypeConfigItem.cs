@@ -13,23 +13,25 @@ namespace HollowKnight
     public class WeaponTypeConfigItem
     {
         public WeaponType Type;
-        public ICommand AttackSkill;
+        public IWeaponCommand AttackSkill;
         public int AttackDamage;
         public float AttackFreq;
 
+        public IWeaponCommand ChargeAttackSkill;
         public float ChargeAttackTime;
         public float ChargeAttackDamage;
 
 
-        public ICommand Ult;
+        public IWeaponCommand Ult;
         public float UltChargeTime;
         public int UltDamage;
 
         
-        public WeaponTypeConfigItem(WeaponType type, ICommand attackSkill, 
-            int skillDamage, float skillFreq, float chargeAttackTime,
-            float chargeAttackDamage, ICommand ult, float ultChargeTime, int ultDamage) {
+        public WeaponTypeConfigItem(WeaponType type, IWeaponCommand attackSkill,
+            int skillDamage, float skillFreq, IWeaponCommand chargeAttackSkill, float chargeAttackTime,
+            float chargeAttackDamage, IWeaponCommand ult, float ultChargeTime, int ultDamage) {
             this.Type = type;
+            this.ChargeAttackSkill = chargeAttackSkill;
             this.AttackSkill = attackSkill;
             this.AttackDamage = skillDamage;
             this.AttackFreq = skillFreq;

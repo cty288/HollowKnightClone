@@ -29,11 +29,16 @@ namespace HollowKnight
         private void Start() {
             this.RegisterEvent<OnAbsorbableEnemyViewControllerAddedToLayoutCircle>(OnEnemyAdded).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnWeaponShifted>(OnWeaponShifted).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnWeaponDropped>(OnWeaponDropped).UnRegisterWhenGameObjectDestroyed(gameObject);
             for (int i = 0; i < circleLayoutGroup.transform.childCount; i++)
             {
                 Transform cur = circleLayoutGroup.transform.GetChild(i);
                 cur.DOScaleX(-1, 0f);
             }
+        }
+
+        private void OnWeaponDropped(OnWeaponDropped obj) {
+            //StartCoroutine(ChangeSiblingOrder());
         }
 
         private void OnWeaponShifted(OnWeaponShifted e) {
@@ -88,20 +93,26 @@ namespace HollowKnight
 
         private void UpdateRotation() {
             
-            if (playerRb.velocity.x > 0) {
+            if (Player.Singleton.FaceRight) {
                 targetValue = 90;
 
                 for (int i = 0; i < circleLayoutGroup.transform.childCount; i++) {
                     Transform cur = circleLayoutGroup.transform.GetChild(i);
-                    cur.DOScaleX(-1, 0f);
+                    if (cur) {
+                        cur.DOScaleX(-1, 0f);
+                    }
+                    
                 }
             }
 
-            if (playerRb.velocity.x < 0) {
+            if (!Player.Singleton.FaceRight) {
                 for (int i = 0; i < circleLayoutGroup.transform.childCount; i++)
                 {
                     Transform cur = circleLayoutGroup.transform.GetChild(i);
-                    cur.DOScaleX(1, 0f);
+                    if (cur) {
+                        cur.DOScaleX(1, 0f);
+                    }
+                   
                 }
                 if (circleLayoutGroup.transform.childCount > 1) {
                     targetValue = 0;

@@ -38,6 +38,7 @@ namespace HollowKnight
             WeaponTypeConfigItem newTypeConfig = new WeaponTypeConfigItem(
                 originalTypeConfig.Type, originalTypeConfig.AttackSkill,
                 originalTypeConfig.AttackDamage, originalTypeConfig.AttackFreq,
+                originalTypeConfig.ChargeAttackSkill,
                 originalTypeConfig.ChargeAttackTime, originalTypeConfig.ChargeAttackDamage,
                 originalTypeConfig.Ult, originalTypeConfig.UltChargeTime, originalTypeConfig.UltDamage);
 

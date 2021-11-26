@@ -15,6 +15,8 @@ namespace HollowKnight
         public bool CanAbsorbWhenAlive { get; }
         public WeaponName WeaponName { get; }
         public void Absorb();
+
+        public void Drop();
     }
 
     public interface IAttackable {
@@ -57,6 +59,10 @@ namespace HollowKnight
 
         public void Absorb() {
             Absorbed.Value = true;
+        }
+
+        public void Drop() {
+            Absorbed.Value = false;
         }
 
         public override EnemyName name { get; } = EnemyName.Rat;

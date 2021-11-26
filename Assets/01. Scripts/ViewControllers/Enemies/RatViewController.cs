@@ -15,6 +15,7 @@ namespace HollowKnight
         [SerializeField]
         protected bool moveLeft = true;
         protected bool directionChanged = false;
+
         
 
         protected override void Awake() {
@@ -24,6 +25,7 @@ namespace HollowKnight
         }
 
         private void Update() {
+            
             if (transform.position.x >= RangeX.x && transform.position.x <= RangeX.y) {
                 directionChanged = false;
             }
@@ -93,7 +95,11 @@ namespace HollowKnight
             transform.DOScaleY(1, 0.1f);
         }
 
-        
+        public override void OnDropped() {
+            base.OnDropped();
+            transform.DOScaleY(-1, 0.1f);
+        }
+
         protected override void OnFSMStateChanged(string prevEvent, string newEvent) {
             
         }
