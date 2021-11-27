@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using MikroFramework;
 using MikroFramework.Architecture;
+using MikroFramework.Event;
 using UnityEngine;
 
 namespace HollowKnight
 {
-    public class RatViewController : AbstractAbsorbableEnemy<RatConfiguration> {
+    public class SmallAnimalViewController : AbstractAbsorbableEnemy<RatConfiguration> {
         [SerializeField] protected float speed = 10f;
 
         [SerializeField] protected Vector2 RangeX;
@@ -16,12 +18,31 @@ namespace HollowKnight
         protected bool moveLeft = true;
         protected bool directionChanged = false;
 
-        
+
+        [SerializeField] 
+        protected Transform normalAttackBulletSpawnPosition;
+
+        [SerializeField] protected GameObject bulletPrefab;
 
         protected override void Awake() {
             base.Awake();
             shakeParent = spriteRenderer.transform.parent;
             Debug.Log(GetCurrentState<SmallAnimalState>() +"    "+ configurationItem.Health +"   "+ Absorbable+"      "+CanAttack);
+        }
+
+        protected override void Start() {
+            base.Start();
+            this.RegisterEvent<SmallAnimalNormalAttackCommand.OnSmallAnimalBulletConsumed>(OnBulletConsumed)
+                .UnRegisterWhenGameObjectDestroyed(gameObject);
+        }
+
+        private void OnBulletConsumed(SmallAnimalNormalAttackCommand.OnSmallAnimalBulletConsumed e) {
+            if (e.WeaponInfo == weaponInfo && IsDie) {
+                //spawn bullet
+                this.SendCommand<SpawnBulletCommand>(SpawnBulletCommand.Allocate(e.TargetGameObject, normalAttackBulletSpawnPosition,
+                    bulletPrefab, e.ShootInstant,e.WeaponInfo.AttackDamage.Value));
+            }
+            
         }
 
         private void Update() {
@@ -98,6 +119,10 @@ namespace HollowKnight
         public override void OnDropped() {
             base.OnDropped();
             transform.DOScaleY(-1, 0.1f);
+        }
+
+        public override void OnBulletShot(int number) {
+            base.OnBulletShot(number);
         }
 
         protected override void OnFSMStateChanged(string prevEvent, string newEvent) {

@@ -34,6 +34,7 @@ namespace HollowKnight {
     }
 
     public interface IEnemyViewControllerAttackable {
+        public IAttackable Attackable { get; }
         bool IsDie { get; }
 
         void AttackedByPlayer(int damage);
@@ -138,6 +139,11 @@ namespace HollowKnight {
         protected IAbsorbable absorbableConfiguration;
 
         protected Transform transformer;
+        public IAttackable Attackable {
+            get {
+                return (configurationItem) as IAttackable;
+            }
+        }
 
         [SerializeField]
         private Sprite[] bulletStateSprites;
@@ -174,6 +180,10 @@ namespace HollowKnight {
         }
 
         protected void OnBulletCountChange(int oldBullet, int newBullet) {
+            if (oldBullet < newBullet) {
+                OnBulletShot(newBullet - oldBullet);
+            }
+
             if (newBullet > 0) {
                 int spriteIndex = weaponInfo.MaxBulletCount - newBullet;
                 spriteRenderer.sprite = bulletStateSprites[spriteIndex];
@@ -248,7 +258,7 @@ namespace HollowKnight {
                     rigidbody.gravityScale = 1;
                     trailRenderer.enabled = false;
 
-                   
+                    gameObject.layer = LayerMask.NameToLayer("Enemy");
                     OnDropped();
                 }
             }
@@ -270,11 +280,13 @@ namespace HollowKnight {
         {
             if (newHealth < old)
             {
+                Debug.Log("Attacked");
                 OnAttacked(newHealth-old);
             }
 
             if (newHealth <= 0)
             {
+                Debug.Log("Die");
                 OnDie();
             }
         }
@@ -331,6 +343,7 @@ namespace HollowKnight {
                     AddRectTransformAsTransformer();
 
                     trailRenderer.enabled = true;
+                    gameObject.layer = LayerMask.NameToLayer("AbsorbedEnemy");
                     OnAbsorbed();
 
                     this.SendCommand<AddEnemyViewControllerToLayoutCircleCommand>(AddEnemyViewControllerToLayoutCircleCommand.Allocate(this, transformer.gameObject));
@@ -338,6 +351,7 @@ namespace HollowKnight {
             }
         }
 
+   
         public bool IsDie {
             get {
                 return absorbableConfiguration.Health.Value <= 0;
@@ -351,6 +365,11 @@ namespace HollowKnight {
 
         public virtual void OnDie() {
             rigidbody.velocity = Vector2.zero;
+            StartCoroutine(SetGravityScaleZero());
+        }
+
+        private IEnumerator SetGravityScaleZero() {
+            yield return new WaitForSeconds(0.5f);
             rigidbody.gravityScale = 0;
         }
 
@@ -380,6 +399,8 @@ namespace HollowKnight {
         public virtual void OnAttacked(int damage) { }
 
         public virtual void OnAbsorbInterrupt() { }
+
+        public virtual void OnBulletShot(int number) { }
     }
 }
 

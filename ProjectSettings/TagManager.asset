@@ -17,8 +17,8 @@ TagManager:
   - Player
   - Enemy
   - EnemyTraversable
-  - 
-  - 
+  - Bullet
+  - AbsorbedEnemy
   - 
   - 
   - 

@@ -54,6 +54,10 @@ namespace HollowKnight
             BulletCount.RegisterOnValueChaned(OnBulletChange);
         }
 
+        public void ConsumeBullet(int count) {
+            BulletCount.Value -= count;
+        }
+
         private void OnBulletChange(int old, int newBullet) {
             OnBulletCountChange?.Invoke(this,old,newBullet);
         }

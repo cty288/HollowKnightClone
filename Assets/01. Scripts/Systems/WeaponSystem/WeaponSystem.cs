@@ -14,6 +14,10 @@ namespace HollowKnight
         public WeaponInfo DroppedWeapon;
     }
 
+    public enum WeaponBuff {
+
+    }
+
     public interface IWeaponSystem : ISystem {
         WeaponInfo SelectedWeapon { get; }
         List<WeaponInfo> EquippedWeapons { get; }
@@ -184,11 +188,15 @@ namespace HollowKnight
             IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject) {
             WeaponInfo weapon = SelectedWeapon;
 
-            if (timeSinceLastNormalAttack >= weapon.AttackFreq.Value) {
-                IWeaponCommand command = ConfigureAttackCommand(weapon.AttackSkill.Value, weapon,
-                    timeSinceLastNormalAttack, AttackableViewController, targetGameObject);
-                this.SendCommand(command);
+            if (weapon != null) {
+                if (timeSinceLastNormalAttack >= weapon.AttackFreq.Value)
+                {
+                    IWeaponCommand command = ConfigureAttackCommand(weapon.AttackSkill.Value, weapon,
+                        timeSinceLastNormalAttack, AttackableViewController, targetGameObject);
+                    this.SendCommand(command);
+                }
             }
+            
         }
 
         public void CurrentWeaponCharging(float chargingTime, IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject) {
