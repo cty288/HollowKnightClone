@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace HollowKnight
 {
+    public struct OnUltChargeToMax {
+
+    }
     public interface IPlayerModel : IModel {
       
         BindableProperty<float> WalkSpeed { get; }
@@ -27,10 +30,13 @@ namespace HollowKnight
 
         BindableProperty<float> GroundRaycastLength { get; }
 
+        BindableProperty<int> UltChargeAccumlated { get; }
+
         void ChangeRemainingJumpValue(int value);
 
         void ResetRemainingJumpValue();
 
+        void AddUlt(int amount);
     }
     public class PlayerModel : AbstractModel, IPlayerModel
     {
@@ -48,6 +54,8 @@ namespace HollowKnight
         public BindableProperty<int> RemainingExtraJump { get; } = new BindableProperty<int>();
         public BindableProperty<float> DashSpeed { get; } = new BindableProperty<float>();
         public BindableProperty<float> GroundRaycastLength { get; } = new BindableProperty<float>();
+        public BindableProperty<int> UltChargeAccumlated { get; } = new BindableProperty<int>();
+
         public void ChangeRemainingJumpValue(int value) {
             RemainingExtraJump.Value += value;
         }
@@ -70,10 +78,22 @@ namespace HollowKnight
          
             RemainingExtraJump.Value = playerConfigurationModel.ExtraJumps;
             DashSpeed.Value = playerConfigurationModel.DashSpeed;
-         
+
+            UltChargeAccumlated.Value = 0;
         }
 
-       
-        
+
+        public void AddUlt(int amount) {
+            IPlayerConfigurationModel configuration = this.GetModel<IPlayerConfigurationModel>();
+            if (configuration.MaxUltChargeNeeded - UltChargeAccumlated.Value >= amount) {
+                UltChargeAccumlated.Value += amount;
+            }
+            else {
+                UltChargeAccumlated.Value = configuration.MaxUltChargeNeeded;
+                //charge to max
+                this.SendEvent<OnUltChargeToMax>(new OnUltChargeToMax());
+            }
+           
+        }
     }
 }

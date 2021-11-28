@@ -199,32 +199,61 @@ namespace HollowKnight
             
         }
 
+        private IWeaponCommand ongoingChargingCommand = null;
+
         public void CurrentWeaponCharging(float chargingTime, IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject) {
             WeaponInfo weapon = SelectedWeapon;
-            
-            IWeaponCommand command = ConfigureAttackCommand(weapon.ChargeAttackSkill.Value, weapon,
-                chargingTime, AttackableViewController, targetGameObject);
+
+            IWeaponCommand command = null;
+
+            if (ongoingChargingCommand == null) {
+                command = ConfigureAttackCommand(weapon.ChargeAttackSkill.Value, weapon,
+                    chargingTime, AttackableViewController, targetGameObject, false);
+                ongoingChargingCommand = command;
+            }
+            else {
+                command = ongoingChargingCommand;
+                command.Time = chargingTime;
+                command.Released = false;
+            }
+           
 
             this.SendCommand(command);
         }
 
         public void CurrentWeaponChargeRelease(float totalChargeTime, IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject) {
             WeaponInfo weapon = SelectedWeapon;
-            
-            IWeaponCommand command = ConfigureAttackCommand(weapon.AttackSkill.Value, weapon,
-                totalChargeTime, AttackableViewController, targetGameObject);
+            IWeaponCommand command = null;
 
-            this.SendCommand(command);
+            
+                if (ongoingChargingCommand == null)
+                {
+                    command = ConfigureAttackCommand(weapon.ChargeAttackSkill.Value, weapon,
+                        totalChargeTime, AttackableViewController, targetGameObject, true);
+                }
+                else
+                {
+                    command = ongoingChargingCommand;
+                    command.Time = totalChargeTime;
+                    command.Released = true;
+                }
+
+                this.SendCommand(command);
+            
+           
+
+            ongoingChargingCommand = null;
         }
 
         private IWeaponCommand ConfigureAttackCommand(IWeaponCommand command, WeaponInfo weapon, float time,
-            IEnemyViewControllerAttackable attackable, GameObject targetGameObject) {
+            IEnemyViewControllerAttackable attackable, GameObject targetGameObject, bool released = true) {
+            
             IWeaponCommand cmd = command.Clone();
             cmd.WeaponInfo = weapon;
             cmd.Time = time;
             cmd.TargetAttackableViewController = attackable;
             cmd.TargetGameObject = targetGameObject;
-
+            cmd.Released = released;
             return cmd;
         }
 

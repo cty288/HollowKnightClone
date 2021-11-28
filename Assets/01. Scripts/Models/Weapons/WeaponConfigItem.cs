@@ -11,6 +11,7 @@ namespace HollowKnight
         public WeaponTypeConfigItem TypeConfigItem;
         public WeaponName WeaponName;
         public int WeaponCapacity;
+        public int UltChargeAmountWhenDie;
 
         public WeaponConfigItem(WeaponName name,
             WeaponTypeConfigItem typeConfigItem, int capacity) {

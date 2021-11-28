@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using MikroFramework.Architecture;
 using MikroFramework.BindableProperty;
 using MikroFramework.Examples.ServiceLocator;
 using UnityEngine;
@@ -43,19 +44,26 @@ namespace HollowKnight
         protected abstract void AddStateMachineState();
     }
 
-    public class RatConfiguration : EnemyConfigurationItem, IAbsorbable {
-        public BindableProperty<int> Health { get; } = new BindableProperty<int>(){Value = 1};
+    public abstract class AbstractAbsorbableConfiguration : EnemyConfigurationItem, IAbsorbable {
+        public abstract BindableProperty<int> Health { get; } 
+        //will never surpass the existing health of that enemy
         public void Attack(int damage) {
-            Health.Value -= damage;
+            if (Health.Value >= damage) {
+                Health.Value -= damage;
+            }
+            else {
+                Health.Value = 0;
+            }
+            
         }
 
         public void Kill() {
             Health.Value = 0;
         }
 
-        public BindableProperty<bool> Absorbed { get; } = new BindableProperty<bool>() {Value = false};
-        public bool CanAbsorbWhenAlive { get; } = true;
-        public WeaponName WeaponName { get; } = WeaponName.Rat;
+        public BindableProperty<bool> Absorbed { get; } = new BindableProperty<bool>() { Value = false };
+        public abstract bool CanAbsorbWhenAlive { get; }
+        public abstract WeaponName WeaponName { get; }
 
         public void Absorb() {
             Absorbed.Value = true;
@@ -64,6 +72,15 @@ namespace HollowKnight
         public void Drop() {
             Absorbed.Value = false;
         }
+
+      
+    }
+
+    public class RatConfiguration : AbstractAbsorbableConfiguration, IAbsorbable {
+        public override BindableProperty<int> Health { get; } = new BindableProperty<int>(){Value = 1};
+
+        public override bool CanAbsorbWhenAlive { get; } = true;
+        public override WeaponName WeaponName { get; } = WeaponName.Rat;
 
         public override EnemyName name { get; } = EnemyName.Rat;
 

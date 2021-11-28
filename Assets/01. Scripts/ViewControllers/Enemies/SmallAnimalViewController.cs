@@ -24,6 +24,7 @@ namespace HollowKnight
 
         [SerializeField] protected GameObject bulletPrefab;
 
+        private int bulletShot = 0;
         protected override void Awake() {
             base.Awake();
             shakeParent = spriteRenderer.transform.parent;
@@ -39,8 +40,10 @@ namespace HollowKnight
         private void OnBulletConsumed(SmallAnimalNormalAttackCommand.OnSmallAnimalBulletConsumed e) {
             if (e.WeaponInfo == weaponInfo && IsDie) {
                 //spawn bullet
-                this.SendCommand<SpawnBulletCommand>(SpawnBulletCommand.Allocate(e.TargetGameObject, normalAttackBulletSpawnPosition,
+                this.SendCommand<SpawnBulletCommand>(SpawnBulletCommand.Allocate(e.TargetGameObject, 
+                    new Vector2(normalAttackBulletSpawnPosition.position.x, normalAttackBulletSpawnPosition.position.y + bulletShot * 0.3f),
                     bulletPrefab, e.ShootInstant,e.WeaponInfo.AttackDamage.Value));
+                bulletShot++;
             }
             
         }

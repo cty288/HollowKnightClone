@@ -92,8 +92,12 @@ namespace HollowKnight {
 
             this.RegisterEvent<OnAbsorbInterrupted>(OnAbsorbInterrupted).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnEnemyAbsorbPreparing>(OnAbsorbStart).UnRegisterWhenGameObjectDestroyed(gameObject);
+            
+            this.RegisterEvent<OnAttackAiming>(OnAiming).UnRegisterWhenGameObjectDestroyed(gameObject);
             //this.RegisterEvent<OnEnemyAbsorbed>(OnAbsorb).UnRegisterWhenGameObjectDestroyed(gameObject);
         }
+
+        
 
         #region Animation Events
         private void OnStartAttack(OnAttackStartPrepare e)
@@ -150,7 +154,18 @@ namespace HollowKnight {
             rb.simulated = false;
         }
 
+        private void OnAiming(OnAttackAiming obj)
+        {
+            if (obj.Target.transform.position.x > transform.position.x)
+            {
+                transform.DOScaleX(1, 0);
+            }
 
+            if (obj.Target.transform.position.x < transform.position.x)
+            {
+                transform.DOScaleX(-1, 0);
+            }
+        }
         #endregion
 
 

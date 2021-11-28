@@ -48,6 +48,7 @@ namespace HollowKnight {
         public IEnemyViewControllerAttackable TargetAttackableViewController { get; set; }
         public GameObject TargetGameObject { get; set; }
         public float Time { get; set; }
+        public bool Released { get; set; }
 
         public WeaponInfo WeaponInfo { get; set; }
         

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using MikroFramework.Architecture;
+using MikroFramework.Event;
 using UnityEngine;
 
 namespace HollowKnight
@@ -25,8 +26,20 @@ namespace HollowKnight
         [SerializeField] private float shootSpeed = 30f;
         private void Awake() {
             animator = GetComponent<Animator>();
+            this.RegisterEvent<OnSmallAnimalChargeReleased>(OnChargeReleased).UnRegisterWhenGameObjectDestroyed(gameObject);
         }
 
+        private void Start() {
+            
+        }
+
+        private void OnChargeReleased(OnSmallAnimalChargeReleased obj)
+        {
+            if (bulletState == BulletState.Preparing) {
+                ShootInstant = true;
+                Shoot();
+            }
+        }
         private void Update() {
             
             

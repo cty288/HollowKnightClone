@@ -174,7 +174,7 @@ namespace HollowKnight {
 
             weaponInfo = weaponSystem.GetWeaponFromConfig(absorbableConfiguration.WeaponName);
 
-            weaponInfo.BulletCount.RegisterOnValueChaned(OnBulletCountChange);
+            weaponInfo.BulletCount.RegisterOnValueChaned(OnBulletCountChange).UnRegisterWhenGameObjectDestroyed(gameObject);
             OnBulletCountChange(weaponInfo.BulletCount.Value,weaponInfo.BulletCount.Value);
 
         }
@@ -280,8 +280,9 @@ namespace HollowKnight {
         {
             if (newHealth < old)
             {
-                Debug.Log("Attacked");
-                OnAttacked(newHealth-old);
+                Debug.Log($"Attacked, add to charge {old - newHealth}");
+                this.SendCommand<ChargeUltCommand>(ChargeUltCommand.Allocate(old - newHealth));
+                OnAttacked(old - newHealth);
             }
 
             if (newHealth <= 0)
@@ -316,6 +317,10 @@ namespace HollowKnight {
             }
         }
 
+        protected override void OnDestroy() {
+            base.OnDestroy();
+
+        }
 
         private void OnEnemyAbsorbed(OnEnemyAbsorbed e)
         {
