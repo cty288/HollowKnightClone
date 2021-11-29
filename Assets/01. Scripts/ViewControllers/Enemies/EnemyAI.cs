@@ -50,18 +50,15 @@ namespace HollowKnight
             if (currentState == EnemyState.Patrolling)
             {
                 animator.SetInteger("EnemyState", 2);
-                Debug.Log("Patrolling");
                 Patrolling();
             }
             else if(currentState == EnemyState.Chasing)
             {
-                Debug.Log("Chasing");
                 Chasing();
             }
             else if(currentState == EnemyState.Attacking)
             {
                 animator.SetInteger("EnemyState", 3);
-                Debug.Log("Attacking");
             }
         }
         private EnemyState CheckingAttack()
@@ -75,26 +72,39 @@ namespace HollowKnight
 
         private void Patrolling()
         {
-            transform.position = Vector2.MoveTowards(transform.position, nextSpot.position, speed * Time.deltaTime);
-            if ((nextSpot.transform.position.x - transform.position.x) <= 0) spriteScale.x = 1;
-            else spriteScale.x = -1;
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(nextSpot.transform.position.x, startLocation.y), speed * Time.deltaTime);
+            if ((nextSpot.transform.position.x - transform.position.x) < 0) spriteScale.x = 1;
+            else if ((nextSpot.transform.position.x - transform.position.x) > 0) spriteScale.x = -1;
             if (Vector2.Distance(transform.position, nextSpot.position) < 0.25f)
             {
                 if (waitTime <= 0)
                 {
-                    nextSpot.position = new Vector2(Random.Range(min_X, max_X), startLocation.y);
+                    nextSpot.position = DecideDistance(transform.position);
                     waitTime = startWaitTime;
                 }
                 else
                 {
                     animator.SetInteger("EnemyState", 1);
-                    waitTime -= Time.deltaTime;
+                    waitTime -= Time.deltaTime; 
                 }
             }
         }
+
+        private Vector2 DecideDistance(Vector2 currentSpot)
+        {
+            Vector2 randomSpot = new Vector2(Random.Range(min_X, max_X), startLocation.y);
+            while (Vector2.Distance(currentSpot, randomSpot) < 5f)
+            {
+                randomSpot = new Vector2(Random.Range(min_X, max_X), startLocation.y);
+            }
+           
+            return randomSpot;
+        }
+
         private void Chasing()
         {
-            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+            animator.SetInteger("EnemyState", 3);
+            transform.position = Vector2.MoveTowards(transform.position, new Vector2(target.transform.position.x, startLocation.y), speed * Time.deltaTime);
             if ((target.transform.position.x - transform.position.x) <= 0) spriteScale.x = 1;
             else spriteScale.x = -1;
         }
