@@ -26,6 +26,7 @@ namespace HollowKnight
         public BindableProperty<int> UltDamage= new BindableProperty<int>();
 
         public BindableProperty<int> BulletCount = new BindableProperty<int>();
+        public BindableProperty<bool> NeedTargetWhenUlt = new BindableProperty<bool>();
 
         public Action<WeaponInfo,int,int> OnBulletCountChange;
 
@@ -35,7 +36,7 @@ namespace HollowKnight
         public WeaponInfo(WeaponName name, WeaponType type, IWeaponCommand attackSkill,
             int attackDamage, float AttackFreq, IWeaponCommand chargeAttackSkill, float chargeAttackTime,
             float chargeAttackDamage, IWeaponCommand ult, float ultChargeTime,
-            int ultDamage, int bulletCount, int MaxBulletCount) {
+            int ultDamage, int bulletCount, int MaxBulletCount, bool UltNeedTarget) {
 
             this.Name.Value = name;
             this.Type.Value = type;
@@ -50,6 +51,7 @@ namespace HollowKnight
             this.UltDamage.Value = ultDamage;
             this.BulletCount.Value = bulletCount;
             this.MaxBulletCount = MaxBulletCount;
+            this.NeedTargetWhenUlt.Value = UltNeedTarget;
             
             BulletCount.RegisterOnValueChaned(OnBulletChange);
         }

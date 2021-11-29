@@ -19,8 +19,11 @@ namespace HollowKnight
         private Player player;
         private Camera camera;
 
+
         [SerializeField]
         private float lerpSpeed = 20;
+
+        [SerializeField] private float YOffset = 0;
 
         [SerializeField] private Vector2 cameraPositionXRange = new Vector2(0, 100);
         [SerializeField] private Vector2 cameraPositionYRange = new Vector2(0, 100);
@@ -45,7 +48,7 @@ namespace HollowKnight
             targetX = Mathf.Clamp(targetX, cameraPositionXRange.x, cameraPositionXRange.y);
 
             float targetY = transform.position.y;
-            targetY = Mathf.Lerp(targetY, player.transform.position.y, lerpSpeed * Time.deltaTime);
+            targetY = Mathf.Lerp(targetY, player.transform.position.y + YOffset, lerpSpeed * Time.deltaTime);
             targetY = Mathf.Clamp(targetY, cameraPositionYRange.x, cameraPositionYRange.y);
 
             transform.position = new Vector3(targetX, targetY, transform.position.z);

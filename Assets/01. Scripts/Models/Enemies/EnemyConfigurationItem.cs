@@ -9,7 +9,8 @@ using FSM = MikroFramework.FSM.FSM;
 namespace HollowKnight
 {
     public enum EnemyName {
-        Rat
+        Rat,
+        Crow
     }
     public interface IAbsorbable: IAttackable {
         public BindableProperty<bool> Absorbed { get; }
@@ -88,5 +89,17 @@ namespace HollowKnight
             FSM.AddTranslation(SmallAnimalState.Patrol, SmallAnimalEvents.Absorb, SmallAnimalState.Die, null)
                 .Start(SmallAnimalState.Patrol);
         }
+    }
+
+    public class CrowConfiguration : AbstractAbsorbableConfiguration, IAbsorbable {
+        public override EnemyName name { get; } = EnemyName.Crow;
+        protected override void AddStateMachineState() {
+            
+        }
+
+        public override BindableProperty<int> Health { get; } = new BindableProperty<int>() {Value = 2};
+        public override bool CanAbsorbWhenAlive { get; } = true;
+        public override WeaponName WeaponName { get; } = WeaponName.Crow;
+        
     }
 }

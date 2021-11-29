@@ -58,7 +58,7 @@ namespace HollowKnight {
         private IAbsorbSystem absorbSystem;
 
         private IAttackSystem attackSystem;
-        private bool canJump {
+        public bool OnGround {
             get {
                 return (onGround);
             }
@@ -118,11 +118,8 @@ namespace HollowKnight {
 
         private void OnAbsorbInterrupted(OnAbsorbInterrupted obj)
         {
-            if (absorbSystem.AbsorbState != AbsorbState.NotAbsorbing)
-            {
-                animator.SetTrigger("AbsorbInterrupt");
-            }
-
+          
+           animator.SetTrigger("AbsorbInterrupt");
         }
 
 
@@ -173,17 +170,17 @@ namespace HollowKnight {
         private void Update()
         {
             horizontalDirection = GetInput().x;
-            if (canJump) {
+            if (onGround) {
                 if (Input.GetKeyDown(KeyCode.Space)) {
                     Jump();
                 }
             }
 
             StateCheck();
-            if (onGround) {
-                //attack
-                AttackControl();
-            }
+            
+            //attack
+            AttackControl();
+            
 
             CheckShiftWeapon();
             CheckDropWeapon();
@@ -222,8 +219,6 @@ namespace HollowKnight {
             if (currentState == PlayerState.Normal || attackSystem.AttackState == AttackState.Attacking || currentState==PlayerState.Absorb) {
                 if (Input.GetMouseButton(1)) { //keep absorbing per frame
                     
-                   
-
                     absorbMouseHoldTime += Time.deltaTime;
                     if (absorbMouseHoldTime >= 0.3f) {
                         bool result = absorbSystem.Absorb(Input.mousePosition);
@@ -322,12 +317,12 @@ namespace HollowKnight {
             if (currentState != PlayerState.Teleport) {
                 if (rb.velocity.x > 0) {
                     FaceRight = true;
-                    transform.DOScaleX(1, 0);
+                    transform.localScale = new Vector3(1, 1, 1); // DOScaleX(1, 0);
                 }
 
                 if (rb.velocity.x < 0) {
                     FaceRight = false;
-                    transform.DOScaleX(-1, 0);
+                    transform.localScale = new Vector3(-1, 1, 1);
                 }
             }
             
@@ -385,18 +380,43 @@ namespace HollowKnight {
                 }
             }
             else {
-                rb.velocity = Vector2.zero;
+                if (teleportSystem.TeleportState != TeleportState.NotTeleporting) {
+                    rb.velocity = Vector2.zero;
+                }
+
+                if (onGround) {
+                    if (attackSystem.AttackState != AttackState.NotAttacking ||
+                        absorbSystem.AbsorbState != AbsorbState.NotAbsorbing) {
+                        rb.velocity = Vector2.zero;
+                    }
+                }
             }
         }
 
         
 
 
-        private void Jump()
-        {
+        private void Jump() {
+           
+            attackSystem.StopAttack();
+
+            if (absorbSystem.AbsorbState != AbsorbState.NotAbsorbing) {
+                if (!Input.GetMouseButton(1)) {
+                    absorbSystem.AbsorbInterrupt();
+                }
+                else {
+                    return;
+                }
+            }
+            
+           
+
+            
             animator.SetTrigger("Jump");
+
             rb.AddForce(Vector2.up * playerModel.JumpForce.Value, ForceMode2D.Impulse);
-          
+           
+            
         }
 
        

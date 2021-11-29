@@ -90,6 +90,8 @@ namespace HollowKnight
                         
                         Debug.Log($"Bullet shoot an attackable {attackable.Attackable.Health.Value}," +
                                    $"with damage: {Damage}");
+                        this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(0.3f,0.5f,
+                            20,100));
                         this.SendCommand<HurtEnemyCommand>(HurtEnemyCommand.Allocate(attackable.Attackable,Damage));
                     }
                 }

@@ -25,11 +25,11 @@ namespace HollowKnight
         public IWeaponCommand Ult;
         public float UltChargeTime;
         public int UltDamage;
-
+        public bool UltNeedTarget;
         
         public WeaponTypeConfigItem(WeaponType type, IWeaponCommand attackSkill,
             int skillDamage, float skillFreq, IWeaponCommand chargeAttackSkill, float chargeAttackTime,
-            float chargeAttackDamage, IWeaponCommand ult, float ultChargeTime, int ultDamage) {
+            float chargeAttackDamage, IWeaponCommand ult, float ultChargeTime, int ultDamage, bool ultNeedTarget) {
             this.Type = type;
             this.ChargeAttackSkill = chargeAttackSkill;
             this.AttackSkill = attackSkill;
@@ -40,6 +40,7 @@ namespace HollowKnight
             this.Ult = ult;
             this.UltChargeTime = ultChargeTime;
             this.UltDamage = ultDamage;
+            this.UltNeedTarget = ultNeedTarget;
         }
     }
 }

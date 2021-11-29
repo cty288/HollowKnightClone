@@ -27,6 +27,7 @@ namespace HollowKnight
             Bullet bullet = GameObject.Instantiate(BulletPrefab, SpawnPosition,
                 Quaternion.identity).GetComponent<Bullet>();
 
+            Debug.Log(bullet.name);
             bullet.Target = Target.transform;
             bullet.Damage = Damage;
             bullet.ShootInstant = ShootInstant;

@@ -159,6 +159,8 @@ namespace HollowKnight
                 if (absorbState != AbsorbState.NotAbsorbing) {
                     Debug.Log("Interrupted");
                     Debug.Log(absorbingObject.gameObject.name);
+
+                    absorbState = AbsorbState.NotAbsorbing;
                     this.SendEvent<OnAbsorbInterrupted>(new OnAbsorbInterrupted() { absorbedEnemy = absorbingObject });
                     Reset();
                 }

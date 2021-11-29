@@ -20,6 +20,11 @@ namespace HollowKnight
 
     }
 
+    public struct OnUltAttack {
+        public IEnemyViewControllerAttackable AttackableViewController;
+        public GameObject TargetGameObject;
+    }
+
     public struct OnAttackAiming {
         public GameObject Target;
     }
@@ -69,14 +74,14 @@ namespace HollowKnight
             weaponSystem = this.GetSystem<IWeaponSystem>();
         }
 
-        public float AttackStopThreshold { get; } = 1f;
+        public float AttackStopThreshold { get; } = 1.5f;
         public AttackState AttackState {
             get {
                 return attackState;
             }
         }
         public float ChargeAttackThreshold { get; } = 0.2f;
-        public float AttackPrepareTime { get; } = 0.5f;
+        public float AttackPrepareTime { get; } = 0.4f;
 
         private bool isUltPreparing = false;
         public void StopAttack() {
@@ -107,10 +112,19 @@ namespace HollowKnight
                 {
                     if (Input.GetMouseButtonDown(0) && DetectAttackTarget(out targetAttackable)) //select enemy
                     {
-                        attackState = AttackState.Preparing;
-                        this.SendEvent<OnAttackStartPrepare>();
-                    }else if (CheckUlt()) {
-                        DetectAttackTarget(out targetAttackable);
+                        if (!Player.Singleton.OnGround) {
+                            normalAttackInterval = 1;
+                            attackState = AttackState.Attacking;
+                            NormalAttack();
+                            StopAttack();
+                            return;
+                        }
+                        else {
+                            attackState = AttackState.Preparing;
+                            this.SendEvent<OnAttackStartPrepare>();
+                        }
+                       
+                    }else if (CheckUlt(out targetAttackable)) {
                         isUltPreparing = true;
                         attackState = AttackState.Preparing;
                         this.SendEvent<OnAttackStartPrepare>();
@@ -150,7 +164,7 @@ namespace HollowKnight
                             DetectAttackTarget(out targetAttackable);
                         }
 
-                        if (CheckUlt()) {
+                        if (CheckUlt(out IEnemyViewControllerAttackable target)) {
                             Ult(targetAttackable);
                             StopAttack();
                             return;
@@ -230,9 +244,12 @@ namespace HollowKnight
         private void Ult(IEnemyViewControllerAttackable attackable) {
             if (attackable != null) {
                 Debug.Log($"Ult to {attackable.GameObject.name}");
+                this.SendEvent<OnUltAttack>(new OnUltAttack(){AttackableViewController = attackable
+                    ,TargetGameObject = attackable.GameObject });
             }
             else {
                 Debug.Log($"Ult with no target");
+                this.SendEvent<OnUltAttack>(new OnUltAttack());
             }
         }
 
@@ -271,12 +288,24 @@ namespace HollowKnight
         /// is ult button pressed and ult is ready to cast
         /// </summary>
         /// <returns></returns>
-        private bool CheckUlt() {
+        private bool CheckUlt(out IEnemyViewControllerAttackable target) {
+            target = null;
             if (Input.GetKeyDown(KeyCode.R)) {
+                
                 IPlayerModel playerModel = this.GetModel<IPlayerModel>();
                 IPlayerConfigurationModel playerConfigurationModel = this.GetModel<IPlayerConfigurationModel>();
 
+                
+
                 if (playerModel.UltChargeAccumlated.Value >= playerConfigurationModel.MaxUltChargeNeeded) {
+                    DetectAttackTarget(out target);
+
+                    if (target == null) {
+                        if (weaponSystem.SelectedWeapon.NeedTargetWhenUlt.Value) {
+                            return false;
+                        }
+                    }
+
                     return true;
                 }
             }

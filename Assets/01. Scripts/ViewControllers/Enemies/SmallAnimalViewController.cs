@@ -6,10 +6,11 @@ using MikroFramework;
 using MikroFramework.Architecture;
 using MikroFramework.Event;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace HollowKnight
 {
-    public class SmallAnimalViewController : AbstractAbsorbableEnemy<RatConfiguration> {
+    public class SmallAnimalViewController<T> : AbstractAbsorbableEnemy<T>, IEnemyViewControllerAttackable where T:EnemyConfigurationItem,new(){
         [SerializeField] protected float speed = 10f;
 
         [SerializeField] protected Vector2 RangeX;
@@ -28,7 +29,6 @@ namespace HollowKnight
         protected override void Awake() {
             base.Awake();
             shakeParent = spriteRenderer.transform.parent;
-            Debug.Log(GetCurrentState<SmallAnimalState>() +"    "+ configurationItem.Health +"   "+ Absorbable+"      "+CanAttack);
         }
 
         protected override void Start() {
@@ -40,10 +40,13 @@ namespace HollowKnight
         private void OnBulletConsumed(SmallAnimalNormalAttackCommand.OnSmallAnimalBulletConsumed e) {
             if (e.WeaponInfo == weaponInfo && IsDie) {
                 //spawn bullet
+                float spawnX = normalAttackBulletSpawnPosition.position.x + Random.Range(-0.1f, 0.1f);
+                float spawnY = normalAttackBulletSpawnPosition.position.y;
+
                 this.SendCommand<SpawnBulletCommand>(SpawnBulletCommand.Allocate(e.TargetGameObject, 
-                    new Vector2(normalAttackBulletSpawnPosition.position.x, normalAttackBulletSpawnPosition.position.y + bulletShot * 0.3f),
+                    new Vector2(spawnX, spawnY),
                     bulletPrefab, e.ShootInstant,e.WeaponInfo.AttackDamage.Value));
-                bulletShot++;
+              
             }
             
         }

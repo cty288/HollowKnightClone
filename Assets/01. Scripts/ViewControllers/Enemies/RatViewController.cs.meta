@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 04b85c81020b55945aaf221bba5873d4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - shakeParent: {instanceID: 0}
+  - spriteRenderer: {instanceID: 0}
+  - mouseDetectionTrigger: {instanceID: 0}
+  - normalAttackBulletSpawnPosition: {instanceID: 0}
+  - bulletPrefab: {fileID: 5010876980270129317, guid: d48b46dad86248445814742f93987df5, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

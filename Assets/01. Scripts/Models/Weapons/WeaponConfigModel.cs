@@ -23,6 +23,7 @@ namespace HollowKnight
 
         private void RegisterWeapons() {
             RegisterWeapon(WeaponName.Rat, WeaponType.SmallAnimal, 3);
+            RegisterWeapon(WeaponName.Crow, WeaponType.SmallAnimal, 4);
         }
 
 
@@ -40,7 +41,7 @@ namespace HollowKnight
                 originalTypeConfig.AttackDamage, originalTypeConfig.AttackFreq,
                 originalTypeConfig.ChargeAttackSkill,
                 originalTypeConfig.ChargeAttackTime, originalTypeConfig.ChargeAttackDamage,
-                originalTypeConfig.Ult, originalTypeConfig.UltChargeTime, originalTypeConfig.UltDamage);
+                originalTypeConfig.Ult, originalTypeConfig.UltChargeTime, originalTypeConfig.UltDamage, originalTypeConfig.UltNeedTarget);
 
             overrideConfig = newTypeConfig;
 

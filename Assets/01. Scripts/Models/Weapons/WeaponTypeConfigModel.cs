@@ -15,7 +15,7 @@ namespace HollowKnight
         private Dictionary<WeaponType, WeaponTypeConfigItem> weaponTypes = new Dictionary<WeaponType, WeaponTypeConfigItem>() {
 
             {WeaponType.SmallAnimal, new WeaponTypeConfigItem(WeaponType.SmallAnimal,new SmallAnimalNormalAttackCommand(),
-                1,0.25f,new SmallAnimalChargeAttackCommand(),0.5f,1.25f,new SmallAnimalNormalAttackCommand(),3,30)},
+                1,0.25f,new SmallAnimalChargeAttackCommand(),0.5f,1.25f,new SmallAnimalUltCommand(),10,30,false)},
 
         };
 

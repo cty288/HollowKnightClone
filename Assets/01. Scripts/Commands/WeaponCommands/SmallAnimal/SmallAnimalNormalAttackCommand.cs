@@ -24,7 +24,10 @@ namespace HollowKnight
                 WeaponInfo = WeaponInfo
             });
             //buff
-            WeaponInfo.ConsumeBullet(1);
+            if (!this.GetSystem<IBuffSystem>().HasBuff(BuffType.SmallAnimalUnlimitedBullet)) {
+                WeaponInfo.ConsumeBullet(1);
+            }
+            
            
             //TargetAttackableViewController.AttackedByPlayer(WeaponInfo.AttackDamage.Value);
         }

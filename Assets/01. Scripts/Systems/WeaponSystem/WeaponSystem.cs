@@ -32,6 +32,9 @@ namespace HollowKnight
         void CurrentWeaponCharging(float chargingTime, IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject);
 
         void CurrentWeaponChargeRelease(float totalChargeTime, IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject);
+
+        void CurrentWeaponUlt(IEnemyViewControllerAttackable attackable, GameObject targeGameObject);
+        
         int WeaponCount { get; }
 
         int BackpackCapacity { get; }
@@ -64,7 +67,8 @@ namespace HollowKnight
             }
         }
 
-       
+        
+
         public int WeaponCount {
             get {
                 return weaponList.Count;
@@ -82,30 +86,37 @@ namespace HollowKnight
             this.RegisterEvent<OnNormalAttack>(OnNormalAttackTriggers);
             this.RegisterEvent<OnChargeAttackCharging>(OnChargeAttackCharging);
             this.RegisterEvent<OnChargeAttackRelease>(OnChargeAttackReleased);
+            this.RegisterEvent<OnUltAttack>(OnUltAttack);
+        }
+
+        private void OnUltAttack(OnUltAttack e) {
+            CurrentWeaponUlt(e.AttackableViewController,e.TargetGameObject);
         }
 
         private void OnChargeAttackReleased(OnChargeAttackRelease e) { 
             CurrentWeaponChargeRelease(e.TotalChargeTime,e.AttackableViewController,
                 e.TargetGameObject);
-            Debug.Log($"Charge Attack to enemy released: {e.TargetGameObject.name}.");
+            //Debug.Log($"Charge Attack to enemy released: {e.TargetGameObject.name}.");
         }
 
         private void OnChargeAttackCharging(OnChargeAttackCharging e) {
             CurrentWeaponCharging(e.ChargeTime,e.AttackableViewController,e.TargetGameObject);
-            Debug.Log($"Charge Attack to enemy Charging: {e.TargetGameObject.name}.");
+           // Debug.Log($"Charge Attack to enemy Charging: {e.TargetGameObject.name}.");
         }
 
         private void OnNormalAttackTriggers(OnNormalAttack e) {
             NormalAttackWithCurrentWeapon(e.TimeSinceLastNormalAttack,e.AttackableViewController,
                 e.TargetGameObject);
            
-            Debug.Log($"Normal Attack to enemy: {e.TargetGameObject.name}.");
+           // Debug.Log($"Normal Attack to enemy: {e.TargetGameObject.name}.");
         }
 
 
         private void OnWeaponAdded(OnWeaponAddedToBackpack e) {
             AddWeaponToBackpack(e.WeaponInfo);
         }
+
+
 
         /// <summary>
         /// Return the dropped weapon (if the backpack is full)
@@ -178,7 +189,8 @@ namespace HollowKnight
                 configItem.TypeConfigItem.AttackDamage, configItem.TypeConfigItem.AttackFreq,configItem.TypeConfigItem.ChargeAttackSkill,
                 configItem.TypeConfigItem.ChargeAttackTime, configItem.TypeConfigItem.ChargeAttackDamage,
                 configItem.TypeConfigItem.Ult, configItem.TypeConfigItem.UltChargeTime,
-                configItem.TypeConfigItem.UltDamage, configItem.WeaponCapacity, configItem.WeaponCapacity);
+                configItem.TypeConfigItem.UltDamage, configItem.WeaponCapacity, configItem.WeaponCapacity,
+                configItem.TypeConfigItem.UltNeedTarget);
 
             return weaponInfo;
         }
@@ -245,6 +257,18 @@ namespace HollowKnight
             ongoingChargingCommand = null;
         }
 
+
+        public void CurrentWeaponUlt(IEnemyViewControllerAttackable attackable, GameObject targeGameObject) {
+                WeaponInfo weapon = SelectedWeapon;
+
+                if (weapon != null)
+                {
+                    IWeaponCommand command = ConfigureAttackCommand(weapon.Ult.Value, weapon,
+                        0, attackable, targeGameObject);
+                    this.SendCommand(command);
+                }
+        }
+
         private IWeaponCommand ConfigureAttackCommand(IWeaponCommand command, WeaponInfo weapon, float time,
             IEnemyViewControllerAttackable attackable, GameObject targetGameObject, bool released = true) {
             
@@ -257,6 +281,8 @@ namespace HollowKnight
             return cmd;
         }
 
+
+
         private WeaponInfo GetWeaponFromConfig(WeaponName weaponName, int bulletInGun)
         {
             WeaponConfigItem configItem = configModel.GetWeaponByName(weaponName);
@@ -266,7 +292,8 @@ namespace HollowKnight
                 configItem.TypeConfigItem.ChargeAttackSkill,
                 configItem.TypeConfigItem.ChargeAttackTime, configItem.TypeConfigItem.ChargeAttackDamage,
                 configItem.TypeConfigItem.Ult, configItem.TypeConfigItem.UltChargeTime,
-                configItem.TypeConfigItem.UltDamage, bulletInGun, configItem.WeaponCapacity);
+                configItem.TypeConfigItem.UltDamage, bulletInGun, configItem.WeaponCapacity,
+                configItem.TypeConfigItem.UltNeedTarget);
             return weaponInfo;
         }
 

@@ -23,6 +23,7 @@ namespace HollowKnight
 
         private void OnUltChange(int old, int newUlt) {
             text.text = $"Ult Charged: {newUlt} / {this.GetModel<IPlayerConfigurationModel>().MaxUltChargeNeeded}";
+            
         }
     }
 }
