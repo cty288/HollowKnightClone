@@ -1,21 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using MikroFramework.Architecture;
 using UnityEngine;
 
 namespace HollowKnight
 {
-    public class HumanoidNormalAttackCommand : MonoBehaviour
+    public struct OnHumanoidBulletConsumed
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
+        public IEnemyViewControllerAttackable TargetAttackable;
+        public GameObject TargetGameObject;
+        public int ConsumeNumber;
+        public bool ShootInstant;
+        public WeaponInfo WeaponInfo;
+    }
+    public class HumanoidNormalAttackCommand : AbstractWeaponCommand<SmallAnimalNormalAttackCommand> { 
+      
+        protected override void OnExecute() {
+            this.SendEvent<OnHumanoidBulletConsumed>(new OnHumanoidBulletConsumed()
+            {
+                TargetGameObject = this.TargetGameObject,
+                TargetAttackable = TargetAttackableViewController,
+                ConsumeNumber = 1,
+                ShootInstant = true,
+                WeaponInfo = WeaponInfo
+            });
+            //buff
+            WeaponInfo.ConsumeBullet(1);
         }
     }
 }

@@ -6,7 +6,9 @@ namespace HollowKnight
 {
     public enum WeaponName {
         Rat,
-        Crow
+        Crow,
+        ChargeMonster,
+        FlyMonster
     }
     public class WeaponConfigItem {
         public WeaponTypeConfigItem TypeConfigItem;

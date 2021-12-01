@@ -10,7 +10,9 @@ namespace HollowKnight
 {
     public enum EnemyName {
         Rat,
-        Crow
+        Crow,
+        ChargeMonster,
+        FlyMonster
     }
     public interface IAbsorbable: IAttackable {
         public BindableProperty<bool> Absorbed { get; }
@@ -100,6 +102,17 @@ namespace HollowKnight
         public override BindableProperty<int> Health { get; } = new BindableProperty<int>() {Value = 2};
         public override bool CanAbsorbWhenAlive { get; } = true;
         public override WeaponName WeaponName { get; } = WeaponName.Crow;
+    }
+
+    public class ChargeMonsterConfigurtion : AbstractAbsorbableConfiguration, IAbsorbable {
+        public override EnemyName name { get; } = EnemyName.ChargeMonster;
         
+        protected override void AddStateMachineState() {
+            FSM.AddTranslation("idle","233", "attack", null).AddTranslation("run", "344", "attack",null).Start("idle");
+        }
+
+        public override BindableProperty<int> Health { get; } = new BindableProperty<int>() {Value = 6};
+        public override bool CanAbsorbWhenAlive { get; } = false;
+        public override WeaponName WeaponName { get; } = WeaponName.ChargeMonster;
     }
 }

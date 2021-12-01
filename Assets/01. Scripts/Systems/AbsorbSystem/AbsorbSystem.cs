@@ -94,8 +94,10 @@ namespace HollowKnight
                     if (lastAbsorbObj != null) {
                         if (absorbingObject != lastAbsorbObj) {
                             //AbsorbInterrupt();
+                            Debug.Log($"Not equal. Absorbing: {absorbingObject.gameObject.name}, Last: {lastAbsorbObj.gameObject.name}");
                             absorbingObject = lastAbsorbObj;
-                            return false;
+                            //Reset();
+                           // return false;
                         }
                     }
 
@@ -121,6 +123,7 @@ namespace HollowKnight
                     }
 
 
+                    //Debug.Log(timer);
                     if (timer >= AbsorbPrepareTime && timer <= AbsorbPrepareTime + AbsorbingTime) {
                         this.SendEvent<OnEnemyAbsorbing>(new OnEnemyAbsorbing() {
                             absorbedEnemy = absorbingObject.gameObject,
@@ -132,6 +135,7 @@ namespace HollowKnight
                     if (timer >= AbsorbingTime + AbsorbPrepareTime) {
                         this.SendEvent<OnEnemyAbsorbed>(new OnEnemyAbsorbed() { absorbedEnemy = absorbingObject.gameObject });
                         absorbState = AbsorbState.NotAbsorbing;
+                        
                         Reset();
                     }
 

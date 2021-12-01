@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MikroFramework.Architecture;
 using MikroFramework.Event;
+using MikroFramework.Examples.ServiceLocator;
 using UnityEngine;
+using FSM = MikroFramework.FSM.FSM;
 
 namespace HollowKnight {
     public interface IEnemyViewController {
@@ -51,7 +53,11 @@ namespace HollowKnight {
     public abstract class EnemyBaseViewController<T> : AbstractMikroController<HollowKnight>, IEnemyViewController
         where T : EnemyConfigurationItem, new() {
 
-        
+        protected FSM FSM {
+            get {
+                return configurationItem.FSM;
+            }
+        }
 
         protected T configurationItem;
 
@@ -60,7 +66,10 @@ namespace HollowKnight {
         protected Transform shakeParent;
 
         public bool Attackable {
-            get { return typeof(T).GetInterface("IAttackable") != null; }
+            get {
+                return typeof(T).GetInterface("IAttackable") != null; 
+                
+            }
         }
 
         public bool Absorbable {

@@ -10,6 +10,31 @@ using Random = UnityEngine.Random;
 
 namespace HollowKnight
 {
+
+    public class MonsterViewController  : AbstractAbsorbableEnemy<ChargeMonsterConfigurtion>, IEnemyViewControllerAttackable{
+        protected override void Start() {
+           // absorbableConfiguration
+           //weaponInfo
+        }
+
+        private void Update() {
+            if (FSM.CurrentState.name == "idle") {
+                //idle
+
+
+               // if (widea) {
+                    configurationItem.FSM.HandleEvent("233");
+                //}
+            }
+        }
+
+        
+        
+        protected override void OnFSMStateChanged(string prevEvent, string newEvent) {
+            
+        }
+    }
+
     public class SmallAnimalViewController<T> : AbstractAbsorbableEnemy<T>, IEnemyViewControllerAttackable where T:EnemyConfigurationItem,new(){
         [SerializeField] protected float speed = 10f;
 
@@ -121,6 +146,7 @@ namespace HollowKnight
             }
             transform.DOScaleY(1, 0.1f);
         }
+
 
         public override void OnDropped() {
             base.OnDropped();
