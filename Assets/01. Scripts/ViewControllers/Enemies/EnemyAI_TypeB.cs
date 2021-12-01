@@ -6,12 +6,16 @@ namespace HollowKnight
 {
     public class EnemyAI_TypeB : MonoBehaviour
     {
-        public enum EnemyState
+        // Start is called before the first frame update
+        void Start()
         {
-            Patrolling,
-            Engaging,
-            Attacking,
-            dodging,
+        
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+        
         }
     }
 }
