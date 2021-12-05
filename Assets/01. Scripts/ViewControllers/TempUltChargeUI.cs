@@ -21,7 +21,7 @@ namespace HollowKnight
                 .UnRegisterWhenGameObjectDestroyed(gameObject);
         }
 
-        private void OnUltChange(int old, int newUlt) {
+        private void OnUltChange(float old, float newUlt) {
             text.text = $"Ult Charged: {newUlt} / {this.GetModel<IPlayerConfigurationModel>().MaxUltChargeNeeded}";
             
         }

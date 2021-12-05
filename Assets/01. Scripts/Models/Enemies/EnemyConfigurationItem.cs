@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MikroFramework.Architecture;
@@ -24,7 +25,7 @@ namespace HollowKnight
     }
 
     public interface IAttackable {
-        public BindableProperty<int> Health { get; }
+        public BindableProperty<float> Health { get; }
 
         public void Attack(int damage);
 
@@ -32,6 +33,9 @@ namespace HollowKnight
     }
 
     public interface ICanAttack {
+        public List<Enum> AttackStageNames { get; }
+        public Dictionary<Enum, float> AttackSkillDamages { get; }
+        public Dictionary<Enum, float> AttackFreqs { get; }
     }
 
     
@@ -48,7 +52,7 @@ namespace HollowKnight
     }
 
     public abstract class AbstractAbsorbableConfiguration : EnemyConfigurationItem, IAbsorbable {
-        public abstract BindableProperty<int> Health { get; } 
+        public abstract BindableProperty<float> Health { get; } 
         //will never surpass the existing health of that enemy
         public void Attack(int damage) {
             if (Health.Value >= damage) {
@@ -79,8 +83,18 @@ namespace HollowKnight
       
     }
 
+    public abstract class AbstractAbsorableCanAttackEnemyConfiguration : AbstractAbsorbableConfiguration, ICanAttack {
+        public abstract List<Enum> AttackStageNames { get; }
+        public abstract Dictionary<Enum, float> AttackSkillDamages { get; }
+        public abstract Dictionary<Enum, float> AttackFreqs { get; }
+        /// <summary>
+        /// Raycast length
+        /// </summary>
+        public abstract float ViewDistance { get; }
+    }
+
     public class RatConfiguration : AbstractAbsorbableConfiguration, IAbsorbable {
-        public override BindableProperty<int> Health { get; } = new BindableProperty<int>(){Value = 1};
+        public override BindableProperty<float> Health { get; } = new BindableProperty<float>(){Value = 1};
 
         public override bool CanAbsorbWhenAlive { get; } = true;
         public override WeaponName WeaponName { get; } = WeaponName.Rat;
@@ -99,20 +113,54 @@ namespace HollowKnight
             
         }
 
-        public override BindableProperty<int> Health { get; } = new BindableProperty<int>() {Value = 2};
+        public override BindableProperty<float> Health { get; } = new BindableProperty<float>() {Value = 2};
         public override bool CanAbsorbWhenAlive { get; } = true;
         public override WeaponName WeaponName { get; } = WeaponName.Crow;
     }
 
-    public class ChargeMonsterConfigurtion : AbstractAbsorbableConfiguration, IAbsorbable {
+    public class ChargeMonsterConfigurtion : AbstractAbsorableCanAttackEnemyConfiguration, IAbsorbable {
+        public enum ChargeMonsterStages {
+            Any,
+            Idle,
+            Patrolling,
+            Chasing,
+            Attacking,
+            Dizzy
+        }
+
+        public enum ChargeMonsterEvents {
+            WaitEnds,
+            WaitForChangeDirection,
+            PlayerOutChagseRange,
+            PlayerInChaseRange,
+            PlayerInAttackRange,
+            AttackDizzy
+        }
         public override EnemyName name { get; } = EnemyName.ChargeMonster;
         
         protected override void AddStateMachineState() {
-            FSM.AddTranslation("idle","233", "attack", null).AddTranslation("run", "344", "attack",null).Start("idle");
+            FSM.AddTranslation(ChargeMonsterStages.Idle,ChargeMonsterEvents.WaitEnds, ChargeMonsterStages.Patrolling, null).
+                AddTranslation(ChargeMonsterStages.Patrolling, ChargeMonsterEvents.WaitForChangeDirection, ChargeMonsterStages.Idle,null).
+                AddTranslation(ChargeMonsterStages.Dizzy, ChargeMonsterEvents.WaitEnds, ChargeMonsterStages.Patrolling, null).
+                AddTranslation(ChargeMonsterStages.Any, ChargeMonsterEvents.PlayerInChaseRange, ChargeMonsterStages.Chasing,null).
+                AddTranslation(ChargeMonsterStages.Any, ChargeMonsterEvents.PlayerInAttackRange, ChargeMonsterStages.Attacking,null).
+                AddTranslation(ChargeMonsterStages.Attacking, ChargeMonsterEvents.AttackDizzy, ChargeMonsterStages.Dizzy, null).
+                AddTranslation(ChargeMonsterStages.Any, ChargeMonsterEvents.PlayerOutChagseRange, ChargeMonsterStages.Patrolling, null).
+                Start(ChargeMonsterStages.Patrolling);
         }
 
-        public override BindableProperty<int> Health { get; } = new BindableProperty<int>() {Value = 6};
+        public override BindableProperty<float> Health { get; } = new BindableProperty<float>() {Value = 6};
+
         public override bool CanAbsorbWhenAlive { get; } = false;
         public override WeaponName WeaponName { get; } = WeaponName.ChargeMonster;
+        public override List<Enum> AttackStageNames { get; } = new List<Enum>() {ChargeMonsterStages.Attacking};
+        public override Dictionary<Enum, float> AttackSkillDamages { get; } = new Dictionary<Enum, float>() {
+            {ChargeMonsterStages.Attacking, 10}
+        };
+        public override Dictionary<Enum, float> AttackFreqs { get; } = new Dictionary<Enum, float>() {
+            {ChargeMonsterStages.Attacking, 2f}
+        };
+        public override float ViewDistance { get; } = 6;
     }
+
 }

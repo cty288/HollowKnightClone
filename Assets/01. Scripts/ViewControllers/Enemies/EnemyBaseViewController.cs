@@ -137,6 +137,9 @@ namespace HollowKnight {
         [SerializeField]
         protected SpriteRenderer spriteRenderer;
 
+        [SerializeField]
+        protected SpriteRenderer outlineSpriteRenderer;
+
         protected Rigidbody2D rigidbody;
 
         protected TrailRenderer trailRenderer;
@@ -144,10 +147,11 @@ namespace HollowKnight {
         protected WeaponInfo weaponInfo;
 
         protected IWeaponSystem weaponSystem;
-
         protected IAbsorbable absorbableConfiguration;
 
         protected Transform transformer;
+        
+
         public IAttackable Attackable {
             get {
                 return (configurationItem) as IAttackable;
@@ -174,7 +178,8 @@ namespace HollowKnight {
             this.RegisterEvent<OnAbsorbInterrupted>(OnEnemyAbsorbInterrupted).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnEnemyAbsorbPreparing>(OnEnemyAbsorbStartPrepare).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnWeaponDropped>(OnWeaponDropped).UnRegisterWhenGameObjectDestroyed(gameObject);
-
+            this.RegisterEvent<OnAttackAiming>(OnAiming).UnRegisterWhenGameObjectDestroyed(gameObject);
+            
             (configurationItem as IAttackable).Health.RegisterOnValueChaned(OnHealthChanged)
                 .UnRegisterWhenGameObjectDestroyed(gameObject);
 
@@ -184,8 +189,14 @@ namespace HollowKnight {
             weaponInfo = weaponSystem.GetWeaponFromConfig(absorbableConfiguration.WeaponName);
 
             weaponInfo.BulletCount.RegisterOnValueChaned(OnBulletCountChange).UnRegisterWhenGameObjectDestroyed(gameObject);
-            OnBulletCountChange(weaponInfo.BulletCount.Value,weaponInfo.BulletCount.Value);
+            //OnBulletCountChange(weaponInfo.BulletCount.Value,weaponInfo.BulletCount.Value);
 
+        }
+
+        private void OnAiming(OnAttackAiming e) {
+            if (e.Target == this.gameObject) {
+                outlineSpriteRenderer.enabled = true;
+            }
         }
 
         protected void OnBulletCountChange(int oldBullet, int newBullet) {
@@ -282,10 +293,49 @@ namespace HollowKnight {
         private void OnEnemyAbsorbInterrupted(OnAbsorbInterrupted e) {
             if (e.absorbedEnemy && e.absorbedEnemy == gameObject) {
                OnAbsorbInterrupt();
+               outlineSpriteRenderer.enabled = false;
+            }
+            else {
+              
             }
         }
 
-        private void OnHealthChanged(int old, int newHealth)
+        protected void OnMouseOver() {
+           
+            IAbsorbSystem absorbSystem = this.GetSystem<IAbsorbSystem>();
+            IAttackSystem attackSystem = this.GetSystem<IAttackSystem>();
+
+            if (absorbSystem.AbsorbState != AbsorbState.NotAbsorbing ) {
+                if (absorbSystem.AbsorbingGameObject != this.gameObject)
+                {
+                    return;
+                }
+            }
+
+            if (attackSystem.AttackState != AttackState.NotAttacking) {
+                return;
+            }
+
+
+            outlineSpriteRenderer.enabled = true;
+        }
+
+
+        
+
+        private void OnMouseExit() {
+            if (this.GetSystem<IAbsorbSystem>().AbsorbState == AbsorbState.NotAbsorbing) {
+                outlineSpriteRenderer.enabled = false;
+            }
+            
+        }
+
+
+        protected void Update() {
+            
+        }
+
+        private void OnHealthChanged(float old, float newHealth)
         {
             if (newHealth < old)
             {
@@ -307,6 +357,7 @@ namespace HollowKnight {
             {
                 if (CanAbsorb)
                 {
+                                    
                     if (absorbableConfiguration.Health.Value > 0)
                     {
                         this.SendCommand<KillEnemyCommand>(KillEnemyCommand.Allocate(configurationItem as IAttackable));
@@ -320,18 +371,20 @@ namespace HollowKnight {
             if (e.absorbedEnemy && e.absorbedEnemy == gameObject)
             {
                 if (CanAbsorb) {
+                    outlineSpriteRenderer.enabled = true;
                     spriteRenderer.color = new Color(1, 1-e.absorbPercentage, 1-e.absorbPercentage);
                     OnAbsorbing(e.absorbPercentage);
+                    outlineSpriteRenderer.enabled = true;
                 }
+            }
+            else {
+                outlineSpriteRenderer.enabled = false;
             }
         }
 
-        protected override void OnDestroy() {
-            base.OnDestroy();
+      
 
-        }
-
-        private void OnEnemyAbsorbed(OnEnemyAbsorbed e)
+    private void OnEnemyAbsorbed(OnEnemyAbsorbed e)
         {
             if (e.absorbedEnemy && e.absorbedEnemy == gameObject)
             {
@@ -352,7 +405,7 @@ namespace HollowKnight {
                     spriteRenderer.gameObject.transform.SetParent(shakeParent);
 
                     transform.DOScaleX(1, 0);
-
+                    outlineSpriteRenderer.enabled = false;
                     //this.gameObject.AddComponent<RectTransform>();
                     AddRectTransformAsTransformer();
 
@@ -410,11 +463,117 @@ namespace HollowKnight {
 
         public virtual void OnStartPrepareAbsorb() { }
 
-        public virtual void OnAttacked(int damage) { }
+        public virtual void OnAttacked(float damage) { }
 
         public virtual void OnAbsorbInterrupt() { }
 
         public virtual void OnBulletShot(int number) { }
+    }
+
+
+    [RequireComponent(typeof(Rigidbody2D))]
+    public abstract class AbstractAbsorbableCanAttackEnemy<T, AttackStageEnum> : AbstractAbsorbableEnemy<T> where T : EnemyConfigurationItem, new() 
+    where AttackStageEnum: Enum {
+        [SerializeField]
+        protected Transform eyePosition;
+
+        [SerializeField] 
+        protected float viewDistance = 10;
+
+        [SerializeField] 
+        protected LayerMask eyeDetectLayers;
+
+        protected bool FaceLeft {
+            get {
+                return faceLeft;
+            }
+            set {
+                faceLeft = value;
+            }
+        }
+
+        private bool faceLeft;
+        protected AttackStageEnum CurrentFSMStage {
+            get {
+                return (AttackStageEnum) Enum.Parse(typeof(AttackStageEnum), FSM.CurrentState.name, true);
+            }
+        }
+        public ICanAttack CanAttackConfig {
+            get {
+                return (configurationItem) as ICanAttack;
+            }
+        }
+
+        public bool IsAttacking {
+            get {
+                foreach (Enum attackStageName in CanAttackConfig.AttackStageNames) {
+                    if (attackStageName.ToString() == FSM.CurrentState.name) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        protected void Update() {
+            base.Update();
+
+            foreach (Enum attackStageName in CanAttackConfig.AttackStageNames) {
+                if (attackStageName.ToString() == FSM.CurrentState.name) {
+                    OnAttackingStage(attackStageName);
+                    break;
+                }
+            }
+
+            float direction = FaceLeft ? -1 : 1;
+
+            RaycastHit2D hit = Physics2D.Raycast(eyePosition.position, eyePosition.right * direction, viewDistance,
+                eyeDetectLayers, -50f, 50f);
+
+            if (hit.collider) {
+                if (hit.collider.gameObject.CompareTag("Player")) {
+                    OnSeePlayer();
+                }
+                else {
+                    OnNotSeePlayer();
+                }
+            }
+            else {
+                OnNotSeePlayer();
+            }
+
+            OnFSMStage(CurrentFSMStage);
+        }
+
+
+        protected abstract void OnSeePlayer();
+
+        protected void TriggerEvent(Enum eventEnum) {
+            FSM.HandleEvent(eventEnum);
+        }
+
+        /// <summary>
+        /// Damage = damage of current attack stage. Should only be called when in attack stage
+        /// </summary>
+        protected void HurtPlayerWithCurrentAttackStage() {
+            if (IsAttacking) {
+                this.GetModel<IPlayerModel>().ChangeHealth(-CanAttackConfig.AttackSkillDamages
+                    [(AttackStageEnum) Enum.Parse(typeof(AttackStageEnum),FSM.CurrentState.name)]);
+            }
+        }
+
+        protected void HurtPlayerNoMatterWhatAttackStage(float damage) {
+            this.GetModel<IPlayerModel>().ChangeHealth(-damage);
+        }
+        protected abstract void OnAttackingStage(Enum attackStage);
+
+        protected abstract void OnFSMStage(AttackStageEnum currentStage);
+        protected override void OnFSMStateChanged(string prevEvent, string newEvent) {
+            
+        }
+
+        protected abstract void OnNotSeePlayer();
     }
 }
 

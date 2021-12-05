@@ -236,26 +236,22 @@ namespace HollowKnight
         public void CurrentWeaponChargeRelease(float totalChargeTime, IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject) {
             WeaponInfo weapon = SelectedWeapon;
             IWeaponCommand command = null;
-
-            
-                if (ongoingChargingCommand == null)
-                {
-                    command = ConfigureAttackCommand(weapon.ChargeAttackSkill.Value, weapon,
-                        totalChargeTime, AttackableViewController, targetGameObject, true);
-                }
-                else
+            //if (weapon != null) {
+                if (ongoingChargingCommand != null)
                 {
                     command = ongoingChargingCommand;
                     command.Time = totalChargeTime;
                     command.Released = true;
-                }
+                    this.SendCommand(command);
+            }
+               
 
-                this.SendCommand(command);
-            
-           
+                
 
+            //}
             ongoingChargingCommand = null;
         }
+            
 
 
         public void CurrentWeaponUlt(IEnemyViewControllerAttackable attackable, GameObject targeGameObject) {

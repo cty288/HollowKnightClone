@@ -24,6 +24,7 @@ namespace HollowKnight
         private void RegisterWeapons() {
             RegisterWeapon(WeaponName.Rat, WeaponType.SmallAnimal, 3);
             RegisterWeapon(WeaponName.Crow, WeaponType.SmallAnimal, 4);
+            RegisterWeapon(WeaponName.ChargeMonster,WeaponType.Humanoid,5);
         }
 
 

@@ -25,6 +25,8 @@ namespace HollowKnight
 
     public interface IAbsorbSystem : ISystem {
         public AbsorbState AbsorbState { get; }
+
+        public GameObject AbsorbingGameObject { get; }
         bool Absorb(Vector2 mousePosition);
 
         public float CutSelfTime { get; }
@@ -56,9 +58,10 @@ namespace HollowKnight
         private GameObject lastAbsorbObj;
         private GameObject absorbingObject;
 
-        
+      
 
-        protected override void OnInit() {
+
+    protected override void OnInit() {
             absorbState = AbsorbState.NotAbsorbing;
             cam = Camera.main;
             timeSystem = new TimeSystem();
@@ -69,6 +72,9 @@ namespace HollowKnight
             get {
                 return absorbState;
             }
+        }
+        public GameObject AbsorbingGameObject {
+            get { return absorbingObject; }
         }
         private LayerMask Mask = LayerMask.GetMask("Enemy","EnemyTraversable");
         public bool Absorb(Vector2 mousePosition) {
@@ -94,7 +100,7 @@ namespace HollowKnight
                     if (lastAbsorbObj != null) {
                         if (absorbingObject != lastAbsorbObj) {
                             //AbsorbInterrupt();
-                            Debug.Log($"Not equal. Absorbing: {absorbingObject.gameObject.name}, Last: {lastAbsorbObj.gameObject.name}");
+                            //Debug.Log($"Not equal. Absorbing: {absorbingObject.gameObject.name}, Last: {lastAbsorbObj.gameObject.name}");
                             absorbingObject = lastAbsorbObj;
                             //Reset();
                            // return false;

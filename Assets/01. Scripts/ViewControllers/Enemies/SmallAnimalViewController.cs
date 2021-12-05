@@ -76,8 +76,8 @@ namespace HollowKnight
             
         }
 
-        private void Update() {
-            
+        protected void Update() {
+            base.Update();
             if (transform.position.x >= RangeX.x && transform.position.x <= RangeX.y) {
                 directionChanged = false;
             }

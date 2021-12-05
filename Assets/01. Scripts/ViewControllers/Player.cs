@@ -17,9 +17,11 @@ namespace HollowKnight {
 
     public enum PlayerState {
         Normal,
+        Hurt,
         Attack,
         Teleport,
-        Absorb
+        Absorb,
+        Die
     }
 
     public class Player : AbstractMikroController<HollowKnight>, ISingleton {
@@ -95,11 +97,29 @@ namespace HollowKnight {
             
             this.RegisterEvent<OnAttackAiming>(OnAiming).UnRegisterWhenGameObjectDestroyed(gameObject);
             //this.RegisterEvent<OnEnemyAbsorbed>(OnAbsorb).UnRegisterWhenGameObjectDestroyed(gameObject);
+            playerModel.Health.RegisterOnValueChaned(OnHealthChange).UnRegisterWhenGameObjectDestroyed(gameObject);
         }
 
-        
+
 
         #region Animation Events
+        private void OnHealthChange(float oldHealth, float newHealth) {
+            if (oldHealth > newHealth) {
+                OnPlayerHurt();
+            }
+        }
+
+        private void OnPlayerHurt() {
+            currentState = PlayerState.Hurt;
+            attackSystem.StopAttack();
+           
+            animator.SetTrigger("Hurt");
+        }
+
+        public void OnStopHurt() {
+            currentState = PlayerState.Normal;
+        }
+
         private void OnStartAttack(OnAttackStartPrepare e)
         {
             animator.SetTrigger("Attack");
@@ -253,7 +273,9 @@ namespace HollowKnight {
 
         private void StateCheck() {
             if (attackSystem.AttackState == AttackState.NotAttacking &&
-                teleportSystem.TeleportState == TeleportState.NotTeleporting && absorbSystem.AbsorbState == AbsorbState.NotAbsorbing) {
+                teleportSystem.TeleportState == TeleportState.NotTeleporting 
+                && absorbSystem.AbsorbState == AbsorbState.NotAbsorbing
+                && currentState != PlayerState.Hurt) {
                 currentState = PlayerState.Normal;
             }else if (attackSystem.AttackState == AttackState.Attacking || attackSystem.AttackState == AttackState.Preparing) {
                 currentState = PlayerState.Attack;
@@ -298,10 +320,8 @@ namespace HollowKnight {
         private void FixedUpdate()
         {
             CheckCollisions();
-           
             MoveCharacter();
-                if (onGround)
-            {
+            if (onGround) {
                 playerModel.ResetRemainingJumpValue();
             }
         }
@@ -314,16 +334,21 @@ namespace HollowKnight {
             animator.SetFloat("RunSpeed", Mathf.Max(0.4f, horizontalSpeed / playerModel.MaxRunSpeed.Value));
             animator.SetFloat("MoveSpeed", horizontalSpeed / playerModel.MaxRunSpeed.Value);
 
-            if (currentState != PlayerState.Teleport) {
-                if (rb.velocity.x > 0) {
-                    FaceRight = true;
-                    transform.localScale = new Vector3(1, 1, 1); // DOScaleX(1, 0);
-                }
+            if (currentState != PlayerState.Teleport && currentState!=PlayerState.Hurt) {
+                if (Input.GetAxis("Horizontal") != 0) {
+                    if (rb.velocity.x > 0)
+                    {
+                        FaceRight = true;
+                        transform.localScale = new Vector3(1, 1, 1); // DOScaleX(1, 0);
+                    }
 
-                if (rb.velocity.x < 0) {
-                    FaceRight = false;
-                    transform.localScale = new Vector3(-1, 1, 1);
+                    if (rb.velocity.x < 0)
+                    {
+                        FaceRight = false;
+                        transform.localScale = new Vector3(-1, 1, 1);
+                    }
                 }
+                
             }
             
         }

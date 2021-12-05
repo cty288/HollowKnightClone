@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace HollowKnight
 {
-    public abstract class AbstractChargeCommand<T> : AbstractWeaponCommand<T>, IWeaponCommand where T : AbstractChargeCommand<T>, new() {
+    public abstract class AbstractChargeCommand<T> : AbstractWeaponCommand<T>, IWeaponCommand, ICanRegisterEvent where T : AbstractChargeCommand<T>, new() {
 
         private bool prevReleased = false;
         
@@ -39,7 +39,12 @@ namespace HollowKnight
         void Init() {
             if (TriggerByPhrase) {
                 timeSystem.AddDelayTask(WeaponInfo.ChargeAttackTime.Value, FinishPhrase);
+                //this.RegisterEvent<OnChargeAttackRelease>(OnChargeReleased);
             }
+        }
+
+        private void OnChargeReleased(OnChargeAttackRelease e) {
+            
         }
 
         private void FinishPhrase() {

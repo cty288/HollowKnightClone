@@ -89,6 +89,10 @@ namespace HollowKnight
                 this.SendEvent<OnAttackStop>();
             }
             
+            if (attackTimer >= ChargeAttackThreshold) { 
+                ChargeAttackRelease(attackTimer);
+                
+            }
             attackState = AttackState.NotAttacking;
             attackStopTimer = 0;
             targetAttackable = null;
@@ -158,7 +162,9 @@ namespace HollowKnight
                     }
 
                     if (attackState == AttackState.Attacking)
+                    
                     {
+                        Debug.Log("Attacking");
                         //select enemy
                         if (Input.GetMouseButtonDown(0)) {
                             DetectAttackTarget(out targetAttackable);
@@ -275,13 +281,17 @@ namespace HollowKnight
         }
 
         private void ChargeAttackRelease(float totalChargeTime) {
-            OnChargeAttackRelease e = new OnChargeAttackRelease() { TotalChargeTime = totalChargeTime};
-            if (targetAttackable != null)
-            {
-                e.AttackableViewController = targetAttackable;
-                e.TargetGameObject = targetAttackable.GameObject;
-            }
-            this.SendEvent<OnChargeAttackRelease>(e);
+            //if (targetAttackable!=null) {
+                OnChargeAttackRelease e = new OnChargeAttackRelease() { TotalChargeTime = totalChargeTime };
+                if (targetAttackable != null)
+                {
+                    e.AttackableViewController = targetAttackable;
+                    e.TargetGameObject = targetAttackable.GameObject;
+                }
+                this.SendEvent<OnChargeAttackRelease>(e);
+               // targetAttackable = null;
+            //}
+           
         }
 
         /// <summary>

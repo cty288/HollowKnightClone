@@ -7,9 +7,9 @@ using UnityEngine;
 namespace HollowKnight
 {
     public class ChargeUltCommand : AbstractCommand<ChargeUltCommand> {
-        public int ChargeAmount;
+        public float ChargeAmount;
 
-        public static ChargeUltCommand Allocate(int amount) {
+        public static ChargeUltCommand Allocate(float amount) {
             ChargeUltCommand cmd = SafeObjectPool<ChargeUltCommand>.Singleton.Allocate();
             cmd.ChargeAmount = amount;
             return cmd;

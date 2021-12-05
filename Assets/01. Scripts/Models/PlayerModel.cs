@@ -9,6 +9,11 @@ namespace HollowKnight
     public struct OnUltChargeToMax {
 
     }
+
+    public struct OnPlayerDie {
+
+    }
+
     public interface IPlayerModel : IModel {
       
         BindableProperty<float> WalkSpeed { get; }
@@ -30,13 +35,17 @@ namespace HollowKnight
 
         BindableProperty<float> GroundRaycastLength { get; }
 
-        BindableProperty<int> UltChargeAccumlated { get; }
+        BindableProperty<float> UltChargeAccumlated { get; }
+
+        BindableProperty<float> Health { get; }
 
         void ChangeRemainingJumpValue(int value);
 
         void ResetRemainingJumpValue();
 
-        void AddUlt(int amount);
+        void AddUlt(float amount);
+
+        void ChangeHealth(float amount);
     }
     public class PlayerModel : AbstractModel, IPlayerModel
     {
@@ -54,7 +63,8 @@ namespace HollowKnight
         public BindableProperty<int> RemainingExtraJump { get; } = new BindableProperty<int>();
         public BindableProperty<float> DashSpeed { get; } = new BindableProperty<float>();
         public BindableProperty<float> GroundRaycastLength { get; } = new BindableProperty<float>();
-        public BindableProperty<int> UltChargeAccumlated { get; } = new BindableProperty<int>();
+        public BindableProperty<float> UltChargeAccumlated { get; } = new BindableProperty<float>();
+        public BindableProperty<float> Health { get; } = new BindableProperty<float>();
 
         public void ChangeRemainingJumpValue(int value) {
             RemainingExtraJump.Value += value;
@@ -78,12 +88,30 @@ namespace HollowKnight
          
             RemainingExtraJump.Value = playerConfigurationModel.ExtraJumps;
             DashSpeed.Value = playerConfigurationModel.DashSpeed;
-
+            Health.Value = playerConfigurationModel.MaxHealth;
             UltChargeAccumlated.Value = 0;
         }
 
+        public void ChangeHealth(float amount) {
+            IPlayerConfigurationModel playerConfigurationModel = this.GetModel<IPlayerConfigurationModel>();
 
-        public void AddUlt(int amount) {
+            if (Health.Value + amount > playerConfigurationModel.MaxHealth) {
+                amount = playerConfigurationModel.MaxHealth - Health.Value;
+            }
+
+            if (Health.Value + amount < 0) {
+                amount = -Health.Value;
+            }
+
+            Health.Value += amount;
+
+            if (Health.Value <= 0) {
+                this.SendEvent<OnPlayerDie>();
+            }
+        }
+
+
+        public void AddUlt(float amount) {
             IPlayerConfigurationModel configuration = this.GetModel<IPlayerConfigurationModel>();
             if (configuration.MaxUltChargeNeeded - UltChargeAccumlated.Value >= amount) {
                 UltChargeAccumlated.Value += amount;
