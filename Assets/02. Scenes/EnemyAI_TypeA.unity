@@ -1465,7 +1465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &473452273
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4644,7 +4644,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495977532}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.99, y: 0, z: 0}
+  m_LocalPosition: {x: 5.86, y: 5.62, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5535,6 +5535,7 @@ GameObject:
   - component: {fileID: 1719845285}
   - component: {fileID: 1719845284}
   - component: {fileID: 1719845283}
+  - component: {fileID: 1719845287}
   m_Layer: 0
   m_Name: Enemy_TypeB
   m_TagString: Untagged
@@ -5554,6 +5555,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd47e6e3e4fcdd4cb606dc7095e84a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyState: 0
+  speed: 5
+  startLocation: {x: 0, y: 0}
+  nextSpot: {fileID: 1495977533}
+  startWaitTime: 1
+  patrollRangeX: 12
+  patrollRangeY: 5
 --- !u!61 &1719845284
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5640,12 +5648,31 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1719845282}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.0787296, y: 2.2145886, z: 0}
+  m_LocalPosition: {x: 6.0787296, y: 6.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1719845287
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719845282}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1769829599
 GameObject:
   m_ObjectHideFlags: 0
