@@ -164,7 +164,14 @@ namespace HollowKnight
 
         public override bool CanAbsorbWhenAlive { get; } = false;
         public override WeaponName WeaponName { get; } = WeaponName.ChargeMonster;
+
+
+
         public override List<Enum> AttackStageNames { get; } = new List<Enum>() {ChargeMonsterStages.Attacking};
+
+
+
+
         public override Dictionary<Enum, float> AttackSkillDamages { get; } = new Dictionary<Enum, float>() {
             {ChargeMonsterStages.Attacking, 10}
         };

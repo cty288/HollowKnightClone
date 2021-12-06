@@ -101,8 +101,8 @@ namespace HollowKnight
             {
                 animator.SetInteger("EnemyState", 2);
                 GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-                Vector3 shootDir = (target.transform.position - firePoint.transform.position).normalized;
-                bullet.GetComponent<Bullet_M>().SetDir(shootDir);
+               
+                
                 attackTimer = attackRate;
                 canFire = false;
             }
