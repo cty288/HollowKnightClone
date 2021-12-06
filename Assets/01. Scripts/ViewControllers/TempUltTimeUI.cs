@@ -10,6 +10,8 @@ namespace HollowKnight
     public class TempUltTimeUI : AbstractMikroController<HollowKnight> {
         private IBuffSystem buffSystem;
         private TMP_Text text;
+        public BuffType BuffType;
+        public string Prefix = "Small Animal Ult Countdown: ";
 
         private void Awake() {
             buffSystem = this.GetSystem<IBuffSystem>();
@@ -18,7 +20,7 @@ namespace HollowKnight
 
         private void Update() {
             text.text =
-                $"Small Animal Ult Countdown: {buffSystem.GetRemainingTime(BuffType.SmallAnimalUnlimitedBullet)}s";
+                $"{Prefix}{buffSystem.GetRemainingTime(BuffType)}s";
         }
     }
 }

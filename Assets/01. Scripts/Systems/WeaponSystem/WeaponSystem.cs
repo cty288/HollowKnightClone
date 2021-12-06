@@ -89,6 +89,30 @@ namespace HollowKnight
             this.RegisterEvent<OnChargeAttackCharging>(OnChargeAttackCharging);
             this.RegisterEvent<OnChargeAttackRelease>(OnChargeAttackReleased);
             this.RegisterEvent<OnUltAttack>(OnUltAttack);
+            this.RegisterEvent<OnBuffStart>(OnBuffStart);
+            this.RegisterEvent<OnBuffTimeUp>(OnBuffTimeUp);
+        }
+
+        private void OnBuffTimeUp(OnBuffTimeUp e) {
+            if (e.BuffType == BuffType.HumanoidNormalAttackFaster)
+            {
+                foreach (WeaponInfo equippedWeapon in EquippedWeapons) {
+                    if (equippedWeapon.Type.Value == WeaponType.Humanoid) {
+                        equippedWeapon.AttackFreq.Value = this.GetModel<IWeaponTypeConfigModel>()
+                            .GetWeaponType(WeaponType.Humanoid).AttackFreq;
+                    }
+                }
+            }
+        }
+
+        private void OnBuffStart(OnBuffStart e) {
+            if (e.BuffType == BuffType.HumanoidNormalAttackFaster) {
+                foreach (WeaponInfo equippedWeapon in EquippedWeapons) {
+                    if (equippedWeapon.Type.Value == WeaponType.Humanoid) {
+                        equippedWeapon.AttackFreq.Value = 0.2f;
+                    }
+                }
+            }
         }
 
         private void OnUltAttack(OnUltAttack e) {
@@ -239,9 +263,11 @@ namespace HollowKnight
                 command.Time = chargingTime;
                 command.Released = false;
             }
-           
 
-            this.SendCommand(command);
+            if (command != null) {
+                this.SendCommand(command);
+            }
+           
         }
 
         public void CurrentWeaponChargeRelease(float totalChargeTime, IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject) {
@@ -254,7 +280,7 @@ namespace HollowKnight
                     command.Time = totalChargeTime;
                     command.Released = true;
                     this.SendCommand(command);
-            }
+                 }
                
 
                 

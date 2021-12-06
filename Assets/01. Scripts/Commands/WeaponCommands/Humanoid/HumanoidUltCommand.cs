@@ -1,21 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using MikroFramework.Architecture;
 using UnityEngine;
 
 namespace HollowKnight
 {
-    public class HumanoidUltCommand : MonoBehaviour
+    public class HumanoidUltCommand : AbstractUltCommand<HumanoidUltCommand>
     {
-        // Start is called before the first frame update
-        void Start()
+        protected override void OnUltExecuted()
         {
-        
-        }
+            this.GetSystem<IBuffSystem>().AddBuff(BuffType.HumanoidNormalAttackFaster,
+                WeaponInfo.UltChargeTime.Value);
 
-        // Update is called once per frame
-        void Update()
-        {
-        
         }
     }
 }

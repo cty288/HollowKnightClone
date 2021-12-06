@@ -9,8 +9,13 @@ namespace HollowKnight
     public struct OnBuffTimeUp {
         public BuffType BuffType;
     }
+
+    public struct OnBuffStart {
+        public BuffType BuffType;
+    }
     public enum BuffType {
-        SmallAnimalUnlimitedBullet
+        SmallAnimalUnlimitedBullet,
+        HumanoidNormalAttackFaster
     }
 
     public class Buff {
@@ -45,6 +50,7 @@ namespace HollowKnight
             }
             else {
                 ongoingBuffs.Add(new Buff(){BuffType = buffType, RemainingTime = length});
+                this.SendEvent<OnBuffStart>(new OnBuffStart(){BuffType = buffType});
             }
         }
 

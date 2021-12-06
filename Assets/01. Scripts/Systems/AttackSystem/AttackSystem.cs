@@ -198,8 +198,13 @@ namespace HollowKnight
 
 
                             if (attackTimer > ChargeAttackThreshold) {
-                                ChargeAttackCharging(attackTimer);
-                                
+                                if (weaponSystem.SelectedWeapon.ChargeAttackSkill.Value == null) {
+                                    NormalAttack();
+                                }
+                                else {
+                                    ChargeAttackCharging(attackTimer);
+                                }
+
                             }
 
 

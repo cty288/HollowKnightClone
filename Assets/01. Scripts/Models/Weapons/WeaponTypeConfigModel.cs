@@ -27,7 +27,7 @@ namespace HollowKnight
                 2,0.5f,
                 null,
                 0.5f,2.5f,false,
-                new SmallAnimalUltCommand(),10,0,false)},
+                new HumanoidUltCommand(),10,0,false)},
         };
 
         protected override void OnInit() {
