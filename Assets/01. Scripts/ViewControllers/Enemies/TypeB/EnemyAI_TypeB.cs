@@ -22,6 +22,7 @@ namespace HollowKnight
         [SerializeField] private Transform firePoint;
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private bool canFire = true;
+        [SerializeField] private bool facingRight = true;
 
         private float min_x;
         private float max_x;
@@ -30,7 +31,7 @@ namespace HollowKnight
         private float waitTime;
         private float attackTimer;
         private float p;
-        bool reached = true;
+        float startLocation_y;
         Vector2 nextAttackSpotCenter;
 
         private void Awake()
@@ -43,7 +44,8 @@ namespace HollowKnight
 
             waitTime = startWaitTime;
             spriteScale = transform.localScale;
-            nextAttackSpotCenter = new Vector2 (-10,10);
+            nextAttackSpotCenter = transform.position;
+            startLocation_y = transform.position.y;
         }
         public enum EnemyState
         {
@@ -112,42 +114,40 @@ namespace HollowKnight
 
         private bool CheckReached(Vector2 nextSpot)
         {
-            if (Vector2.Distance(transform.position, nextSpot) == 0)
+            if (Vector2.Distance(transform.position, nextSpot) <= 0.5)
+                return true;
+            return false;
+        }
+        private bool CheckPlayerDistance()
+        {
+            if (Vector2.Distance(transform.position, target.transform.position) <= 5)
                 return true;
             return false;
         }
 
         private IEnumerator Dodging()
         {
-            float attackRange = 10f;
+            float moveRange = 2f;
 
-            if (CheckReached(nextAttackSpotCenter))
+            if (CheckPlayerDistance())
             {
-                p = Random.Range(0f, 100f);
-
-                if (p <= 50)
-                {
-                    //nextAttackSpotCenter = new Vector2(target.transform.position.x + attackRange, transform.position.y);
-                    nextAttackSpotCenter = new Vector2(50, 10);
-                }
-                else
-                {
-                    //nextAttackSpotCenter = new Vector2(target.transform.position.x - attackRange, transform.position.y);
-                    nextAttackSpotCenter = new Vector2(-50, 10);
-                }
+                transform.position += new Vector3 (nextAttackSpotCenter.x, nextAttackSpotCenter.y) * 1.5f * Time.deltaTime;
             }
-            if (!CheckReached(nextAttackSpotCenter))
+
+            else if (!CheckReached(nextAttackSpotCenter))
             {
                 transform.position = Vector2.MoveTowards(transform.position,
-                  new Vector2(Random.Range(nextAttackSpotCenter.x - 3, nextAttackSpotCenter.x + 3),
-                  Random.Range(nextAttackSpotCenter.y - 3, nextAttackSpotCenter.y + 3)), speed * Time.deltaTime);
-                yield return new WaitForSeconds(0.8f);
+                  nextAttackSpotCenter, speed * Time.deltaTime);
             }
-           
-            canFire = true;
+
+            //if (CheckReached(nextAttackSpotCenter))
             
-            Debug.Log(nextAttackSpotCenter.x);
-            Debug.Log(reached);
+            p = Random.Range(0f, 100f);
+
+            yield return new WaitForSeconds(.7f);
+
+            nextAttackSpotCenter = new Vector2(Random.Range(-2f, 2f), Random.Range(startLocation_y - 1, startLocation_y + 1));
+            canFire = true;
         }
 
 
@@ -182,10 +182,28 @@ namespace HollowKnight
 
         private void Update()
         {
+            /*
+            if (transform.position.x - target.transform.position.x < 0 && !facingRight)
+            {
+                Flip();
+            }
+            
+            else if (transform.position.x - target.transform.position.x >= 0 && facingRight)
+            { 
+                Flip();
+            }
+            if (transform.position.x - target.transform.position.x >= 0) transform.Rotate(0f, 180f, 0f);
+            */
             CheckingState(enemyState);
             CheckPlayer();
             transform.localScale = spriteScale;
-        }         
+        }     
+        
+        void Flip()
+        {
+            facingRight = !facingRight;
+            transform.Rotate(0f, 180f, 0f);
+        }
 
         void CheckPlayer()
         {

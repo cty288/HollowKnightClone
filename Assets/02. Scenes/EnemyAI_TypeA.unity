@@ -1465,7 +1465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &473452273
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4674,7 +4674,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495977532}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.86, y: 5.62, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5697,7 +5697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyState: 0
-  speed: 5
+  speed: 3
   startLocation: {x: 0, y: 0}
   nextSpot: {fileID: 1495977533}
   target: {fileID: 0}
@@ -5705,7 +5705,7 @@ MonoBehaviour:
   attackRate: 1
   animator: {fileID: 1719845287}
   patrollRangeX: 12
-  patrollRangeY: 3
+  patrollRangeY: 2
   spriteScale: {x: 0, y: 0, z: 0}
   firePoint: {fileID: 1024100335}
   bulletPrefab: {fileID: 5459543616817355210, guid: ba558f1fee9135048958d17ac5147e5f, type: 3}
@@ -5723,7 +5723,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.8802719, y: 0.9807273}
+  m_Offset: {x: 0.8802719, y: -0.25378227}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -5734,7 +5734,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 35.499123, y: 8.409939}
+  m_Size: {x: 35.499123, y: 10.878958}
   m_EdgeRadius: 0
 --- !u!212 &1719845285
 SpriteRenderer:
@@ -5796,7 +5796,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1719845282}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.72, y: 4.81, z: 0}
+  m_LocalPosition: {x: 6.34, y: 3.29, z: 0}
   m_LocalScale: {x: 1, y: 0.6875, z: 1}
   m_Children:
   - {fileID: 1024100335}
