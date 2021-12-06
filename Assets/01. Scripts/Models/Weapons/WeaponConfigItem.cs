@@ -5,12 +5,16 @@ using UnityEngine;
 namespace HollowKnight
 {
     public enum WeaponName {
-        Chicken
+        Rat,
+        Crow,
+        ChargeMonster,
+        FlyMonster
     }
     public class WeaponConfigItem {
         public WeaponTypeConfigItem TypeConfigItem;
         public WeaponName WeaponName;
         public int WeaponCapacity;
+        public int UltChargeAmountWhenDie;
 
         public WeaponConfigItem(WeaponName name,
             WeaponTypeConfigItem typeConfigItem, int capacity) {

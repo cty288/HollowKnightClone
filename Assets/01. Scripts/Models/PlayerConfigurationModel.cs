@@ -19,7 +19,8 @@ namespace HollowKnight
 
         float DashSpeed { get; }
 
-
+        int MaxUltChargeNeeded { get; }
+        public float MaxHealth { get; }
     }
 
     public class PlayerConfigurationModel : AbstractModel, IPlayerConfigurationModel
@@ -39,6 +40,8 @@ namespace HollowKnight
         
         public int ExtraJumps { get; } = 1;
         public float DashSpeed { get; } = 0;
-        
+        public int MaxUltChargeNeeded { get; } = 3;
+
+        public float MaxHealth { get; } = 100;
     }
 }

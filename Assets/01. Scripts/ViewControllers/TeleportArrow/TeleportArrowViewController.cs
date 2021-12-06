@@ -15,7 +15,8 @@ namespace HollowKnight
         private float distToTargert;
 
         [SerializeField] private LayerMask layerMask;
-
+        [SerializeField] private float damage = 0.5f;
+        [SerializeField] private float force = 10;
         private Camera camera;
 
         private void Start() {
@@ -35,19 +36,43 @@ namespace HollowKnight
                 OnArrowReach();
                 Destroy(this.gameObject);
             }
+
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (PhysicsUtility.IsInLayerMask(other.gameObject, layerMask)) {
-                OnArrowReach();
-                
-                Debug.Log("hit");
-                Destroy(this.gameObject);
+                if (!other.isTrigger) {
+                   
+                    Debug.Log("hit");
+
+                    if (other.gameObject.TryGetComponent<IEnemyViewControllerAttackable>(
+                        out IEnemyViewControllerAttackable enemy)) {
+                        if (enemy.Attackable.Health.Value > 0) {
+                            enemy.Attackable.Attack(damage);
+                            if (enemy.GameObject.TryGetComponent<Rigidbody2D>(out Rigidbody2D rigidbody2d)) {
+                                float moveRight = Target.x > transform.position.x ? 1 : -1;
+                                
+
+
+                                //Debug.Log($"Get rig. Velocity: {this.GetComponent<Rigidbody2D>().velocity.magnitude}");
+                                rigidbody2d.AddForce(new Vector2(moveRight * force,0), ForceMode2D.Impulse);
+                            }
+                        }
+                        else {
+                            return;
+                        }
+                       
+                    }
+
+                    OnArrowReach();
+                    Destroy(this.gameObject);
+                }
+               
             }
         }
 
         private void OnArrowReach() {
-            camera.DOShakePosition(0.3f, 0.7f, 30, 100);
+            this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(0.3f,0.7f,30,100));
             this.GetSystem<ITeleportSystem>().OnReachDest(transform.Find("PlayerSpawnPoint").transform.position);
         }
     }

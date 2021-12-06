@@ -29,6 +29,21 @@ TextureImporter:
   - first:
       213: -4206129902126634664
     second: playerAbsorb-Sheet_8
+  - first:
+      213: -979307879567157249
+    second: playerAbsorb-Sheet_9
+  - first:
+      213: -5141758601650433563
+    second: playerAbsorb-Sheet_10
+  - first:
+      213: -655186916301583204
+    second: playerAbsorb-Sheet_11
+  - first:
+      213: -3366860882657058415
+    second: playerAbsorb-Sheet_12
+  - first:
+      213: -8243690094590248654
+    second: playerAbsorb-Sheet_13
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -338,6 +353,111 @@ TextureImporter:
       bones: []
       spriteID: 859e7989323d0a5c0800000000000000
       internalID: -4206129902126634664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorb-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 0
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff798a01cacc862f0800000000000000
+      internalID: -979307879567157249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorb-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e111d34bcdc4a8b0800000000000000
+      internalID: -5141758601650433563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorb-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1056
+        y: 0
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9c4c5098fe48e6f0800000000000000
+      internalID: -655186916301583204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorb-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19161199dd18641d0800000000000000
+      internalID: -3366860882657058415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerAbsorb-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 0
+        width: 96
+        height: 128
+      alignment: 9
+      pivot: {x: 0.5, y: 0.375}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 239ba813987889d80800000000000000
+      internalID: -8243690094590248654
       vertices: []
       indices: 
       edges: []

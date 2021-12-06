@@ -12,13 +12,13 @@ TagManager:
   - Water
   - UI
   - MapItems
-  - 
+  - Traversable
   - Ground
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - EnemyTraversable
+  - Bullet
+  - AbsorbedEnemy
   - 
   - 
   - 
