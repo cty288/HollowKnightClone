@@ -253,6 +253,10 @@ namespace HollowKnight
 
             IWeaponCommand command = null;
 
+            if (targetGameObject == null && SelectedWeapon.NeedTargetWhenAttack.Value) {
+                return;
+            }
+
             if (ongoingChargingCommand == null) {
                 command = ConfigureAttackCommand(weapon.ChargeAttackSkill.Value, weapon,
                     chargingTime, AttackableViewController, targetGameObject, targetPos,false);

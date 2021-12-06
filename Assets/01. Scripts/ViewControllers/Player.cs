@@ -153,8 +153,11 @@ namespace HollowKnight {
 
         private void OnAbsorbInterrupted(OnAbsorbInterrupted obj)
         {
-          
-           animator.SetTrigger("AbsorbInterrupt");
+            if (currentState == PlayerState.Absorb) {
+                animator.SetTrigger("AbsorbInterrupt");
+                animator.SetBool("Absorbing", false);
+            }
+           
         }
 
 
@@ -269,6 +272,7 @@ namespace HollowKnight {
                             {
                                 transform.DOScaleX(-1, 0);
                             }
+                            animator.SetBool("Absorbing",true);
                         }
                         
 
@@ -280,9 +284,14 @@ namespace HollowKnight {
                     absorbMouseHoldTime = 0;
                     if (currentState == PlayerState.Absorb) {
                         absorbSystem.AbsorbInterrupt();
+                       
                     }
+                    animator.SetBool("Absorbing", false);
                 }
 
+            }
+            else {
+                animator.SetBool("Absorbing", false);
             }
         }
 
