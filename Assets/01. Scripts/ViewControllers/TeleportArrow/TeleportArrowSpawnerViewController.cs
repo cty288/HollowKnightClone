@@ -42,6 +42,7 @@ namespace HollowKnight
 
             arrow.GetComponent<TeleportArrowViewController>().Target = e.targetDest;
             //arrow.transform.SetParent(null);
+            
             arrow.transform.DOMove(e.targetDest, time).SetEase(Ease.Linear);
 
         }

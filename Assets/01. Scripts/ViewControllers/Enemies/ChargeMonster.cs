@@ -229,9 +229,13 @@ namespace HollowKnight
             float direction = FaceLeft ? 1 : -1;
             waitTime = dizzyTime;
             this.GetSystem<IAbsorbSystem>().AbsorbInterrupt();
-            rigidbody.AddForce(new Vector2(direction * 45,0), ForceMode2D.Impulse);
+            rigidbody.AddForce(new Vector2(direction *35,0), ForceMode2D.Impulse);
             HurtPlayerWithCurrentAttackStage();
-            this.SendCommand<TimeSlowCommand>(TimeSlowCommand.Allocate(0.3f,0.2f));
+
+            if (this.GetModel<IPlayerModel>().Health.Value > 0) {
+                this.SendCommand<TimeSlowCommand>(TimeSlowCommand.Allocate(0.3f, 0.2f));
+            }
+           
             Debug.Log("Hurt");
             Player.Singleton.GetComponent<Rigidbody2D>().AddForce(new Vector2(-direction *15, 5), ForceMode2D.Impulse);
             TriggerEvent(ChargeMonsterConfigurtion.ChargeMonsterEvents.AttackDizzy);

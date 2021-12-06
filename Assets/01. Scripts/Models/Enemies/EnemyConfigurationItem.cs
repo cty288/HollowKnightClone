@@ -27,7 +27,7 @@ namespace HollowKnight
     public interface IAttackable {
         public BindableProperty<float> Health { get; }
 
-        public void Attack(int damage);
+        public void Attack(float damage);
 
         public void Kill();
     }
@@ -54,7 +54,7 @@ namespace HollowKnight
     public abstract class AbstractAbsorbableConfiguration : EnemyConfigurationItem, IAbsorbable {
         public abstract BindableProperty<float> Health { get; } 
         //will never surpass the existing health of that enemy
-        public void Attack(int damage) {
+        public void Attack(float damage) {
             if (Health.Value >= damage) {
                 Health.Value -= damage;
             }

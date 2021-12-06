@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using CodiceApp.EventTracking;
+
 using DG.Tweening;
 using MikroFramework.Architecture;
 using MikroFramework.BindableProperty;
 using MikroFramework.Event;
 using MikroFramework.Singletons;
 using MikroFramework.Utilities;
-using UnityEditor.UIElements;
+
 using UnityEngine;
 using Object = System.Object;
 
@@ -69,6 +69,7 @@ namespace HollowKnight {
 
 
         [Header("Collision Variables")] 
+
         [SerializeField] private bool onGround = true;
 
         private void Awake()
@@ -110,7 +111,10 @@ namespace HollowKnight {
         private void OnDie(OnPlayerDie e) {
             currentState = PlayerState.Die;
             animator.SetTrigger("Die");
+            this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(1,0.5f,30,120));
+            this.SendCommand<TimeSlowCommand>(TimeSlowCommand.Allocate(2f, 0.2f));
         }
+
         private void OnHealthChange(float oldHealth, float newHealth) {
             if (oldHealth > newHealth && newHealth>0) {
                 OnPlayerHurt();
@@ -299,20 +303,47 @@ namespace HollowKnight {
                 currentState = PlayerState.Absorb;
             }
         }
-
+        [SerializeField]
+        private int remainingTeleportTime = 2;
         private void CheckTeleport() {
 
             if (currentState == PlayerState.Normal || attackSystem.AttackState == AttackState.Attacking 
             || this.GetSystem<ITeleportSystem>().TeleportState == TeleportState.Teleporting) {
-                if (Input.GetKeyDown(KeyCode.T))
+                if (Input.GetKeyDown(KeyCode.E))
                 {
-                    if (attackSystem.AttackState == AttackState.Attacking) {
-                        attackSystem.StopAttack();
-                        StartCoroutine(AttackToTeleport(Input.mousePosition));
+                    if (onGround) {
+                        remainingTeleportTime = 2;
+                    }
+
+                    if (this.GetSystem<ITeleportSystem>().TeleportState == TeleportState.NotTeleporting ||
+                        this.GetSystem<ITeleportSystem>().TeleportState == TeleportState.TeleportAppearing) {
+                        remainingTeleportTime--;
+                        if (remainingTeleportTime >= 0)
+                        {
+                            if (attackSystem.AttackState == AttackState.Attacking) {
+                                attackSystem.StopAttack();
+                                StartCoroutine(AttackToTeleport(Input.mousePosition));
+                            }
+                            else {
+                                Debug.Log("Teleport 233");
+                                teleportSystem.Teleport(Input.mousePosition);
+                            }
+                        }
                     }
                     else {
-                        teleportSystem.Teleport(Input.mousePosition);
+                        if (attackSystem.AttackState == AttackState.Attacking)
+                        {
+                            attackSystem.StopAttack();
+                            StartCoroutine(AttackToTeleport(Input.mousePosition));
+                        }
+                        else
+                        {
+                            teleportSystem.Teleport(Input.mousePosition);
+                        }
                     }
+                    
+
+                   
                 }
             }
         }
