@@ -108,6 +108,7 @@ namespace HollowKnight
             }
 
         }
+       
 
         public override void OnDie() {
             base.OnDie();

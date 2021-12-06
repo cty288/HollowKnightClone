@@ -125,7 +125,8 @@ namespace HollowKnight
             Patrolling,
             Chasing,
             Attacking,
-            Dizzy
+            Dizzy,
+            Die
         }
 
         public enum ChargeMonsterEvents {
@@ -134,18 +135,28 @@ namespace HollowKnight
             PlayerOutChagseRange,
             PlayerInChaseRange,
             PlayerInAttackRange,
-            AttackDizzy
+            AttackDizzy,
+            BeAttacked,
+            Killed
         }
         public override EnemyName name { get; } = EnemyName.ChargeMonster;
         
         protected override void AddStateMachineState() {
-            FSM.AddTranslation(ChargeMonsterStages.Idle,ChargeMonsterEvents.WaitEnds, ChargeMonsterStages.Patrolling, null).
-                AddTranslation(ChargeMonsterStages.Patrolling, ChargeMonsterEvents.WaitForChangeDirection, ChargeMonsterStages.Idle,null).
-                AddTranslation(ChargeMonsterStages.Dizzy, ChargeMonsterEvents.WaitEnds, ChargeMonsterStages.Patrolling, null).
-                AddTranslation(ChargeMonsterStages.Any, ChargeMonsterEvents.PlayerInChaseRange, ChargeMonsterStages.Chasing,null).
-                AddTranslation(ChargeMonsterStages.Any, ChargeMonsterEvents.PlayerInAttackRange, ChargeMonsterStages.Attacking,null).
-                AddTranslation(ChargeMonsterStages.Attacking, ChargeMonsterEvents.AttackDizzy, ChargeMonsterStages.Dizzy, null).
+            FSM
+                .AddTranslation(ChargeMonsterStages.Idle, ChargeMonsterEvents.WaitEnds, ChargeMonsterStages.Patrolling,
+                    null)
+                .AddTranslation(ChargeMonsterStages.Patrolling, ChargeMonsterEvents.WaitForChangeDirection,
+                    ChargeMonsterStages.Idle, null)
+                .AddTranslation(ChargeMonsterStages.Dizzy, ChargeMonsterEvents.WaitEnds, ChargeMonsterStages.Patrolling,
+                    null)
+                .AddTranslation(ChargeMonsterStages.Any, ChargeMonsterEvents.PlayerInChaseRange,
+                    ChargeMonsterStages.Chasing, null)
+                .AddTranslation(ChargeMonsterStages.Any, ChargeMonsterEvents.PlayerInAttackRange,
+                    ChargeMonsterStages.Attacking, null)
+                .AddTranslation(ChargeMonsterStages.Attacking, ChargeMonsterEvents.AttackDizzy, ChargeMonsterStages.Dizzy, null)
+                .AddTranslation(ChargeMonsterStages.Any, ChargeMonsterEvents.BeAttacked, ChargeMonsterStages.Dizzy, null).
                 AddTranslation(ChargeMonsterStages.Any, ChargeMonsterEvents.PlayerOutChagseRange, ChargeMonsterStages.Patrolling, null).
+                AddTranslation(ChargeMonsterStages.Any, ChargeMonsterEvents.Killed, ChargeMonsterStages.Die, null).
                 Start(ChargeMonsterStages.Patrolling);
         }
 

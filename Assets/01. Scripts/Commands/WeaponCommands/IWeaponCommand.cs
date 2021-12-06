@@ -12,7 +12,7 @@ namespace HollowKnight
         public float Time { get; set; }
 
         public bool Released { get; set; }
-
+        public Vector2 TargetPosition { get; set; }
         public WeaponInfo WeaponInfo { get; set; }
         //
 

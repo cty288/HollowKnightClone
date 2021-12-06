@@ -159,7 +159,7 @@ namespace HollowKnight {
         }
 
         [SerializeField]
-        private Sprite[] bulletStateSprites;
+        protected Sprite[] bulletStateSprites;
 
         [SerializeField]
         protected Collider2D mouseDetectionTrigger;
@@ -316,7 +316,9 @@ namespace HollowKnight {
                 return;
             }
 
-
+            if (absorbableConfiguration.Absorbed.Value) {
+                return;
+            }
             outlineSpriteRenderer.enabled = true;
         }
 
@@ -430,6 +432,7 @@ namespace HollowKnight {
             absorbableConfiguration.Health.Value -= damage;
         }
 
+        //instant
         public virtual void OnDie() {
             rigidbody.velocity = Vector2.zero;
             StartCoroutine(SetGravityScaleZero());
@@ -483,6 +486,11 @@ namespace HollowKnight {
         [SerializeField] 
         protected LayerMask eyeDetectLayers;
 
+        [SerializeField] 
+        protected Transform bulletSpawnPosition;
+
+        [SerializeField] protected GameObject bulletPrefab;
+
         protected bool FaceLeft {
             get {
                 return faceLeft;
@@ -533,7 +541,12 @@ namespace HollowKnight {
 
             if (hit.collider) {
                 if (hit.collider.gameObject.CompareTag("Player")) {
-                    OnSeePlayer();
+                    if (Player.Singleton.CurrentState != PlayerState.Die) {
+                        OnSeePlayer();
+                    }
+                    else {
+                        OnNotSeePlayer();
+                    }
                 }
                 else {
                     OnNotSeePlayer();
@@ -566,6 +579,44 @@ namespace HollowKnight {
         protected void HurtPlayerNoMatterWhatAttackStage(float damage) {
             this.GetModel<IPlayerModel>().ChangeHealth(-damage);
         }
+        private Tween moveTween;
+
+        public override void OnAbsorbInterrupt() {
+            StopAllCoroutines();
+            Debug.Log("Mouse Interrupt");
+            if (moveTween != null)
+            {
+                moveTween.Kill();
+            }
+            spriteRenderer.gameObject.transform.DOLocalMoveY(0, 0.3f);
+        }
+
+        public override void OnStartPrepareAbsorb() {
+            base.OnStartPrepareAbsorb();
+            StartCoroutine(Float());
+        }
+
+
+        public override void OnAbsorbed()
+        {
+            base.OnAbsorbed();
+            if (moveTween != null)
+            {
+                moveTween.Kill();
+            }
+        }
+
+
+        private IEnumerator Float()
+        {
+            yield return new WaitForSeconds(0.83f);
+
+            spriteRenderer.transform.parent.DOShakePosition(1.67f, 0.2f, 20, 100);
+
+            moveTween = spriteRenderer.gameObject.transform.DOMoveY(spriteRenderer.gameObject.transform.position.y + 3, 1.67f);
+        }
+
+
         protected abstract void OnAttackingStage(Enum attackStage);
 
         protected abstract void OnFSMStage(AttackStageEnum currentStage);

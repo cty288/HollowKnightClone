@@ -20,6 +20,8 @@ namespace HollowKnight
         public BindableProperty<float> ChargeAttackTime = new BindableProperty<float>();
         public BindableProperty<float> ChargeAttackDamage = new BindableProperty<float>();
 
+        public BindableProperty<bool> NeedTargetWhenAttack = new BindableProperty<bool>();
+
 
         public BindableProperty<IWeaponCommand> Ult = new BindableProperty<IWeaponCommand>();
         public BindableProperty<float> UltChargeTime = new BindableProperty<float>() ;
@@ -35,7 +37,7 @@ namespace HollowKnight
         public WeaponInfo() { }
         public WeaponInfo(WeaponName name, WeaponType type, IWeaponCommand attackSkill,
             int attackDamage, float AttackFreq, IWeaponCommand chargeAttackSkill, float chargeAttackTime,
-            float chargeAttackDamage, IWeaponCommand ult, float ultChargeTime,
+            float chargeAttackDamage, bool needTargetWhenAttack, IWeaponCommand ult, float ultChargeTime,
             int ultDamage, int bulletCount, int MaxBulletCount, bool UltNeedTarget) {
 
             this.Name.Value = name;
@@ -44,6 +46,7 @@ namespace HollowKnight
             this.AttackDamage.Value = attackDamage;
             this.ChargeAttackSkill.Value = chargeAttackSkill;
             this.AttackFreq.Value = AttackFreq;
+            this.NeedTargetWhenAttack.Value = needTargetWhenAttack;
             this.ChargeAttackTime.Value = chargeAttackTime;
             this.ChargeAttackDamage.Value = chargeAttackDamage;
             this.Ult.Value = ult;

@@ -27,23 +27,27 @@ namespace HollowKnight
 
     public struct OnAttackAiming {
         public GameObject Target;
+        public Vector2 targetPosition;
     }
     public struct OnNormalAttack {
         public float TimeSinceLastNormalAttack;
         public IEnemyViewControllerAttackable AttackableViewController;
         public GameObject TargetGameObject;
+        public Vector2 targetPosition;
     }
 
     public struct OnChargeAttackCharging {
         public float ChargeTime;
         public IEnemyViewControllerAttackable AttackableViewController;
         public GameObject TargetGameObject;
+        public Vector2 targetPosition;
     }
 
     public struct OnChargeAttackRelease {
         public float TotalChargeTime;
         public IEnemyViewControllerAttackable AttackableViewController;
         public GameObject TargetGameObject;
+        public Vector2 targetPosition;
     }
 
     public interface IAttackSystem : ISystem {
@@ -64,7 +68,7 @@ namespace HollowKnight
         private float attackTimer = 0;
         private float attackStopTimer = 0;
 
-        private float normalAttackInterval = 0;
+       
 
         private IWeaponSystem weaponSystem;
 
@@ -97,11 +101,14 @@ namespace HollowKnight
             attackStopTimer = 0;
             targetAttackable = null;
             attackTimer = 0;
+            canAttack = false;
             isUltPreparing = false;
-            normalAttackInterval = 0;
+            
         }
-
+        bool canAttack = false;
         public void CheckAttackPerFrame(PlayerState currentState) {
+            Vector2 mousePos =  Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            
             if (weaponSystem.SelectedWeapon != null) {
                 if (attackState == AttackState.Attacking)
                 {
@@ -112,12 +119,12 @@ namespace HollowKnight
                     }
                 }
 
-                if (attackState == AttackState.NotAttacking && currentState == PlayerState.Normal)
-                {
-                    if (Input.GetMouseButtonDown(0) && DetectAttackTarget(out targetAttackable)) //select enemy
+                if (attackState == AttackState.NotAttacking && currentState == PlayerState.Normal) {
+                    canAttack = DetectAttackTargetandCanCurrentWeaponAttack(out targetAttackable);
+                    if (Input.GetMouseButtonDown(0) &&  canAttack) //select enemy
                     {
-                        if (!Player.Singleton.OnGround) {
-                            normalAttackInterval = 1;
+                        if (!Player.Singleton.OnGround) { //jumping
+                            
                             attackState = AttackState.Attacking;
                             NormalAttack();
                             StopAttack();
@@ -138,7 +145,7 @@ namespace HollowKnight
 
 
                 if (attackState == AttackState.Preparing || attackState == AttackState.Attacking) {
-                    normalAttackInterval += Time.deltaTime;
+                    
 
                     if (attackState == AttackState.Preparing)
                     {
@@ -155,19 +162,18 @@ namespace HollowKnight
                             }
 
                             if (!Input.GetMouseButton(0)) {
-                                Debug.Log("Normal Attack");
+                                Debug.Log("Normal Attack.");
                                 NormalAttack();
                             }
                         }
                     }
 
-                    if (attackState == AttackState.Attacking)
-                    
-                    {
-                        Debug.Log("Attacking");
+                    if (attackState == AttackState.Attacking) {
+                        //Debug.Log("Attacking");
+                        
                         //select enemy
                         if (Input.GetMouseButtonDown(0)) {
-                            DetectAttackTarget(out targetAttackable);
+                            canAttack = DetectAttackTargetandCanCurrentWeaponAttack(out targetAttackable);
                         }
 
                         if (CheckUlt(out IEnemyViewControllerAttackable target)) {
@@ -176,37 +182,35 @@ namespace HollowKnight
                             return;
                         }
 
-                        if (Input.GetMouseButton(0) && targetAttackable!=null)
+                        Debug.Log(canAttack);
+                        if (Input.GetMouseButton(0) && canAttack)
                         { //charge
                             attackStopTimer = 0;
                             attackTimer += Time.deltaTime;
                             
+
                             this.SendEvent<OnAttackAiming>(new OnAttackAiming() {
-                                Target = targetAttackable.GameObject
+                                Target = targetAttackable!=null ? targetAttackable.GameObject : null,
+                                targetPosition = (targetAttackable !=null) ? 
+                                    (new Vector2(targetAttackable.GameObject.transform.position.x,
+                                        targetAttackable.GameObject.transform.position.y)) : mousePos
                             });
-                            if (attackTimer > ChargeAttackThreshold)
-                            {
+
+
+                            if (attackTimer > ChargeAttackThreshold) {
                                 ChargeAttackCharging(attackTimer);
-                                /*
-                                if (attackTimer > weaponSystem.SelectedWeapon.ChargeAttackTime.Value +
-                                    ChargeAttackThreshold) { //reach maximum charge time
-                                    ChargeAttackRelease(attackTimer);
-                                    StopAttack();
-                                    Debug.Log("Charge attack reaches maximum time");
-                                }*/
                                 
                             }
 
 
                         }
 
-                        if (Input.GetMouseButtonUp(0) && targetAttackable !=null)
+                        if (Input.GetMouseButtonUp(0) && canAttack)
                         {
-                            if (attackTimer <= ChargeAttackThreshold)
-                            {
+                            if (attackTimer <= ChargeAttackThreshold) {
                                 //normal attack
                                 NormalAttack();
-                                Debug.Log("Normal Attack");
+                                Debug.Log($"Normal Attack, ");
                             }
                             else
                             {
@@ -227,7 +231,7 @@ namespace HollowKnight
         }
         private LayerMask Mask = LayerMask.GetMask("Enemy", "EnemyTraversable");
 
-        private bool DetectAttackTarget(out IEnemyViewControllerAttackable target) {
+        private bool DetectAttackTargetandCanCurrentWeaponAttack(out IEnemyViewControllerAttackable target) {
             Camera cam = Camera.main;
 
             RaycastHit2D ray = Physics2D.GetRayIntersection(cam.ScreenPointToRay(Input.mousePosition), 1000, Mask);
@@ -241,10 +245,16 @@ namespace HollowKnight
                     target = component;
                     return true;
                 }
+                else {
+                    target = null;
+                    return false;
+                }
             }
 
+            
             target = null;
-            return false;
+            
+            return !weaponSystem.SelectedWeapon.NeedTargetWhenAttack.Value;
         }
 
         private void Ult(IEnemyViewControllerAttackable attackable) {
@@ -260,23 +270,34 @@ namespace HollowKnight
         }
 
         private void NormalAttack() {
-            OnNormalAttack e = new OnNormalAttack(){TimeSinceLastNormalAttack = normalAttackInterval};
+            OnNormalAttack e = new OnNormalAttack(){};
+
             if (targetAttackable != null) {
                 e.AttackableViewController = targetAttackable;
                 e.TargetGameObject = targetAttackable.GameObject;
+                e.targetPosition = targetAttackable.GameObject.transform.position;
+            }
+            else {
+                e.targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
 
             this.SendEvent<OnNormalAttack>(e);
-            normalAttackInterval = 0;
+           
         }
 
         private void ChargeAttackCharging(float chargeTime) {
             OnChargeAttackCharging e = new OnChargeAttackCharging() { ChargeTime = chargeTime};
+
             if (targetAttackable != null)
             {
                 e.AttackableViewController = targetAttackable;
                 e.TargetGameObject = targetAttackable.GameObject;
+                e.targetPosition = targetAttackable.GameObject.transform.position;
             }
+            else {
+                e.targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
+
             this.SendEvent<OnChargeAttackCharging>(e);
         }
 
@@ -287,7 +308,11 @@ namespace HollowKnight
                 {
                     e.AttackableViewController = targetAttackable;
                     e.TargetGameObject = targetAttackable.GameObject;
-                }
+                    e.targetPosition = targetAttackable.GameObject.transform.position;
+            }
+                else {
+                    e.targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
                 this.SendEvent<OnChargeAttackRelease>(e);
                // targetAttackable = null;
             //}
@@ -308,7 +333,7 @@ namespace HollowKnight
                 
 
                 if (playerModel.UltChargeAccumlated.Value >= playerConfigurationModel.MaxUltChargeNeeded) {
-                    DetectAttackTarget(out target);
+                    DetectAttackTargetandCanCurrentWeaponAttack(out target);
 
                     if (target == null) {
                         if (weaponSystem.SelectedWeapon.NeedTargetWhenUlt.Value) {

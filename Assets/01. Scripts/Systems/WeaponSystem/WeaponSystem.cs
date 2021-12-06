@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MikroFramework.Architecture;
@@ -27,9 +28,9 @@ namespace HollowKnight
         WeaponInfo GetWeaponFromConfig(WeaponName weaponName);
 
         void NormalAttackWithCurrentWeapon(float timeSinceLastNormalAttack,
-            IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject);
+            IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject, Vector2 targetPos);
 
-        void CurrentWeaponCharging(float chargingTime, IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject);
+        void CurrentWeaponCharging(float chargingTime, IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject, Vector2 targetPos);
 
         void CurrentWeaponChargeRelease(float totalChargeTime, IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject);
 
@@ -79,7 +80,8 @@ namespace HollowKnight
 
         protected override void OnInit() {
             configModel = this.GetModel<IWeaponConfigModel>();
-
+            lastNormalAttackTime = DateTime.Now;
+            
             weaponList = new List<WeaponInfo>();
 
             this.RegisterEvent<OnWeaponAddedToBackpack>(OnWeaponAdded);
@@ -100,13 +102,18 @@ namespace HollowKnight
         }
 
         private void OnChargeAttackCharging(OnChargeAttackCharging e) {
-            CurrentWeaponCharging(e.ChargeTime,e.AttackableViewController,e.TargetGameObject);
+            CurrentWeaponCharging(e.ChargeTime,e.AttackableViewController,e.TargetGameObject,e.targetPosition);
            // Debug.Log($"Charge Attack to enemy Charging: {e.TargetGameObject.name}.");
         }
 
+
+        private DateTime lastNormalAttackTime;
+
         private void OnNormalAttackTriggers(OnNormalAttack e) {
-            NormalAttackWithCurrentWeapon(e.TimeSinceLastNormalAttack,e.AttackableViewController,
-                e.TargetGameObject);
+            float timeSinceLastNormalAttack = (float) (DateTime.Now - lastNormalAttackTime).TotalSeconds;
+
+            NormalAttackWithCurrentWeapon(timeSinceLastNormalAttack, e.AttackableViewController,
+                e.TargetGameObject,e.targetPosition);
            
            // Debug.Log($"Normal Attack to enemy: {e.TargetGameObject.name}.");
         }
@@ -139,7 +146,7 @@ namespace HollowKnight
             if (newBullet <= 0) {
                 //use up all bullets
                 weaponList.Remove(weapon);
-                Debug.Log($"Weapon {weapon.Name} used up all bullets");
+                Debug.Log($"Weapon {weapon.Name.Value} used up all bullets");
             }
         }
 
@@ -188,6 +195,7 @@ namespace HollowKnight
                 configItem.TypeConfigItem.Type, configItem.TypeConfigItem.AttackSkill,
                 configItem.TypeConfigItem.AttackDamage, configItem.TypeConfigItem.AttackFreq,configItem.TypeConfigItem.ChargeAttackSkill,
                 configItem.TypeConfigItem.ChargeAttackTime, configItem.TypeConfigItem.ChargeAttackDamage,
+                configItem.TypeConfigItem.NeedTargetWhenAttack,
                 configItem.TypeConfigItem.Ult, configItem.TypeConfigItem.UltChargeTime,
                 configItem.TypeConfigItem.UltDamage, configItem.WeaponCapacity, configItem.WeaponCapacity,
                 configItem.TypeConfigItem.UltNeedTarget);
@@ -197,14 +205,16 @@ namespace HollowKnight
 
         
         public void NormalAttackWithCurrentWeapon(float timeSinceLastNormalAttack,
-            IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject) {
+            IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject,
+            Vector2 targetPos) {
             WeaponInfo weapon = SelectedWeapon;
 
             if (weapon != null) {
-                if (timeSinceLastNormalAttack >= weapon.AttackFreq.Value)
-                {
+                if (timeSinceLastNormalAttack >= weapon.AttackFreq.Value) {
+                    
+                    lastNormalAttackTime = DateTime.Now;
                     IWeaponCommand command = ConfigureAttackCommand(weapon.AttackSkill.Value, weapon,
-                        timeSinceLastNormalAttack, AttackableViewController, targetGameObject);
+                        timeSinceLastNormalAttack, AttackableViewController, targetGameObject,targetPos);
                     this.SendCommand(command);
                 }
             }
@@ -213,14 +223,15 @@ namespace HollowKnight
 
         private IWeaponCommand ongoingChargingCommand = null;
 
-        public void CurrentWeaponCharging(float chargingTime, IEnemyViewControllerAttackable AttackableViewController, GameObject targetGameObject) {
+        public void CurrentWeaponCharging(float chargingTime, IEnemyViewControllerAttackable AttackableViewController,
+            GameObject targetGameObject, Vector2 targetPos) {
             WeaponInfo weapon = SelectedWeapon;
 
             IWeaponCommand command = null;
 
             if (ongoingChargingCommand == null) {
                 command = ConfigureAttackCommand(weapon.ChargeAttackSkill.Value, weapon,
-                    chargingTime, AttackableViewController, targetGameObject, false);
+                    chargingTime, AttackableViewController, targetGameObject, targetPos,false);
                 ongoingChargingCommand = command;
             }
             else {
@@ -260,19 +271,21 @@ namespace HollowKnight
                 if (weapon != null)
                 {
                     IWeaponCommand command = ConfigureAttackCommand(weapon.Ult.Value, weapon,
-                        0, attackable, targeGameObject);
+                        0, attackable, targeGameObject, Vector2.zero);
                     this.SendCommand(command);
                 }
         }
 
         private IWeaponCommand ConfigureAttackCommand(IWeaponCommand command, WeaponInfo weapon, float time,
-            IEnemyViewControllerAttackable attackable, GameObject targetGameObject, bool released = true) {
+            IEnemyViewControllerAttackable attackable, GameObject targetGameObject,
+            Vector2 targetPos,bool released = true) {
             
             IWeaponCommand cmd = command.Clone();
             cmd.WeaponInfo = weapon;
             cmd.Time = time;
             cmd.TargetAttackableViewController = attackable;
             cmd.TargetGameObject = targetGameObject;
+            cmd.TargetPosition = targetPos;
             cmd.Released = released;
             return cmd;
         }
@@ -287,6 +300,7 @@ namespace HollowKnight
                 configItem.TypeConfigItem.AttackDamage, configItem.TypeConfigItem.AttackFreq,
                 configItem.TypeConfigItem.ChargeAttackSkill,
                 configItem.TypeConfigItem.ChargeAttackTime, configItem.TypeConfigItem.ChargeAttackDamage,
+                configItem.TypeConfigItem.NeedTargetWhenAttack,
                 configItem.TypeConfigItem.Ult, configItem.TypeConfigItem.UltChargeTime,
                 configItem.TypeConfigItem.UltDamage, bulletInGun, configItem.WeaponCapacity,
                 configItem.TypeConfigItem.UltNeedTarget);

@@ -7,24 +7,23 @@ namespace HollowKnight
 {
     public struct OnHumanoidBulletConsumed
     {
-        public IEnemyViewControllerAttackable TargetAttackable;
-        public GameObject TargetGameObject;
+        public Vector2 TargetPos;
         public int ConsumeNumber;
         public bool ShootInstant;
         public WeaponInfo WeaponInfo;
     }
-    public class HumanoidNormalAttackCommand : AbstractWeaponCommand<SmallAnimalNormalAttackCommand> { 
+    public class HumanoidNormalAttackCommand : AbstractWeaponCommand<HumanoidNormalAttackCommand> { 
       
         protected override void OnExecute() {
             this.SendEvent<OnHumanoidBulletConsumed>(new OnHumanoidBulletConsumed()
             {
-                TargetGameObject = this.TargetGameObject,
-                TargetAttackable = TargetAttackableViewController,
+                TargetPos = this.TargetPosition,
                 ConsumeNumber = 1,
                 ShootInstant = true,
                 WeaponInfo = WeaponInfo
             });
             //buff
+            Debug.Log("OnHumanoidBulletConsumed");
             WeaponInfo.ConsumeBullet(1);
         }
     }

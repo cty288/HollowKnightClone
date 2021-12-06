@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MikroFramework.Architecture;
+using MikroFramework.Event;
 using MikroFramework.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -17,8 +18,12 @@ namespace HollowKnight
 
         [SerializeField] private Vector2 nextSpot;
 
-        [SerializeField] private SpriteRenderer aliveSpriteRenderer;
-        [SerializeField] private SpriteRenderer deathSpriteRenderer;
+        [SerializeField] private SpriteRenderer aliveOutlineSpriteRenderer;
+        [SerializeField] private SpriteRenderer deathOutlineSpriteRenderer;
+
+        private SpriteRenderer aliveSpriteRenderer;
+        [SerializeField]
+        private SpriteRenderer deathWeaponSpriteRenderer;
      
         [SerializeField] private GameObject target;
 
@@ -26,7 +31,10 @@ namespace HollowKnight
         [SerializeField] private Trigger2DCheck attackTrigger2DCheck;
 
         [SerializeField] private Animator animator;
-       
+
+        [SerializeField] private Collider2D aliveCollider2D;
+        [SerializeField] private Collider2D dieCollider2D;
+
 
         private float min_X;
         private float max_X;
@@ -38,13 +46,30 @@ namespace HollowKnight
         private void Awake()
         {
             base.Awake();
+            aliveSpriteRenderer = GetComponent<SpriteRenderer>();
             startLocation = transform.position;
             min_X = startLocation.x - patrolRange;
             max_X = startLocation.x + patrolRange;
             waitTime = startWaitTime;
-          
-
             nextSpot = new Vector2(Random.Range(min_X, max_X), startLocation.y);
+        }
+
+        protected override void Start() {
+            base.Start();
+            this.RegisterEvent<OnHumanoidBulletConsumed>(OnBulletConsumed)
+                .UnRegisterWhenGameObjectDestroyed(gameObject);
+        }
+
+        private void OnBulletConsumed(OnHumanoidBulletConsumed e) {
+            if (e.WeaponInfo == weaponInfo && IsDie) {
+                //spawn bullet
+                float spawnX = bulletSpawnPosition.position.x + Random.Range(-0.1f, 0.1f);
+                float spawnY = bulletSpawnPosition.position.y;
+                Debug.Log("Bullet consumed");
+                this.SendCommand<SpawnThornCommand>(SpawnThornCommand.Allocate(e.TargetPos,
+                    new Vector2(spawnX, spawnY),
+                    bulletPrefab, e.ShootInstant, e.WeaponInfo.AttackDamage.Value));
+            }
         }
 
         protected override void OnFSMStage(ChargeMonsterConfigurtion.ChargeMonsterStages currentStage)
@@ -73,9 +98,25 @@ namespace HollowKnight
             }
         }
 
+        //instant
         public override void OnDie() {
             base.OnDie();
-            outlineSpriteRenderer = deathSpriteRenderer;
+            spriteRenderer = deathWeaponSpriteRenderer;
+            animator.SetTrigger("Die");
+            TriggerEvent(ChargeMonsterConfigurtion.ChargeMonsterEvents.Killed);
+        }
+
+        public override void OnAbsorbed() {
+            base.OnAbsorbed();
+            int spriteIndex = weaponInfo.MaxBulletCount - weaponInfo.BulletCount.Value;
+            spriteRenderer.sprite = bulletStateSprites[spriteIndex];
+        }
+
+        public void OnDieAnimationEnds() {
+            aliveOutlineSpriteRenderer.enabled = false;
+            outlineSpriteRenderer = deathOutlineSpriteRenderer;
+            aliveSpriteRenderer.enabled = false;
+            deathWeaponSpriteRenderer.enabled = true;
         }
 
         private void WaitForDizzy() {
@@ -97,7 +138,7 @@ namespace HollowKnight
         }
 
         protected override void OnNotSeePlayer() {
-            Debug.Log("Not see player");
+            //Debug.Log("Not see player");
             if (CurrentFSMStage == ChargeMonsterConfigurtion.ChargeMonsterStages.Chasing ||
                 CurrentFSMStage == ChargeMonsterConfigurtion.ChargeMonsterStages.Attacking) {
                 TriggerEvent(ChargeMonsterConfigurtion.ChargeMonsterEvents.PlayerOutChagseRange);
@@ -106,7 +147,8 @@ namespace HollowKnight
         }
 
         protected override void OnSeePlayer() {
-            if (CurrentFSMStage != ChargeMonsterConfigurtion.ChargeMonsterStages.Dizzy) {
+            if (CurrentFSMStage != ChargeMonsterConfigurtion.ChargeMonsterStages.Dizzy
+            && CurrentFSMStage!= ChargeMonsterConfigurtion.ChargeMonsterStages.Idle) {
                 target = Player.Singleton.gameObject;
                 TriggerEvent(ChargeMonsterConfigurtion.ChargeMonsterEvents.PlayerInChaseRange);
             }
@@ -144,7 +186,8 @@ namespace HollowKnight
         }
 
         private void Chasing() {
-
+            if(Player.Singleton.CurrentState == PlayerState.Die)return;
+            
             FaceLeft = (target.transform.position.x - transform.position.x) <= 0;
             float direction = FaceLeft ? -1 : 1;
             rigidbody.velocity = direction * new Vector2(chaseSpeed, rigidbody.velocity.y);
@@ -158,16 +201,16 @@ namespace HollowKnight
         {
             base.Update();
             
-            if (attackTrigger2DCheck.Triggered) {
-                if (CurrentFSMStage != ChargeMonsterConfigurtion.ChargeMonsterStages.Dizzy) {
+            if (attackTrigger2DCheck.Triggered && Player.Singleton.CurrentState!=PlayerState.Die) {
+                if (CurrentFSMStage != ChargeMonsterConfigurtion.ChargeMonsterStages.Dizzy
+                && CurrentFSMStage != ChargeMonsterConfigurtion.ChargeMonsterStages.Idle) {
                     target = Player.Singleton.gameObject;
                     TriggerEvent(ChargeMonsterConfigurtion.ChargeMonsterEvents.PlayerInAttackRange);
                 }
               
             }
 
-            if (Attackable.Health.Value > 0) {
-                outlineSpriteRenderer = aliveSpriteRenderer;
+            if (aliveOutlineSpriteRenderer.enabled) {
                 outlineSpriteRenderer.sprite = spriteRenderer.sprite;
             }
 
@@ -186,13 +229,15 @@ namespace HollowKnight
             float direction = FaceLeft ? 1 : -1;
             waitTime = dizzyTime;
             this.GetSystem<IAbsorbSystem>().AbsorbInterrupt();
-            rigidbody.AddForce(new Vector2(direction * 35,20), ForceMode2D.Impulse);
+            rigidbody.AddForce(new Vector2(direction * 45,0), ForceMode2D.Impulse);
             HurtPlayerWithCurrentAttackStage();
-            this.SendCommand<TimeSlowCommand>(TimeSlowCommand.Allocate(0.5f,0.2f));
+            this.SendCommand<TimeSlowCommand>(TimeSlowCommand.Allocate(0.3f,0.2f));
             Debug.Log("Hurt");
-            Player.Singleton.GetComponent<Rigidbody2D>().AddForce(new Vector2(-direction *15, 8), ForceMode2D.Impulse);
+            Player.Singleton.GetComponent<Rigidbody2D>().AddForce(new Vector2(-direction *15, 5), ForceMode2D.Impulse);
             TriggerEvent(ChargeMonsterConfigurtion.ChargeMonsterEvents.AttackDizzy);
         }
+
+       
 
         private float hurtTimer = 0.3f;
         public override void OnAttacked(float damage) {
@@ -202,6 +247,10 @@ namespace HollowKnight
                 //idle
                 if (damage >= 2) {
                     animator.SetTrigger("Hurt");
+                    float direction = FaceLeft ? 1 : -1;
+                    rigidbody.AddForce(new Vector2(direction * 15, 0), ForceMode2D.Impulse);
+                    waitTime = 1;
+                    TriggerEvent(ChargeMonsterConfigurtion.ChargeMonsterEvents.BeAttacked);
                 }
                 else {
                     spriteRenderer.color = Color.red;
@@ -210,6 +259,8 @@ namespace HollowKnight
                
             }
         }
+
+        
 
         private void OnDrawGizmos()
         {

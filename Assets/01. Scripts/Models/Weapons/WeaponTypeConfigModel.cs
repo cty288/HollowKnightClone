@@ -18,15 +18,15 @@ namespace HollowKnight
                 new SmallAnimalNormalAttackCommand(),
                 1,0.25f,
                 new SmallAnimalChargeAttackCommand(),
-                0.5f,1.25f,
+                0.5f,1.25f,true,
                 new SmallAnimalUltCommand(),10,0,false)},
 
 
             {WeaponType.Humanoid, new WeaponTypeConfigItem(WeaponType.Humanoid,
-                new SmallAnimalNormalAttackCommand(),
+                new HumanoidNormalAttackCommand(),
                 2,0.5f,
-                new SmallAnimalChargeAttackCommand(),
-                0.5f,2.5f,
+                null,
+                0.5f,2.5f,false,
                 new SmallAnimalUltCommand(),10,0,false)},
         };
 

@@ -34,6 +34,7 @@ namespace HollowKnight {
 
         [SerializeField]
         private PlayerState currentState;
+        public PlayerState CurrentState => currentState;
 
         [Header("Components")]
         private Rigidbody2D rb;
@@ -96,6 +97,8 @@ namespace HollowKnight {
             this.RegisterEvent<OnEnemyAbsorbPreparing>(OnAbsorbStart).UnRegisterWhenGameObjectDestroyed(gameObject);
             
             this.RegisterEvent<OnAttackAiming>(OnAiming).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnPlayerDie>(OnDie).UnRegisterWhenGameObjectDestroyed(gameObject);
+            
             //this.RegisterEvent<OnEnemyAbsorbed>(OnAbsorb).UnRegisterWhenGameObjectDestroyed(gameObject);
             playerModel.Health.RegisterOnValueChaned(OnHealthChange).UnRegisterWhenGameObjectDestroyed(gameObject);
         }
@@ -103,8 +106,13 @@ namespace HollowKnight {
 
 
         #region Animation Events
+
+        private void OnDie(OnPlayerDie e) {
+            currentState = PlayerState.Die;
+            animator.SetTrigger("Die");
+        }
         private void OnHealthChange(float oldHealth, float newHealth) {
-            if (oldHealth > newHealth) {
+            if (oldHealth > newHealth && newHealth>0) {
                 OnPlayerHurt();
             }
         }
@@ -127,7 +135,10 @@ namespace HollowKnight {
 
         private void OnAttackStop(OnAttackStop e)
         {
-            animator.SetTrigger("Attack_Stop");
+            if (currentState == PlayerState.Attack) {
+                animator.SetTrigger("Attack_Stop");
+            }
+           
         }
 
         private void OnAbsorbStart(OnEnemyAbsorbPreparing e)
@@ -173,12 +184,12 @@ namespace HollowKnight {
 
         private void OnAiming(OnAttackAiming obj)
         {
-            if (obj.Target.transform.position.x > transform.position.x)
+            if (obj.targetPosition.x > transform.position.x)
             {
                 transform.DOScaleX(1, 0);
             }
 
-            if (obj.Target.transform.position.x < transform.position.x)
+            if (obj.targetPosition.x < transform.position.x)
             {
                 transform.DOScaleX(-1, 0);
             }
@@ -275,7 +286,7 @@ namespace HollowKnight {
             if (attackSystem.AttackState == AttackState.NotAttacking &&
                 teleportSystem.TeleportState == TeleportState.NotTeleporting 
                 && absorbSystem.AbsorbState == AbsorbState.NotAbsorbing
-                && currentState != PlayerState.Hurt) {
+                && currentState != PlayerState.Hurt && currentState!=PlayerState.Die) {
                 currentState = PlayerState.Normal;
             }else if (attackSystem.AttackState == AttackState.Attacking || attackSystem.AttackState == AttackState.Preparing) {
                 currentState = PlayerState.Attack;

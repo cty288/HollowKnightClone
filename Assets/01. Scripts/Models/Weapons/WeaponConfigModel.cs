@@ -42,6 +42,7 @@ namespace HollowKnight
                 originalTypeConfig.AttackDamage, originalTypeConfig.AttackFreq,
                 originalTypeConfig.ChargeAttackSkill,
                 originalTypeConfig.ChargeAttackTime, originalTypeConfig.ChargeAttackDamage,
+                originalTypeConfig.NeedTargetWhenAttack,
                 originalTypeConfig.Ult, originalTypeConfig.UltChargeTime, originalTypeConfig.UltDamage, originalTypeConfig.UltNeedTarget);
 
             overrideConfig = newTypeConfig;
