@@ -72,7 +72,10 @@ namespace HollowKnight
 
         private void Patrolling()
         {
-            transform.position = Vector2.MoveTowards(transform.position, new Vector2(nextSpot.transform.position.x, startLocation.y), speed * Time.deltaTime);
+            //Moving
+            transform.position = Vector2.MoveTowards
+                (transform.position, new Vector2(nextSpot.transform.position.x, startLocation.y), speed * Time.deltaTime);
+            //Flip Sprite
             if ((nextSpot.transform.position.x - transform.position.x) < 0) spriteScale.x = 1;
             else if ((nextSpot.transform.position.x - transform.position.x) > 0) spriteScale.x = -1;
             if (Vector2.Distance(transform.position, nextSpot.position) < 0.25f)
@@ -97,7 +100,7 @@ namespace HollowKnight
             {
                 randomSpot = new Vector2(Random.Range(min_X, max_X), startLocation.y);
             }
-           
+
             return randomSpot;
         }
 
