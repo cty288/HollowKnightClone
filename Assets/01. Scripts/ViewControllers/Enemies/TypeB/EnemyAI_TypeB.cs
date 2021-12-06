@@ -102,7 +102,7 @@ namespace HollowKnight
                 animator.SetInteger("EnemyState", 2);
                 GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
                 Vector3 shootDir = (target.transform.position - firePoint.transform.position).normalized;
-                bullet.GetComponent<Bullet>().SetDir(shootDir);
+                bullet.GetComponent<Bullet_M>().SetDir(shootDir);
                 attackTimer = attackRate;
                 canFire = false;
             }
@@ -128,6 +128,9 @@ namespace HollowKnight
         private IEnumerator Dodging()
         {
             float moveRange = 2f;
+
+            if ((nextAttackSpotCenter.x - transform.position.x) <= 0) spriteScale.x = 1;
+            else if ((nextAttackSpotCenter.x - transform.position.x) > 0) spriteScale.x = -1;
 
             if (CheckPlayerDistance())
             {

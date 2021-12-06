@@ -1546,17 +1546,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28689c4d2cb0d364eb8f0244f61848fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyState: 0
+  shakeParent: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  outlineSpriteRenderer: {fileID: 0}
+  bulletStateSprites: []
+  mouseDetectionTrigger: {fileID: 0}
+  eyePosition: {fileID: 0}
+  viewDistance: 10
+  eyeDetectLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  bulletSpawnPosition: {fileID: 0}
+  bulletPrefab: {fileID: 0}
+  chaseSpeed: 0
   speed: 2
   startLocation: {x: 0, y: 0}
   startWaitTime: 3
-  nextSpot: {fileID: 1495977533}
-  attackRange: 2
+  dizzyTime: 3
+  nextSpot: {x: 0, y: 0}
+  aliveOutlineSpriteRenderer: {fileID: 0}
+  deathOutlineSpriteRenderer: {fileID: 0}
+  deathWeaponSpriteRenderer: {fileID: 0}
   target: {fileID: 0}
   patrolRange: 10
-  spriteRender: {fileID: 473452273}
+  attackTrigger2DCheck: {fileID: 0}
   animator: {fileID: 473452278}
-  spriteScale: {x: 0, y: 0, z: 0}
+  aliveCollider2D: {fileID: 0}
+  dieCollider2D: {fileID: 0}
+  waitTime: 0
 --- !u!61 &473452276
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5710,6 +5727,7 @@ MonoBehaviour:
   firePoint: {fileID: 1024100335}
   bulletPrefab: {fileID: 5459543616817355210, guid: ba558f1fee9135048958d17ac5147e5f, type: 3}
   canFire: 1
+  facingRight: 1
 --- !u!61 &1719845284
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6527,11 +6545,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   horizontalDirection: 0
+  FaceRight: 1
   onGround: 0
-  attackState: 0
-  chargeAttackTimeThreshold: 0.5
-  attackStopTimeThreshold: 1
-  attackPrepareTime: 0.5
+  remainingTeleportTime: 2
 --- !u!50 &1976823905
 Rigidbody2D:
   serializedVersion: 4
@@ -6613,7 +6629,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1976823901}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.66, y: 0.44, z: 0}
+  m_LocalPosition: {x: -5.23, y: 0.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1682026058}
@@ -6874,6 +6890,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lerpSpeed: 0.5
+  YOffset: 0
   cameraPositionXRange: {x: -100, y: 100}
   cameraPositionYRange: {x: 0, y: 100}
 --- !u!114 &2020979490
