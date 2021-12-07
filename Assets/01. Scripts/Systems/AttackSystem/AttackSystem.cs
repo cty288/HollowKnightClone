@@ -17,7 +17,7 @@ namespace HollowKnight
     }
 
     public struct OnAttackStartPrepare {
-
+        public Vector2 targetPosition;
     }
 
     public struct OnUltAttack {
@@ -132,7 +132,11 @@ namespace HollowKnight
                         }
                         else {
                             attackState = AttackState.Preparing;
-                            this.SendEvent<OnAttackStartPrepare>();
+                            this.SendEvent<OnAttackStartPrepare>(new OnAttackStartPrepare(){
+                                targetPosition = (targetAttackable != null) ?
+                                    (new Vector2(targetAttackable.GameObject.transform.position.x,
+                                        targetAttackable.GameObject.transform.position.y)) : mousePos
+                            });
                         }
                        
                     }else if (CheckUlt(out targetAttackable)) {

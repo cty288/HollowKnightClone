@@ -227,7 +227,7 @@ namespace HollowKnight
             {FlyMonsterStages.Engaging, 5}
         };
         public override Dictionary<Enum, float> AttackFreqs { get; } = new Dictionary<Enum, float>() {
-            {FlyMonsterStages.Engaging, 1.5f}
+            {FlyMonsterStages.Engaging, 2.5f}
         };
         public override float ViewDistance { get; } = 6;
     }

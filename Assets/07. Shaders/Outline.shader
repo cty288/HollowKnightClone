@@ -73,8 +73,8 @@ Shader "Custom/Outline"
 
 				float left = tex2D(_MainTex, uv + float2(_Width, 0)).a;
 				float right = tex2D(_MainTex, uv - float2(_Width, 0)).a;
-				float up = tex2D(_MainTex, uv + float2(0, _Width*2)).a;
-				float down = tex2D(_MainTex, uv - float2(0, _Width*2)).a;
+				float up = tex2D(_MainTex, clamp(uv + float2(0, _Width * 2),0,1)).a;
+				float down = tex2D(_MainTex, clamp(uv - float2(0, _Width*2),0,1)).a;
 
 				float4 outline = (left + right + up + down) * (1-color.a) * _OutlineColor* _Brightness;
                 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MikroFramework.Architecture;
+using MikroFramework.Event;
 using MikroFramework.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -28,7 +29,14 @@ namespace HollowKnight
         [SerializeField] private bool canFire = true;
         [SerializeField] private bool facingRight = true;
 
-        private Rigidbody2D rigidbody;
+        [SerializeField] private SpriteRenderer aliveOutlineSpriteRenderer;
+        [SerializeField] private SpriteRenderer deathOutlineSpriteRenderer;
+
+        private SpriteRenderer aliveSpriteRenderer;
+        [SerializeField]
+        private SpriteRenderer deathWeaponSpriteRenderer;
+
+      
         private Trigger2DCheck attackTrigger2DCheck;
 
         private float min_x;
@@ -49,23 +57,47 @@ namespace HollowKnight
             max_x = startLocation.x + patrollRangeX;
             min_y = startLocation.y - patrollRangeY;
             max_y = startLocation.y + patrollRangeY;
-
+            deathReady = false;
             waitTime = startWaitTime;
             spriteScale = transform.localScale;
             nextAttackSpotCenter = transform.position;
             startLocation_y = transform.position.y;
-            rigidbody = GetComponent<Rigidbody2D>();
+           
             attackTrigger2DCheck = GetComponentInChildren<Trigger2DCheck>();
+            aliveSpriteRenderer = GetComponent<SpriteRenderer>();
+        }
 
+        
+
+        protected override void OnMouseOver() { }
+
+        protected override void OnMouseExit() { }
+
+        private void OnBulletConsumed(OnHumanoidBulletConsumed e)
+        {
+            if (e.WeaponInfo == weaponInfo && IsDie)
+            {
+                //spawn bullet
+                float spawnX = bulletSpawnPosition.position.x + Random.Range(-0.1f, 0.1f);
+                float spawnY = bulletSpawnPosition.position.y;
+                Debug.Log("Bullet consumed");
+                this.SendCommand<SpawnThornCommand>(SpawnThornCommand.Allocate(e.TargetPos,
+                    new Vector2(spawnX, spawnY),
+                    bulletPrefab, e.ShootInstant, e.WeaponInfo.AttackDamage.Value));
+            }
         }
 
         protected override void Start() {
             base.Start();
             nextSpot = DecideDistance(transform.position);
+            this.RegisterEvent<OnHumanoidBulletConsumed>(OnBulletConsumed).UnRegisterWhenGameObjectDestroyed(gameObject);
         }
 
         private void Patrolling() {
-            rigidbody.gravityScale = 0;
+            if (!IsDie) {
+                rigidbody.gravityScale = 0;
+            }
+            
             transform.position = Vector2.MoveTowards
                 (transform.position, new Vector2(nextSpot.x, nextSpot.y), speed * Time.deltaTime);
 
@@ -173,18 +205,17 @@ namespace HollowKnight
         private void Update()
         {
             base.Update();
-            /*
-            if (transform.position.x - target.transform.position.x < 0 && !facingRight)
+            if (aliveOutlineSpriteRenderer.enabled)
             {
-                Flip();
+                outlineSpriteRenderer.sprite = spriteRenderer.sprite;
             }
-            
-            else if (transform.position.x - target.transform.position.x >= 0 && facingRight)
-            { 
-                Flip();
+
+            CheckMouseHover();
+         
+            if (hurtTimer <= 0)
+            {
+                spriteRenderer.color = Color.white;
             }
-            if (transform.position.x - target.transform.position.x >= 0) transform.Rotate(0f, 180f, 0f);
-            */
             if (attackTrigger2DCheck.Triggered) {
                 target = Player.Singleton.gameObject;
                 TriggerEvent(FlyMonsterConfiguration.FlyMonsterEvents.PlayerInRange);
@@ -193,12 +224,70 @@ namespace HollowKnight
             transform.localScale = spriteScale;
         }
 
-        protected override void OnSeePlayer() {
-            
+        private void CheckMouseHover() {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+            if (hit.collider) {
+                if (hit.collider is CircleCollider2D) {
+                    OnMouseHover();
+                    return;
+                }
+            }
+
+            OnMouseLeave();
         }
 
-        protected override void OnAttackingStage(Enum attackStage) {
-            
+        private void OnMouseLeave() {
+            if (this.GetSystem<IAbsorbSystem>().AbsorbState == AbsorbState.NotAbsorbing)
+            {
+                outlineSpriteRenderer.enabled = false;
+            }
+        }
+
+        private void OnMouseHover() {
+            IAbsorbSystem absorbSystem = this.GetSystem<IAbsorbSystem>();
+            IAttackSystem attackSystem = this.GetSystem<IAttackSystem>();
+
+            if (absorbSystem.AbsorbState != AbsorbState.NotAbsorbing)
+            {
+                if (absorbSystem.AbsorbingGameObject != this.gameObject)
+                {
+                    return;
+                }
+            }
+
+            if (attackSystem.AttackState != AttackState.NotAttacking)
+            {
+                return;
+            }
+
+            if (absorbableConfiguration.Absorbed.Value)
+            {
+                return;
+            }
+            outlineSpriteRenderer.enabled = true;
+        }
+
+        public override void OnAbsorbed() {
+            base.OnAbsorbed();
+            int spriteIndex = weaponInfo.MaxBulletCount - weaponInfo.BulletCount.Value;
+            spriteRenderer.sprite = bulletStateSprites[spriteIndex];
+        }
+
+        protected override void OnSeePlayer() { }
+
+        protected override void OnAttackingStage(Enum attackStage) { }
+
+        public override void OnDie() {
+            base.OnDie();
+            TriggerEvent(FlyMonsterConfiguration.FlyMonsterEvents.Killed);
+            animator.SetTrigger("Die");
+            Debug.Log("Die");
+        }
+
+        public void OnStartDieAnimationFinished() {
+            this.rigidbody.gravityScale = 1;
+            Debug.Log(this.rigidbody.gravityScale);
         }
 
         protected override void OnFSMStage(FlyMonsterConfiguration.FlyMonsterStages currentStage) {
@@ -243,7 +332,37 @@ namespace HollowKnight
             }
         }
 
+        [SerializeField] private LayerMask fallDetectionLayers;
+        private void OnCollisionEnter2D(Collision2D other) {
+            if (IsDie) {
+                if (!deathReady) {
+                    if (PhysicsUtility.IsInLayerMask(other.gameObject, fallDetectionLayers)) {
+                        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Die"))
+                        {
+                            animator.SetTrigger("Die_HitGround");
+                        }
+                    }
+                    
+                }
+            }
+        }
+        private float hurtTimer = 0.3f;
+        public override void OnAttacked(float damage) {
+            base.OnAttacked(damage);
+            if (Attackable.Health.Value > 0)
+            {
+                spriteRenderer.color = Color.red;
+                hurtTimer = 0.3f;
+            }
+        }
 
-       
+        public void OnDieHitGroundAnimationFinished() {
+            aliveOutlineSpriteRenderer.enabled = false;
+            outlineSpriteRenderer = deathOutlineSpriteRenderer;
+            aliveSpriteRenderer.enabled = false;
+            deathWeaponSpriteRenderer.enabled = true;
+            rigidbody.gravityScale = 0;
+            deathReady = true;
+        }
     }
 }

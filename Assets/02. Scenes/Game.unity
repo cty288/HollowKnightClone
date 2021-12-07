@@ -1581,6 +1581,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 558872644, guid: 960c88e24301e5946bc1d12cffb77ebb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5235513592859967267, guid: 960c88e24301e5946bc1d12cffb77ebb, type: 3}
       propertyPath: m_Name
       value: Rat (3)
@@ -1599,7 +1603,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5235513592859967268, guid: 960c88e24301e5946bc1d12cffb77ebb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.74
+      value: -0.561
       objectReference: {fileID: 0}
     - target: {fileID: 5235513592859967268, guid: 960c88e24301e5946bc1d12cffb77ebb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5620,10 +5624,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -5595052709431394707, guid: 37306401d7b51f3499dd2467c3f493fb, type: 3}
-      propertyPath: m_Constraints
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 4063873006214060280, guid: 37306401d7b51f3499dd2467c3f493fb, type: 3}
       propertyPath: m_Name
       value: FlyMonster
@@ -5632,10 +5632,6 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1837408472}
-    - target: {fileID: 4063873006214060281, guid: 37306401d7b51f3499dd2467c3f493fb, type: 3}
-      propertyPath: patrollRangeY
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 4063873006214060284, guid: 37306401d7b51f3499dd2467c3f493fb, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -5681,10 +5677,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6939450079749685406, guid: 37306401d7b51f3499dd2467c3f493fb, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9118138579274395817, guid: 37306401d7b51f3499dd2467c3f493fb, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -6891,6 +6883,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2834731066075598129, guid: 8f13882c0aa690b43a3df8756c9bc89f, type: 3}
+      propertyPath: TargetLayers.m_Bits
+      value: 11520
+      objectReference: {fileID: 0}
     - target: {fileID: 2834731066197028326, guid: 8f13882c0aa690b43a3df8756c9bc89f, type: 3}
       propertyPath: m_Color.b
       value: 0.6792453

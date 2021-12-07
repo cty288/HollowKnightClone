@@ -92,7 +92,12 @@ namespace HollowKnight {
             this.RegisterEvent<OnTeleportFinished>(OnTeleportFinished).UnRegisterWhenGameObjectDestroyed(gameObject);
             
             this.RegisterEvent<OnAttackStop>(OnAttackStop).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnAttackAiming>(OnAttackAiming).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnAttackStartPrepare>(OnAttackStartPrepare).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnEnemyAbsorbed>(OnAbsorbDone).UnRegisterWhenGameObjectDestroyed(gameObject);
+            
             this.RegisterEvent<OnAttackStartPrepare>(OnStartAttack).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnEnemyAbsorbed>(OnEnemyAbsorbed).UnRegisterWhenGameObjectDestroyed(gameObject);
 
             this.RegisterEvent<OnAbsorbInterrupted>(OnAbsorbInterrupted).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnEnemyAbsorbPreparing>(OnAbsorbStart).UnRegisterWhenGameObjectDestroyed(gameObject);
@@ -104,10 +109,42 @@ namespace HollowKnight {
             playerModel.Health.RegisterOnValueChaned(OnHealthChange).UnRegisterWhenGameObjectDestroyed(gameObject);
         }
 
+        
 
+        private void OnAttackAiming(OnAttackAiming e) {
+            if (e.targetPosition.x > transform.position.x)
+            {
+                transform.DOScaleX(1, 0);
+            }
+
+            if (e.targetPosition.x < transform.position.x)
+            {
+                transform.DOScaleX(-1, 0);
+            }
+
+        }
+
+        private void OnAttackStartPrepare(OnAttackStartPrepare e) {
+            if (e.targetPosition != null && e.targetPosition != Vector2.zero) {
+                if (e.targetPosition.x > transform.position.x)
+                {
+                    transform.DOScaleX(1, 0);
+                }
+
+                if (e.targetPosition.x < transform.position.x)
+                {
+                    transform.DOScaleX(-1, 0);
+                }
+            }
+        }
 
         #region Animation Events
-
+        private void OnEnemyAbsorbed(OnEnemyAbsorbed e)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Absorb")) {
+                animator.SetTrigger("Absorb_Finish");
+            }
+        }
         private void OnDie(OnPlayerDie e) {
             currentState = PlayerState.Die;
             animator.SetTrigger("Die");
@@ -124,7 +161,7 @@ namespace HollowKnight {
         private void OnPlayerHurt() {
             currentState = PlayerState.Hurt;
             attackSystem.StopAttack();
-            //absorbSystem.AbsorbInterrupt();
+            absorbSystem.AbsorbInterrupt();
             animator.SetTrigger("Hurt");
         }
 
@@ -134,6 +171,8 @@ namespace HollowKnight {
 
         private void OnStartAttack(OnAttackStartPrepare e)
         {
+            
+
             animator.SetTrigger("Attack");
         }
 
@@ -150,7 +189,10 @@ namespace HollowKnight {
 
             animator.SetTrigger("Absorb");
         }
-
+        private void OnAbsorbDone(OnEnemyAbsorbed obj)
+        {
+            animator.SetBool("Absorbing", false);
+        }
         private void OnAbsorbInterrupted(OnAbsorbInterrupted obj)
         {
             if (currentState == PlayerState.Absorb) {
@@ -273,6 +315,9 @@ namespace HollowKnight {
                                 transform.DOScaleX(-1, 0);
                             }
                             animator.SetBool("Absorbing",true);
+                        }
+                        else {
+                            animator.SetBool("Absorbing", false);
                         }
                         
 

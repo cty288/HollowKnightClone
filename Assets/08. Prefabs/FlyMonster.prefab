@@ -158,6 +158,7 @@ GameObject:
   - component: {fileID: 4063873006214060285}
   - component: {fileID: 9118138579274395817}
   - component: {fileID: 2184790234770849366}
+  - component: {fileID: 7063355002308578814}
   m_Layer: 10
   m_Name: FlyMonster
   m_TagString: Untagged
@@ -181,6 +182,7 @@ Transform:
   - {fileID: 7756851572625273978}
   - {fileID: 6824896552934417580}
   - {fileID: 1851583180009576697}
+  - {fileID: 6575352354386878717}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -251,7 +253,10 @@ MonoBehaviour:
   shakeParent: {fileID: 7756851572625273978}
   spriteRenderer: {fileID: 4063873006214060287}
   outlineSpriteRenderer: {fileID: 6939450079749685406}
-  bulletStateSprites: []
+  bulletStateSprites:
+  - {fileID: 5036429184065876246, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
+  - {fileID: -338985359088144285, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
+  - {fileID: -5432298021895082603, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
   mouseDetectionTrigger: {fileID: 2184790234770849366}
   eyePosition: {fileID: 0}
   viewDistance: 10
@@ -262,18 +267,22 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1202627793083566146, guid: 0cf4a62232553b14188576543fba83d6, type: 3}
   speed: 3
   startLocation: {x: 0, y: 0}
-  nextSpot: {fileID: 0}
   target: {fileID: 0}
   startWaitTime: 1
-  attackRate: 1
   animator: {fileID: 4063873006214060285}
   patrollRangeX: 12
-  patrollRangeY: 2
+  patrollRangeY: 4
   spriteScale: {x: 0, y: 0, z: 0}
   firePoint: {fileID: 4063873005484793525}
   enemyBulletPrefab: {fileID: 3245978255099780646, guid: b2d1a0a31aa216649ad28ae828c0b2fb, type: 3}
   canFire: 1
   facingRight: 1
+  aliveOutlineSpriteRenderer: {fileID: 6939450079749685406}
+  deathOutlineSpriteRenderer: {fileID: 4147928664346626864}
+  deathWeaponSpriteRenderer: {fileID: 6948294361604191910}
+  fallDetectionLayers:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!95 &4063873006214060285
 Animator:
   serializedVersion: 3
@@ -322,9 +331,30 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.06, y: 0}
+  m_Offset: {x: 0.059999943, y: -0.6057167}
   serializedVersion: 2
-  m_Radius: 1.7500491
+  m_Radius: 3.20578
+--- !u!50 &7063355002308578814
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4063873006214060280}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0.5
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &4063873007224016578
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,17 +555,147 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -8880846080862172280, guid: 9751021e3ac923e4c979130c642cc047, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &7902008948138156779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6575352354386878717}
+  - component: {fileID: 5607181145170831904}
+  m_Layer: 11
+  m_Name: Trail
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6575352354386878717
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7902008948138156779}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.45, y: -0.17, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4063873006214060284}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!96 &5607181145170831904
+TrailRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7902008948138156779}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Time: 0.1
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.075188875
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 0.7075472, g: 0, b: 0, a: 1}
+      key1: {r: 1, g: 0.09811318, b: 0.09811318, a: 0.12156863}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 54
+    numCapVertices: 82
+    alignment: 0
+    textureMode: 0
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MinVertexDistance: 0.1
+  m_Autodestruct: 0
+  m_Emitting: 1
 --- !u!1 &7917462706386093037
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,7 +798,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5390009582153667677, guid: f54c669dccd11fb4b8890a2c0d8b195d, type: 3}
+  m_Sprite: {fileID: -8880846080862172280, guid: 9751021e3ac923e4c979130c642cc047, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

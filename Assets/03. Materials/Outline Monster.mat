@@ -27,7 +27,7 @@ Material:
     m_Floats:
     - Enabled: 1
     - _Brightness: 3.2
-    - _Width: 0.0032
+    - _Width: 0.0035
     m_Colors:
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _Tint: {r: 1, g: 1, b: 1, a: 1}

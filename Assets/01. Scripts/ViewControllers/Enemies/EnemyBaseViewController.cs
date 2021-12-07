@@ -79,7 +79,7 @@ namespace HollowKnight {
         public bool CanAttack {
             get { return typeof(T).GetInterface("ICanAttack") != null; }
         }
-
+        protected bool deathReady = true;
         public bool CanAbsorb {
             get {
                 if (!Absorbable) return false;
@@ -91,6 +91,10 @@ namespace HollowKnight {
                 }
 
                 if (absorbable.Absorbed.Value) {
+                    return false;
+                }
+
+                if (!deathReady) {
                     return false;
                 }
 
@@ -301,7 +305,7 @@ namespace HollowKnight {
             }
         }
 
-        protected void OnMouseOver() {
+        protected virtual void OnMouseOver() {
            
             IAbsorbSystem absorbSystem = this.GetSystem<IAbsorbSystem>();
             IAttackSystem attackSystem = this.GetSystem<IAttackSystem>();
@@ -326,7 +330,7 @@ namespace HollowKnight {
 
         
 
-        private void OnMouseExit() {
+        protected virtual void OnMouseExit() {
             if (this.GetSystem<IAbsorbSystem>().AbsorbState == AbsorbState.NotAbsorbing) {
                 outlineSpriteRenderer.enabled = false;
             }
@@ -369,8 +373,8 @@ namespace HollowKnight {
             }
         }
 
-        private void OnEnemyAbsorbing(OnEnemyAbsorbing e)
-        {
+        private void OnEnemyAbsorbing(OnEnemyAbsorbing e) {
+            rigidbody.gravityScale = 0;
             if (e.absorbedEnemy && e.absorbedEnemy == gameObject)
             {
                 if (CanAbsorb) {

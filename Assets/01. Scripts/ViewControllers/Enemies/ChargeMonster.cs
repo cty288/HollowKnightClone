@@ -51,6 +51,7 @@ namespace HollowKnight
             min_X = startLocation.x - patrolRange;
             max_X = startLocation.x + patrolRange;
             waitTime = startWaitTime;
+            deathReady = false;
             nextSpot = new Vector2(Random.Range(min_X, max_X), startLocation.y);
         }
 
@@ -117,6 +118,7 @@ namespace HollowKnight
             outlineSpriteRenderer = deathOutlineSpriteRenderer;
             aliveSpriteRenderer.enabled = false;
             deathWeaponSpriteRenderer.enabled = true;
+            deathReady = true;
         }
 
         private void WaitForDizzy() {
