@@ -124,7 +124,7 @@ namespace HollowKnight {
         private void OnPlayerHurt() {
             currentState = PlayerState.Hurt;
             attackSystem.StopAttack();
-           
+            //absorbSystem.AbsorbInterrupt();
             animator.SetTrigger("Hurt");
         }
 
@@ -415,6 +415,10 @@ namespace HollowKnight {
             if (horizontalDirection == 0) {
                 rb.velocity = new Vector2(rb.velocity.x * playerModel.GroundLinearDrag.Value,
                     rb.velocity.y);
+                if (Mathf.Abs(rb.velocity.x) <= 0.1) {
+                    rb.velocity = new Vector2(rb.velocity.x * 0.5f,
+                        rb.velocity.y);
+                }
             }
 
             if (horizontalDirection != 0 && attackSystem.AttackState == AttackState.Attacking && !Input.GetMouseButton(0)) {

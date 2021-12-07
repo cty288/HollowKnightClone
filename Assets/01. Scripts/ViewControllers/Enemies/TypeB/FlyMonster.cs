@@ -1,18 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using MikroFramework.Architecture;
+using MikroFramework.Utilities;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace HollowKnight
 {
-    public class EnemyAI_TypeB : MonoBehaviour
+    public class FlyMonster : AbstractAbsorbableCanAttackEnemy<FlyMonsterConfiguration, FlyMonsterConfiguration.FlyMonsterStages>
     {
-        [SerializeField] private EnemyState enemyState;
+        
         [SerializeField] private float speed;
         [SerializeField] private Vector2 startLocation;
-        [SerializeField] private Transform nextSpot;
+        private Vector2 nextSpot;
         [SerializeField] private GameObject target;
         [SerializeField] private float startWaitTime;
-        [SerializeField] private float attackRate;
+       
 
         [SerializeField] private Animator animator;
         [SerializeField] private float patrollRangeX;
@@ -20,9 +24,12 @@ namespace HollowKnight
         [SerializeField] private Vector3 spriteScale;
 
         [SerializeField] private Transform firePoint;
-        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private GameObject enemyBulletPrefab;
         [SerializeField] private bool canFire = true;
         [SerializeField] private bool facingRight = true;
+
+        private Rigidbody2D rigidbody;
+        private Trigger2DCheck attackTrigger2DCheck;
 
         private float min_x;
         private float max_x;
@@ -36,6 +43,7 @@ namespace HollowKnight
 
         private void Awake()
         {
+            base.Awake();
             startLocation = transform.position;
             min_x = startLocation.x - patrollRangeX;
             max_x = startLocation.x + patrollRangeX;
@@ -46,45 +54,33 @@ namespace HollowKnight
             spriteScale = transform.localScale;
             nextAttackSpotCenter = transform.position;
             startLocation_y = transform.position.y;
-        }
-        public enum EnemyState
-        {
-            Patrolling,
-            Engaging,
-            Attacking,
-            dodging,
+            rigidbody = GetComponent<Rigidbody2D>();
+            attackTrigger2DCheck = GetComponentInChildren<Trigger2DCheck>();
+
         }
 
-        private void CheckingState(EnemyState currentState)
-        {
-            if (currentState == EnemyState.Patrolling)
-            {
-                animator.SetInteger("EnemyState", 1);
-                Patrolling();
-            }
-            else if (currentState == EnemyState.Engaging)
-            {
-                if (canFire) Fire();
-                else StartCoroutine(Dodging());
-            }
-            else if (currentState == EnemyState.Attacking)
-            {
-                //Dodging();
-            }
+        protected override void Start() {
+            base.Start();
+            nextSpot = DecideDistance(transform.position);
         }
 
-
-        private void Patrolling()
-        {
+        private void Patrolling() {
+            rigidbody.gravityScale = 0;
             transform.position = Vector2.MoveTowards
-                (transform.position, new Vector2(nextSpot.transform.position.x, nextSpot.transform.position.y), speed * Time.deltaTime);
-            if ((nextSpot.transform.position.x - transform.position.x) < 0) spriteScale.x = 1;
-            else if ((nextSpot.transform.position.x - transform.position.x) > 0) spriteScale.x = -1;
-            if (Vector2.Distance(transform.position, nextSpot.position) < 0.25f)
+                (transform.position, new Vector2(nextSpot.x, nextSpot.y), speed * Time.deltaTime);
+
+            if ((nextSpot.x - transform.position.x) < 0) {
+                spriteScale.x = 1;
+            }
+            else if ((nextSpot.x - transform.position.x) > 0) {
+                spriteScale.x = -1;
+            }
+
+            if (Vector2.Distance(transform.position, nextSpot) < 0.25f)
             {   
                 if (waitTime <= 0)
                 {
-                    nextSpot.position = DecideDistance(transform.position);
+                    nextSpot = DecideDistance(transform.position);
                     waitTime = startWaitTime;
                 }
                 else
@@ -100,10 +96,8 @@ namespace HollowKnight
             if (attackTimer <= 0)
             {
                 animator.SetInteger("EnemyState", 2);
-                GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-               
-                
-                attackTimer = attackRate;
+                GameObject bullet = Instantiate(enemyBulletPrefab, firePoint.position, Quaternion.identity);
+                attackTimer = GetCurrentAttackRate();
                 canFire = false;
             }
             else
@@ -157,9 +151,9 @@ namespace HollowKnight
         private IEnumerator CoroutineAttack()
         {
             animator.SetInteger("EnemyState", 2);
-            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            Instantiate(enemyBulletPrefab, firePoint.position, firePoint.rotation);
             yield return new WaitForSeconds(0.5f);
-            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            Instantiate(enemyBulletPrefab, firePoint.position, firePoint.rotation);
             animator.SetInteger("EnemyState", 1);
         }
 
@@ -174,17 +168,11 @@ namespace HollowKnight
             return randomSpot;
         }
 
-        private void OnTriggerStay2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Player"))
-            {
-                target = collision.gameObject;
-                enemyState = EnemyState.Engaging;
-            }
-        }
+      
 
         private void Update()
         {
+            base.Update();
             /*
             if (transform.position.x - target.transform.position.x < 0 && !facingRight)
             {
@@ -197,11 +185,47 @@ namespace HollowKnight
             }
             if (transform.position.x - target.transform.position.x >= 0) transform.Rotate(0f, 180f, 0f);
             */
-            CheckingState(enemyState);
+            if (attackTrigger2DCheck.Triggered) {
+                target = Player.Singleton.gameObject;
+                TriggerEvent(FlyMonsterConfiguration.FlyMonsterEvents.PlayerInRange);
+            }
             CheckPlayer();
             transform.localScale = spriteScale;
-        }     
-        
+        }
+
+        protected override void OnSeePlayer() {
+            
+        }
+
+        protected override void OnAttackingStage(Enum attackStage) {
+            
+        }
+
+        protected override void OnFSMStage(FlyMonsterConfiguration.FlyMonsterStages currentStage) {
+            if (currentStage == FlyMonsterConfiguration.FlyMonsterStages.Patrolling)
+            {
+                animator.SetInteger("EnemyState", 1);
+                Patrolling();
+            }
+            else if (currentStage == FlyMonsterConfiguration.FlyMonsterStages.Engaging)
+            {
+                if (canFire) {
+                    if (this.GetModel<IPlayerModel>().Health.Value > 0) {
+                        Fire();
+                    }
+                    
+                }
+                else {
+                    StartCoroutine(Dodging());
+                }
+            }
+           
+        }
+
+        protected override void OnNotSeePlayer() {
+            
+        }
+
         void Flip()
         {
             facingRight = !facingRight;
@@ -214,17 +238,12 @@ namespace HollowKnight
             {
                 if (Vector2.Distance(target.transform.position, this.transform.position) >= patrollRangeX)
                 {
-                    enemyState = EnemyState.Patrolling;
+                    TriggerEvent(FlyMonsterConfiguration.FlyMonsterEvents.PlayerOutRange);
                 }
             }
         }
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(new Vector2(min_x, max_y), new Vector2(max_x, max_y));
-            Gizmos.DrawLine(new Vector2(min_x, min_y), new Vector2(max_x, min_y));
-            Gizmos.DrawLine(new Vector2(min_x, max_y), new Vector2(min_x, min_y));
-            Gizmos.DrawLine(new Vector2(max_x, max_y), new Vector2(max_x, min_y));
-        }
+
+
+       
     }
 }

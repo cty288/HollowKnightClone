@@ -21,6 +21,10 @@ namespace HollowKnight
         public WeaponName WeaponName { get; }
         public void Absorb();
 
+        public float HealthRestoreWhenAbsorb { get; }
+
+        public bool HealthRestored { get; }
+
         public void Drop();
     }
 
@@ -74,7 +78,11 @@ namespace HollowKnight
 
         public void Absorb() {
             Absorbed.Value = true;
+            HealthRestored = true;
         }
+
+        public abstract float HealthRestoreWhenAbsorb { get; }
+        public bool HealthRestored { get; set; } = false;
 
         public void Drop() {
             Absorbed.Value = false;
@@ -98,6 +106,7 @@ namespace HollowKnight
 
         public override bool CanAbsorbWhenAlive { get; } = true;
         public override WeaponName WeaponName { get; } = WeaponName.Rat;
+        public override float HealthRestoreWhenAbsorb { get; } = 0.5f;
 
         public override EnemyName name { get; } = EnemyName.Rat;
 
@@ -116,6 +125,7 @@ namespace HollowKnight
         public override BindableProperty<float> Health { get; } = new BindableProperty<float>() {Value = 2};
         public override bool CanAbsorbWhenAlive { get; } = true;
         public override WeaponName WeaponName { get; } = WeaponName.Crow;
+        public override float HealthRestoreWhenAbsorb { get; } = 1;
     }
 
     public class ChargeMonsterConfigurtion : AbstractAbsorableCanAttackEnemyConfiguration, IAbsorbable {
@@ -164,8 +174,7 @@ namespace HollowKnight
 
         public override bool CanAbsorbWhenAlive { get; } = false;
         public override WeaponName WeaponName { get; } = WeaponName.ChargeMonster;
-
-
+        public override float HealthRestoreWhenAbsorb { get; } = 6;
 
         public override List<Enum> AttackStageNames { get; } = new List<Enum>() {ChargeMonsterStages.Attacking};
 
@@ -177,6 +186,48 @@ namespace HollowKnight
         };
         public override Dictionary<Enum, float> AttackFreqs { get; } = new Dictionary<Enum, float>() {
             {ChargeMonsterStages.Attacking, 2f}
+        };
+        public override float ViewDistance { get; } = 6;
+    }
+
+
+    public class FlyMonsterConfiguration : AbstractAbsorableCanAttackEnemyConfiguration, IAbsorbable {
+        public enum FlyMonsterStages
+        {
+            Any,
+            Patrolling,
+            Engaging,
+            Die
+        }
+
+        public enum FlyMonsterEvents
+        {
+           PlayerOutRange,
+           PlayerInRange,
+           Killed
+        }
+        public override EnemyName name { get; } = EnemyName.FlyMonster;
+
+        protected override void AddStateMachineState() {
+            FSM.AddTranslation(FlyMonsterStages.Engaging, FlyMonsterEvents.PlayerOutRange, FlyMonsterStages.Patrolling, null).
+                AddTranslation(FlyMonsterStages.Patrolling, FlyMonsterEvents.PlayerInRange, FlyMonsterStages.Engaging,null).
+                AddTranslation(FlyMonsterStages.Any, FlyMonsterEvents.Killed, FlyMonsterStages.Die, null ).
+                Start(FlyMonsterStages.Patrolling);
+        }
+
+        public override BindableProperty<float> Health { get; } = new BindableProperty<float>() { Value = 3 };
+
+        public override bool CanAbsorbWhenAlive { get; } = false;
+        public override WeaponName WeaponName { get; } = WeaponName.FlyMonster;
+        public override float HealthRestoreWhenAbsorb { get; } = 3;
+
+        public override List<Enum> AttackStageNames { get; } = new List<Enum>() { FlyMonsterStages.Engaging };
+        
+        public override Dictionary<Enum, float> AttackSkillDamages { get; } = new Dictionary<Enum, float>() {
+            {FlyMonsterStages.Engaging, 5}
+        };
+        public override Dictionary<Enum, float> AttackFreqs { get; } = new Dictionary<Enum, float>() {
+            {FlyMonsterStages.Engaging, 1.5f}
         };
         public override float ViewDistance { get; } = 6;
     }

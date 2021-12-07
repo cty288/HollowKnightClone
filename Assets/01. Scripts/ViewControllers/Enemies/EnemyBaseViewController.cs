@@ -147,6 +147,7 @@ namespace HollowKnight {
         protected WeaponInfo weaponInfo;
 
         protected IWeaponSystem weaponSystem;
+
         protected IAbsorbable absorbableConfiguration;
 
         protected Transform transformer;
@@ -394,6 +395,10 @@ namespace HollowKnight {
                 {
                     rigidbody.velocity = Vector2.zero;
                     rigidbody.gravityScale = 0;
+                    
+                    if (!absorbableConfiguration.HealthRestored) {
+                        this.GetModel<IPlayerModel>().ChangeHealth(absorbableConfiguration.HealthRestoreWhenAbsorb);
+                    }
 
                     absorbableConfiguration.Absorb();
                     mouseDetectionTrigger.enabled = false;
@@ -413,6 +418,10 @@ namespace HollowKnight {
 
                     trailRenderer.enabled = true;
                     gameObject.layer = LayerMask.NameToLayer("AbsorbedEnemy");
+                    
+                    
+                    //restore health
+                    
                     OnAbsorbed();
 
                     this.SendCommand<AddEnemyViewControllerToLayoutCircleCommand>(AddEnemyViewControllerToLayoutCircleCommand.Allocate(this, transformer.gameObject));
@@ -536,25 +545,34 @@ namespace HollowKnight {
 
             float direction = FaceLeft ? -1 : 1;
 
-            RaycastHit2D hit = Physics2D.Raycast(eyePosition.position, eyePosition.right * direction, viewDistance,
-                eyeDetectLayers, -50f, 50f);
+            if (eyePosition) {
+                RaycastHit2D hit = Physics2D.Raycast(eyePosition.position, eyePosition.right * direction, viewDistance,
+                    eyeDetectLayers, -50f, 50f);
 
-            if (hit.collider) {
-                if (hit.collider.gameObject.CompareTag("Player")) {
-                    if (Player.Singleton.CurrentState != PlayerState.Die) {
-                        OnSeePlayer();
+                if (hit.collider)
+                {
+                    if (hit.collider.gameObject.CompareTag("Player"))
+                    {
+                        if (Player.Singleton.CurrentState != PlayerState.Die)
+                        {
+                            OnSeePlayer();
+                        }
+                        else
+                        {
+                            OnNotSeePlayer();
+                        }
                     }
-                    else {
+                    else
+                    {
                         OnNotSeePlayer();
                     }
                 }
-                else {
+                else
+                {
                     OnNotSeePlayer();
                 }
             }
-            else {
-                OnNotSeePlayer();
-            }
+           
 
             OnFSMStage(CurrentFSMStage);
         }
@@ -574,6 +592,16 @@ namespace HollowKnight {
                 this.GetModel<IPlayerModel>().ChangeHealth(-CanAttackConfig.AttackSkillDamages
                     [(AttackStageEnum) Enum.Parse(typeof(AttackStageEnum),FSM.CurrentState.name)]);
             }
+        }
+
+        protected float GetCurrentAttackRate() {
+            if (IsAttacking)
+            {
+                return (CanAttackConfig.AttackFreqs
+                    [(AttackStageEnum)Enum.Parse(typeof(AttackStageEnum), FSM.CurrentState.name)]);
+            }
+
+            return 0;
         }
 
         protected void HurtPlayerNoMatterWhatAttackStage(float damage) {
