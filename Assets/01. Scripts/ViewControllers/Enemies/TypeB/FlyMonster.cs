@@ -276,7 +276,7 @@ namespace HollowKnight
 
         protected override void OnSeePlayer() { }
 
-        protected override void OnAttackingStage(Enum attackStage) { }
+        public override void OnAttackingStage(Enum attackStage) { }
 
         public override void OnDie() {
             base.OnDie();
@@ -290,7 +290,7 @@ namespace HollowKnight
             Debug.Log(this.rigidbody.gravityScale);
         }
 
-        protected override void OnFSMStage(FlyMonsterConfiguration.FlyMonsterStages currentStage) {
+        public override void OnFSMStage(FlyMonsterConfiguration.FlyMonsterStages currentStage) {
             if (currentStage == FlyMonsterConfiguration.FlyMonsterStages.Patrolling)
             {
                 animator.SetInteger("EnemyState", 1);
@@ -357,6 +357,7 @@ namespace HollowKnight
         }
 
         public void OnDieHitGroundAnimationFinished() {
+            spriteRenderer = deathWeaponSpriteRenderer;
             aliveOutlineSpriteRenderer.enabled = false;
             outlineSpriteRenderer = deathOutlineSpriteRenderer;
             aliveSpriteRenderer.enabled = false;

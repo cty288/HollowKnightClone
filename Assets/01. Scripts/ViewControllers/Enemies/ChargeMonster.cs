@@ -73,7 +73,7 @@ namespace HollowKnight
             }
         }
 
-        protected override void OnFSMStage(ChargeMonsterConfigurtion.ChargeMonsterStages currentStage)
+        public override void OnFSMStage(ChargeMonsterConfigurtion.ChargeMonsterStages currentStage)
         {
             //Debug.Log(currentStage.ToString());
             if (currentStage == ChargeMonsterConfigurtion.ChargeMonsterStages.Patrolling)
@@ -225,9 +225,9 @@ namespace HollowKnight
         }
 
 
-      
 
-        protected override void OnAttackingStage(Enum attackStage) {
+
+        public override void OnAttackingStage(Enum attackStage) {
             float direction = FaceLeft ? 1 : -1;
             waitTime = dizzyTime;
             this.GetSystem<IAbsorbSystem>().AbsorbInterrupt();

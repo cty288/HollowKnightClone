@@ -49,6 +49,23 @@ namespace HollowKnight {
         GameObject GameObject { get; }
     }
 
+    public interface IEnemyViewControllerCanAttack<AttackStageEnum> where AttackStageEnum:Enum{
+         AttackStageEnum CurrentFSMStage { get; } 
+         ICanAttack CanAttackConfig { get; }
+
+        bool IsAttacking { get; }
+
+        void HurtPlayerWithCurrentAttackStage();
+
+        float GetCurrentAttackRate();
+
+        void HurtPlayerNoMatterWhatAttackStage(float damage);
+
+        void OnAttackingStage(Enum attackStage);
+
+        void OnFSMStage(AttackStageEnum currentStage);
+    }
+
 
     public abstract class EnemyBaseViewController<T> : AbstractMikroController<HollowKnight>, IEnemyViewController
         where T : EnemyConfigurationItem, new() {
@@ -486,9 +503,95 @@ namespace HollowKnight {
         public virtual void OnBulletShot(int number) { }
     }
 
+    public abstract class AbstractCanAttackEnemy<T, AttackStageEnum> : EnemyBaseViewController<T>, 
+        IEnemyViewControllerAttackable, IEnemyViewControllerCanAttack<AttackStageEnum>
+        where T : EnemyConfigurationItem, new() where AttackStageEnum : Enum {
+
+        public IAttackable Attackable {
+            get {
+                return (configurationItem) as IAttackable;
+            }
+        }
+
+
+        public bool IsDie
+        {
+            get {
+                return Attackable.Health.Value <= 0;
+            }
+        }
+
+        public void AttackedByPlayer(int damage) {
+            Attackable.Attack(damage);
+        }
+
+        public virtual void OnDie() { }
+
+        public GameObject GameObject {
+            get {
+                return this.gameObject;
+            }
+        }
+
+
+        public AttackStageEnum CurrentFSMStage {
+            get {
+                return (AttackStageEnum)Enum.Parse(typeof(AttackStageEnum), FSM.CurrentState.name, true);
+            }
+        }
+
+
+        public ICanAttack CanAttackConfig {
+            get {
+                return (configurationItem) as ICanAttack;
+            }
+        }
+
+
+        public bool IsAttacking {
+            get {
+                foreach (Enum attackStageName in CanAttackConfig.AttackStageNames) {
+                    if (attackStageName.ToString() == FSM.CurrentState.name) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+        public void HurtPlayerWithCurrentAttackStage() {
+            if (IsAttacking)
+            {
+                this.GetModel<IPlayerModel>().ChangeHealth(-CanAttackConfig.AttackSkillDamages
+                    [(AttackStageEnum)Enum.Parse(typeof(AttackStageEnum), FSM.CurrentState.name)]);
+            }
+        }
+
+        public float GetCurrentAttackRate() {
+            if (IsAttacking) {
+                return (CanAttackConfig.AttackFreqs
+                    [(AttackStageEnum)Enum.Parse(typeof(AttackStageEnum), FSM.CurrentState.name)]);
+            }
+
+            return 0;
+        }
+
+        public void HurtPlayerNoMatterWhatAttackStage(float damage) {
+            this.GetModel<IPlayerModel>().ChangeHealth(-damage);
+        }
+
+        public abstract void OnAttackingStage(Enum attackStage);
+
+
+        public abstract void OnFSMStage(AttackStageEnum currentStage);
+
+    }
+
+
 
     [RequireComponent(typeof(Rigidbody2D))]
-    public abstract class AbstractAbsorbableCanAttackEnemy<T, AttackStageEnum> : AbstractAbsorbableEnemy<T> where T : EnemyConfigurationItem, new() 
+    public abstract class AbstractAbsorbableCanAttackEnemy<T, AttackStageEnum> : AbstractAbsorbableEnemy<T>,
+        IEnemyViewControllerCanAttack<AttackStageEnum> where T : EnemyConfigurationItem, new() 
     where AttackStageEnum: Enum {
         [SerializeField]
         protected Transform eyePosition;
@@ -514,7 +617,7 @@ namespace HollowKnight {
         }
 
         private bool faceLeft;
-        protected AttackStageEnum CurrentFSMStage {
+        public AttackStageEnum CurrentFSMStage {
             get {
                 return (AttackStageEnum) Enum.Parse(typeof(AttackStageEnum), FSM.CurrentState.name, true);
             }
@@ -591,14 +694,14 @@ namespace HollowKnight {
         /// <summary>
         /// Damage = damage of current attack stage. Should only be called when in attack stage
         /// </summary>
-        protected void HurtPlayerWithCurrentAttackStage() {
+        public void HurtPlayerWithCurrentAttackStage() {
             if (IsAttacking) {
                 this.GetModel<IPlayerModel>().ChangeHealth(-CanAttackConfig.AttackSkillDamages
                     [(AttackStageEnum) Enum.Parse(typeof(AttackStageEnum),FSM.CurrentState.name)]);
             }
         }
 
-        protected float GetCurrentAttackRate() {
+        public float GetCurrentAttackRate() {
             if (IsAttacking)
             {
                 return (CanAttackConfig.AttackFreqs
@@ -608,7 +711,7 @@ namespace HollowKnight {
             return 0;
         }
 
-        protected void HurtPlayerNoMatterWhatAttackStage(float damage) {
+        public void HurtPlayerNoMatterWhatAttackStage(float damage) {
             this.GetModel<IPlayerModel>().ChangeHealth(-damage);
         }
         private Tween moveTween;
@@ -649,9 +752,9 @@ namespace HollowKnight {
         }
 
 
-        protected abstract void OnAttackingStage(Enum attackStage);
+        public abstract void OnAttackingStage(Enum attackStage);
 
-        protected abstract void OnFSMStage(AttackStageEnum currentStage);
+        public abstract void OnFSMStage(AttackStageEnum currentStage);
         protected override void OnFSMStateChanged(string prevEvent, string newEvent) {
             
         }
