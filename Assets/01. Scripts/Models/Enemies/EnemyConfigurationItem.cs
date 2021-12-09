@@ -13,7 +13,8 @@ namespace HollowKnight
         Rat,
         Crow,
         ChargeMonster,
-        FlyMonster
+        FlyMonster,
+        Boss
     }
     public interface IAbsorbable: IAttackable {
         public BindableProperty<bool> Absorbed { get; }
@@ -101,6 +102,31 @@ namespace HollowKnight
         public abstract float ViewDistance { get; }
     }
 
+    public abstract class AbstractCanAttackEnemyConfiguration :EnemyConfigurationItem, ICanAttack, IAttackable {
+        public abstract List<Enum> AttackStageNames { get; }
+        public abstract Dictionary<Enum, float> AttackSkillDamages { get; }
+        public abstract Dictionary<Enum, float> AttackFreqs { get; }
+
+        public abstract BindableProperty<float> Health { get; }
+
+        public void Attack(float damage)
+        {
+            if (Health.Value >= damage)
+            {
+                Health.Value -= damage;
+            }
+            else
+            {
+                Health.Value = 0;
+            }
+
+        }
+
+        public void Kill()
+        {
+            Health.Value = 0;
+        }
+    }
     public class RatConfiguration : AbstractAbsorbableConfiguration, IAbsorbable {
         public override BindableProperty<float> Health { get; } = new BindableProperty<float>(){Value = 1};
 
@@ -230,6 +256,60 @@ namespace HollowKnight
             {FlyMonsterStages.Engaging, 2.5f}
         };
         public override float ViewDistance { get; } = 6;
+    }
+
+    public class BossConfiguration : AbstractCanAttackEnemyConfiguration {
+
+        public enum BossStages
+        {
+            Any,
+            Null,
+            Dizzy,
+            Attack,
+            Shockwave,
+            JumpAttack,
+            LeftRightAttack,
+            Walk,
+            Die
+        }
+
+        public enum BossEvents
+        {
+            MovementFinish,
+            MoveBack,
+            Attack,
+            Shockwave,
+            JumpAttack,
+            LeftRightAttack,
+            Killed
+        }
+
+        public override List<Enum> AttackStageNames { get; } = new List<Enum>() {
+            BossStages.Attack, BossStages.Shockwave, BossStages.JumpAttack, BossStages.LeftRightAttack
+        };
+        public override Dictionary<Enum, float> AttackSkillDamages { get; } = new Dictionary<Enum, float>() {
+            {BossStages.Attack, 10},
+            {BossStages.Shockwave, 10},
+            {BossStages.JumpAttack, 20},
+            {BossStages.LeftRightAttack, 10}
+        };
+        public override Dictionary<Enum, float> AttackFreqs { get; }
+
+        public override BindableProperty<float> Health { get; } = new BindableProperty<float>() {Value = 150};
+        public override EnemyName name { get; } = EnemyName.Boss;
+
+
+        protected override void AddStateMachineState() {
+            FSM.
+                AddTranslation(BossStages.Dizzy, BossEvents.Attack, BossStages.Attack,null).
+                AddTranslation(BossStages.Dizzy,BossEvents.Shockwave, BossStages.Shockwave,null).
+                AddTranslation(BossStages.Dizzy, BossEvents.JumpAttack, BossStages.JumpAttack,null).
+                AddTranslation(BossStages.Dizzy,BossEvents.LeftRightAttack, BossStages.LeftRightAttack,null).
+                AddTranslation(BossStages.Dizzy, BossEvents.MoveBack, BossStages.Walk,null).
+                AddTranslation(BossStages.Any, BossEvents.Killed, BossStages.Die, null).
+                AddTranslation(BossStages.Any, BossEvents.MovementFinish, BossStages.Dizzy, null).
+                Start(BossStages.Dizzy);
+        }
     }
 
 }

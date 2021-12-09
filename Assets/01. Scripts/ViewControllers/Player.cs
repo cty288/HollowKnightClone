@@ -146,10 +146,13 @@ namespace HollowKnight {
             }
         }
         private void OnDie(OnPlayerDie e) {
-            currentState = PlayerState.Die;
-            animator.SetTrigger("Die");
-            this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(1,0.5f,30,120));
-            this.SendCommand<TimeSlowCommand>(TimeSlowCommand.Allocate(2f, 0.2f));
+            if (currentState != PlayerState.Die) {
+                currentState = PlayerState.Die;
+                animator.SetTrigger("Die");
+                this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(1, 0.5f, 30, 120));
+                this.SendCommand<TimeSlowCommand>(TimeSlowCommand.Allocate(2f, 0.2f));
+            }
+           
         }
 
         private void OnHealthChange(float oldHealth, float newHealth) {
@@ -205,13 +208,15 @@ namespace HollowKnight {
 
         private void OnTeleportFinished(OnTeleportFinished obj)
         {
-            rb.simulated = true;
+            //rb.simulated = true;
+            rb.gravityScale = 2;
         }
 
         private void OnTeleportAppearing(OnTeleportAppearing e)
         {
             this.transform.position = e.pos;
-            rb.simulated = false;
+            //rb.simulated = false;
+            rb.gravityScale = 0;
             animator.SetTrigger("Teleport_Appear");
         }
 
@@ -228,7 +233,9 @@ namespace HollowKnight {
             }
 
             animator.SetTrigger("Teleport");
-            rb.simulated = false;
+
+            //rb.simulated = false;
+            rb.gravityScale = 0;
         }
 
         private void OnAiming(OnAttackAiming obj)
