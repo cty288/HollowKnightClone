@@ -30,6 +30,8 @@ namespace HollowKnight
     }
 
     public interface IAttackable {
+        public float MaxHealth { get; }
+
         public BindableProperty<float> Health { get; }
 
         public void Attack(float damage);
@@ -57,10 +59,12 @@ namespace HollowKnight
     }
 
     public abstract class AbstractAbsorbableConfiguration : EnemyConfigurationItem, IAbsorbable {
+        public abstract float MaxHealth { get; }
         public abstract BindableProperty<float> Health { get; } 
         //will never surpass the existing health of that enemy
         public void Attack(float damage) {
-            if (Health.Value >= damage) {
+            
+            if (Health.Value > damage) {
                 Health.Value -= damage;
             }
             else {
@@ -107,11 +111,12 @@ namespace HollowKnight
         public abstract Dictionary<Enum, float> AttackSkillDamages { get; }
         public abstract Dictionary<Enum, float> AttackFreqs { get; }
 
+        public abstract float MaxHealth { get; }
         public abstract BindableProperty<float> Health { get; }
 
         public void Attack(float damage)
         {
-            if (Health.Value >= damage)
+            if (Health.Value > damage)
             {
                 Health.Value -= damage;
             }
@@ -128,6 +133,7 @@ namespace HollowKnight
         }
     }
     public class RatConfiguration : AbstractAbsorbableConfiguration, IAbsorbable {
+        public override float MaxHealth { get; } = 1;
         public override BindableProperty<float> Health { get; } = new BindableProperty<float>(){Value = 1};
 
         public override bool CanAbsorbWhenAlive { get; } = true;
@@ -148,6 +154,7 @@ namespace HollowKnight
             
         }
 
+        public override float MaxHealth { get; } = 2;
         public override BindableProperty<float> Health { get; } = new BindableProperty<float>() {Value = 2};
         public override bool CanAbsorbWhenAlive { get; } = true;
         public override WeaponName WeaponName { get; } = WeaponName.Crow;
@@ -196,6 +203,7 @@ namespace HollowKnight
                 Start(ChargeMonsterStages.Patrolling);
         }
 
+        public override float MaxHealth { get; } = 6;
         public override BindableProperty<float> Health { get; } = new BindableProperty<float>() {Value = 6};
 
         public override bool CanAbsorbWhenAlive { get; } = false;
@@ -241,6 +249,7 @@ namespace HollowKnight
                 Start(FlyMonsterStages.Patrolling);
         }
 
+        public override float MaxHealth { get; } = 3;
         public override BindableProperty<float> Health { get; } = new BindableProperty<float>() { Value = 3 };
 
         public override bool CanAbsorbWhenAlive { get; } = false;
@@ -288,18 +297,20 @@ namespace HollowKnight
             BossStages.Attack, BossStages.Shockwave, BossStages.JumpAttack, BossStages.LeftRightAttack
         };
         public override Dictionary<Enum, float> AttackSkillDamages { get; } = new Dictionary<Enum, float>() {
-            {BossStages.Attack, 10},
-            {BossStages.Shockwave, 10},
-            {BossStages.JumpAttack, 20},
-            {BossStages.LeftRightAttack, 10}
+            {BossStages.Attack, 5},
+            {BossStages.Shockwave, 8},
+            {BossStages.JumpAttack, 10},
+            {BossStages.LeftRightAttack, 5}
         };
         public override Dictionary<Enum, float> AttackFreqs { get; }
+        public override float MaxHealth { get; } = 100;
 
-        public override BindableProperty<float> Health { get; } = new BindableProperty<float>() {Value = 150};
+        public override BindableProperty<float> Health { get; } = new BindableProperty<float>();
         public override EnemyName name { get; } = EnemyName.Boss;
-
+        
 
         protected override void AddStateMachineState() {
+            Health.Value = MaxHealth;
             FSM.
                 AddTranslation(BossStages.Dizzy, BossEvents.Attack, BossStages.Attack,null).
                 AddTranslation(BossStages.Dizzy,BossEvents.Shockwave, BossStages.Shockwave,null).

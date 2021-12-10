@@ -23,6 +23,8 @@ namespace HollowKnight
     public struct OnUltAttack {
         public IEnemyViewControllerAttackable AttackableViewController;
         public GameObject TargetGameObject;
+        public float LastTime;
+        public WeaponType WeaponType;
     }
 
     public struct OnAttackAiming {
@@ -270,11 +272,16 @@ namespace HollowKnight
             if (attackable != null) {
                 Debug.Log($"Ult to {attackable.GameObject.name}");
                 this.SendEvent<OnUltAttack>(new OnUltAttack(){AttackableViewController = attackable
-                    ,TargetGameObject = attackable.GameObject });
+                    ,TargetGameObject = attackable.GameObject, LastTime = weaponSystem.SelectedWeapon.UltChargeTime.Value,
+                    WeaponType =  weaponSystem.SelectedWeapon.Type.Value
+                });
             }
             else {
                 Debug.Log($"Ult with no target");
-                this.SendEvent<OnUltAttack>(new OnUltAttack());
+                this.SendEvent<OnUltAttack>(new OnUltAttack() {
+                    LastTime = weaponSystem.SelectedWeapon.UltChargeTime.Value,
+                    WeaponType = weaponSystem.SelectedWeapon.Type.Value
+                });
             }
         }
 

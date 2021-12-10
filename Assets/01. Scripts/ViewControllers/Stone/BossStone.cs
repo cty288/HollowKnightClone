@@ -11,22 +11,27 @@ namespace HollowKnight
 
         private Rigidbody2D rigidbody;
         private Animator animator;
-        private bool played = false;
 
+        private bool hit = false;
         private void Awake() {
             Destroy(this.gameObject,10f);
             rigidbody = GetComponent<Rigidbody2D>();
             animator = GetComponent<Animator>();
         }
 
-        private void OnCollisionEnter2D(Collision2D other) {
-            if (!other.collider.isTrigger && !played) {
+        private void OnTriggerEnter2D(Collider2D other) {
+
+            if (!other.isTrigger && !hit) {
+
+                if (other.gameObject.TryGetComponent<IEnemyViewControllerAbsorbable>(
+                    out IEnemyViewControllerAbsorbable enemy)) {
+                    return;
+                }
+
+                hit = true;
                 animator.SetTrigger("Hit");
-                Debug.Log("Stone hit");
-                played = true;
-               // rigidbody.gravityScale = 0;
-              //  rigidbody.velocity = Vector2.zero;
-                
+                rigidbody.gravityScale = 0;
+                rigidbody.velocity = Vector2.zero;
                 if (other.gameObject == Player.Singleton.gameObject) {
                     this.GetModel<IPlayerModel>().ChangeHealth(-damage);
                 }

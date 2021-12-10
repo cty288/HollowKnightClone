@@ -228,7 +228,7 @@ namespace HollowKnight
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
             if (hit.collider) {
-                if (hit.collider is CircleCollider2D) {
+                if (hit.collider is CircleCollider2D && hit.collider.gameObject == this.gameObject) {
                     OnMouseHover();
                     return;
                 }
@@ -365,5 +365,7 @@ namespace HollowKnight
             rigidbody.gravityScale = 0;
             deathReady = true;
         }
+
+        
     }
 }

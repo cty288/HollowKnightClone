@@ -15,7 +15,8 @@ namespace MikroFramework.CodeGen {
             {"input", new []{ "InputField", "TMP_InputField"}},
             {"dropdown",new []{ "Dropdown","TMP_Dropdown" } },
             {"audio",new []{ "AudioSource" }},
-            {"light",new[]{"Light"} }
+            {"light",new[]{"Light"} },
+            {"slider", new []{"Slider"} },
         };
 
         

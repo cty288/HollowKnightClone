@@ -13,8 +13,9 @@ namespace HollowKnight
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class AbstractAbsorbableEnemy<T> : EnemyBaseViewController<T>, IEnemyViewControllerAbsorbable
-        where T : EnemyConfigurationItem, new()
-    {
+        where T : EnemyConfigurationItem, new() {
+       
+
         [SerializeField]
         protected SpriteRenderer spriteRenderer;
 
@@ -77,6 +78,9 @@ namespace HollowKnight
             weaponInfo.BulletCount.RegisterOnValueChaned(OnBulletCountChange).UnRegisterWhenGameObjectDestroyed(gameObject);
             //OnBulletCountChange(weaponInfo.BulletCount.Value,weaponInfo.BulletCount.Value);
 
+            if (BornToBeDead) {
+                Attackable.Kill();
+            }
         }
 
         private void OnAiming(OnAttackAiming e)
@@ -254,7 +258,10 @@ namespace HollowKnight
             if (newHealth < old)
             {
                 Debug.Log($"Attacked, add to charge {old - newHealth}");
-                this.SendCommand<ChargeUltCommand>(ChargeUltCommand.Allocate(old - newHealth));
+                if (!BornToBeDead) {
+                    this.SendCommand<ChargeUltCommand>(ChargeUltCommand.Allocate(old - newHealth));
+                }
+                
                 OnAttacked(old - newHealth);
             }
 
@@ -358,6 +365,8 @@ namespace HollowKnight
         {
             absorbableConfiguration.Health.Value -= damage;
         }
+
+        public bool BornToBeDead { get; set; } = false;
 
         //instant
         public virtual void OnDie()

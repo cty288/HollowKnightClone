@@ -72,7 +72,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _ENABLE: 1
-    - _EffectOffset: 0.021
+    - _EffectOffset: -0.06
     - _EffectSize: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
@@ -85,10 +85,10 @@ Material:
     - _OcclusionStrength: 1
     - _Opacity: 0.261
     - _Parallax: 0.02
-    - _Scale: 0.15
+    - _Scale: 0.09
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SpeedX: -0.1
+    - _SpeedX: 0.04
     - _SpeedY: -0.15
     - _SrcBlend: 1
     - _UVSec: 0

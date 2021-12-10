@@ -1,7 +1,43 @@
 fileFormatVersion: 2
-guid: 0b161d313a0515944802a8d5d0176c50
+guid: 9fcb3f041db3a944ba24de38ee0c6241
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -2914852144297018477
+    second: bossDeathSheet_0
+  - first:
+      213: -3766017585324129002
+    second: bossDeathSheet_1
+  - first:
+      213: -5890072825099620310
+    second: bossDeathSheet_2
+  - first:
+      213: -8203838580705169115
+    second: bossDeathSheet_3
+  - first:
+      213: 5705704409165272077
+    second: bossDeathSheet_4
+  - first:
+      213: 5829796367756878644
+    second: bossDeathSheet_5
+  - first:
+      213: -159884644101332438
+    second: bossDeathSheet_6
+  - first:
+      213: 872148848670187526
+    second: bossDeathSheet_7
+  - first:
+      213: -5046440374852652973
+    second: bossDeathSheet_8
+  - first:
+      213: -4276818469075968981
+    second: bossDeathSheet_9
+  - first:
+      213: -140497478074055693
+    second: bossDeathSheet_10
+  - first:
+      213: 5836374201192111733
+    second: bossDeathSheet_11
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -65,7 +101,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 16384
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -77,7 +113,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 16384
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -89,7 +125,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: iPhone
-    maxTextureSize: 16384
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -101,7 +137,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 16384
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -113,7 +149,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
-    maxTextureSize: 16384
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -127,253 +163,253 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: playerDashSheet_0
+      name: bossDeathSheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bed57a4d0af8593a0800000000000000
-      internalID: -6659258553072132629
+      spriteID: 39bf3661b6d5c87d0800000000000000
+      internalID: -2914852144297018477
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_1
+      name: bossDeathSheet_1
       rect:
         serializedVersion: 2
-        x: 224
+        x: 500
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fbbb9a71c19001020800000000000000
-      internalID: 2310356625101798335
+      spriteID: 61581e895fa6cbbc0800000000000000
+      internalID: -3766017585324129002
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_2
+      name: bossDeathSheet_2
       rect:
         serializedVersion: 2
-        x: 448
+        x: 1000
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 940dc5a5de44896c0800000000000000
-      internalID: -4136480471525830583
+      spriteID: a2071c6f8f1424ea0800000000000000
+      internalID: -5890072825099620310
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_3
+      name: bossDeathSheet_3
       rect:
         serializedVersion: 2
-        x: 672
+        x: 1500
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29fa5db82f4fbf670800000000000000
-      internalID: 8573715638195171218
+      spriteID: 5217c62d64c162e80800000000000000
+      internalID: -8203838580705169115
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_4
+      name: bossDeathSheet_4
       rect:
         serializedVersion: 2
-        x: 896
+        x: 2000
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55cf03e3f783bfe10800000000000000
-      internalID: 2232440159447612501
+      spriteID: d041da51eebbe2f40800000000000000
+      internalID: 5705704409165272077
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_5
+      name: bossDeathSheet_5
       rect:
         serializedVersion: 2
-        x: 1120
+        x: 2500
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8a2c7db101bd5ccb0800000000000000
-      internalID: -4844224961934015832
+      spriteID: 433e20da8e897e050800000000000000
+      internalID: 5829796367756878644
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_6
+      name: bossDeathSheet_6
       rect:
         serializedVersion: 2
-        x: 1344
+        x: 3000
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3fcd6f3235dd23740800000000000000
-      internalID: 5130406274683821299
+      spriteID: a22ec4763c9f7cdf0800000000000000
+      internalID: -159884644101332438
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_7
+      name: bossDeathSheet_7
       rect:
         serializedVersion: 2
-        x: 1664
+        x: 3500
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59881a57ac5e4a1e0800000000000000
-      internalID: -2187370861275543403
+      spriteID: 600a04cc1ce7a1c00800000000000000
+      internalID: 872148848670187526
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_8
+      name: bossDeathSheet_8
       rect:
         serializedVersion: 2
-        x: 1920
+        x: 4000
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.75, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 428c4aba6c2a55bb0800000000000000
-      internalID: -4947869641429694428
+      spriteID: 350f7bc573177f9b0800000000000000
+      internalID: -5046440374852652973
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_9
+      name: bossDeathSheet_9
       rect:
         serializedVersion: 2
-        x: 2144
+        x: 4500
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.75, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fedfb407d869a75b0800000000000000
-      internalID: -5369814071467311633
+      spriteID: b2c95ed0340b5a4c0800000000000000
+      internalID: -4276818469075968981
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_10
+      name: bossDeathSheet_10
       rect:
         serializedVersion: 2
-        x: 2368
+        x: 5000
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.75, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 727354673e2240560800000000000000
-      internalID: 7278981258074732327
+      spriteID: 3f3ce8fb94adc0ef0800000000000000
+      internalID: -140497478074055693
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_11
+      name: bossDeathSheet_11
       rect:
         serializedVersion: 2
-        x: 2592
+        x: 5500
         y: 0
-        width: 96
-        height: 96
+        width: 500
+        height: 500
       alignment: 9
-      pivot: {x: 0.75, y: 0.5}
+      pivot: {x: 0.7111118, y: 0.2863786}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 78ecd1ba43a249760800000000000000
-      internalID: 7463636888157277831
+      spriteID: 57e5f4ed967fef050800000000000000
+      internalID: 5836374201192111733
       vertices: []
       indices: 
       edges: []

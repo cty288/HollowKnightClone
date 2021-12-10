@@ -340,6 +340,6 @@ MonoBehaviour:
   Target: {x: 0, y: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 1280
+    m_Bits: 3328
   damage: 1
   force: 20

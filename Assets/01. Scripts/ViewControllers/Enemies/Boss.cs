@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using MikroFramework;
 using MikroFramework.Architecture;
 using MikroFramework.Utilities;
 using UnityEngine;
@@ -9,7 +10,11 @@ using Random = UnityEngine.Random;
 
 namespace HollowKnight
 {
-    public class Boss : AbstractCanAttackEnemy<BossConfiguration, BossConfiguration.BossStages> {
+
+    public struct OnPlayerEnterBossRoom {
+
+    }
+    public class Boss : AbstractCanAttackEnemy<BossConfiguration, BossConfiguration.BossStages>, ICanSendEvent {
         /*                     internal state                     Animation State
         Attack                        0                                   0
         JumpAttack                    1                                   1
@@ -30,6 +35,8 @@ namespace HollowKnight
 
         [SerializeField] private float jumpSpeed = 3f;
 
+        [SerializeField] private List<GameObject> absorbableDeadBodyPrefab = new List<GameObject>();
+
 
         private List<BossConfiguration.BossStages> motionStages = new List<BossConfiguration.BossStages>() {
             BossConfiguration.BossStages.Attack,
@@ -46,6 +53,7 @@ namespace HollowKnight
         [SerializeField]
         private float dizzyTimer = 1;
 
+        [SerializeField]
         private BossConfiguration.BossStages LastStage = BossConfiguration.BossStages.Dizzy;
 
         private bool playerEnterBossRoom = false;
@@ -70,7 +78,10 @@ namespace HollowKnight
 
         private void ConfigureRangeMotions() {
             rangeMainMotions = new Dictionary<Trigger2DCheck, List<BossConfiguration.BossStages>>() {
-                {rangeChecks[0], new List<BossConfiguration.BossStages>() {BossConfiguration.BossStages.Walk}}, {
+                {rangeChecks[0], new List<BossConfiguration.BossStages>() {
+                    BossConfiguration.BossStages.Walk,
+                    //BossConfiguration.BossStages.JumpAttack
+                }}, {
                     rangeChecks[1],
                     new List<BossConfiguration.BossStages>()
                         {BossConfiguration.BossStages.LeftRightAttack, BossConfiguration.BossStages.Attack}
@@ -84,7 +95,7 @@ namespace HollowKnight
                     rangeChecks[3],
                     new List<BossConfiguration.BossStages>() {
                         BossConfiguration.BossStages.Attack, BossConfiguration.BossStages.LeftRightAttack,
-                        BossConfiguration.BossStages.Walk, BossConfiguration.BossStages.JumpAttack
+                        BossConfiguration.BossStages.JumpAttack
                        // BossConfiguration.BossStages.Shockwave
                     }
                 }
@@ -95,16 +106,28 @@ namespace HollowKnight
             base.Update();
             CheckMouseHover();
             if (rangeChecks[3].Triggered) {
+                if (!playerEnterBossRoom) {
+                    this.SendEvent<OnPlayerEnterBossRoom>();
+                }
                 playerEnterBossRoom = true;
-                
+            }
 
-                if (steppingOnPlayerHead) {
-                    if (!playerHeadCheck.Triggered) {
-                        steppingOnPlayerHead = false;
-                        gameObject.layer = LayerMask.NameToLayer("Enemy");
-                    }
+
+            if (steppingOnPlayerHead)
+            {
+                if (!playerHeadCheck.Triggered)
+                {
+                    steppingOnPlayerHead = false;
+                    gameObject.layer = LayerMask.NameToLayer("Enemy");
                 }
             }
+
+            hurtTimer -= Time.deltaTime;
+            if (hurtTimer <= 0)
+            {
+                spriteRenderer.color = Color.white;
+            }
+
             outlineSpriteRenderer.sprite = spriteRenderer.sprite;
         }
         public override void OnFSMStage(BossConfiguration.BossStages currentStage) {
@@ -126,9 +149,15 @@ namespace HollowKnight
                     case BossConfiguration.BossStages.Shockwave:
                         ShockWave();
                         break;
+                    case BossConfiguration.BossStages.Walk:
+                        Walk();
+                        break;
                 }
             }
         }
+
+        
+
 
         #region Shockwave
         [SerializeField] private GameObject shockwavePrefab;
@@ -146,6 +175,10 @@ namespace HollowKnight
         }
         #endregion
 
+        [SerializeField] private float hitPlayerForce = 20;
+        private void AddForceToPlayer() {
+            Player.Singleton.GetComponent<Rigidbody2D>().AddForce(new Vector2((FaceLeft ? -1 : 1) * hitPlayerForce, 5), ForceMode2D.Impulse);
+        }
 
         #region LeftRightAttack
         private int leftRightAttackTime = 0;
@@ -160,6 +193,7 @@ namespace HollowKnight
 
         public void OnNormalAttackBeforeLeftRightAttackAnimationDown() {
             if (normalAttackTrigger.Triggered) {
+                AddForceToPlayer();
                 HurtPlayerWithCurrentAttackStage();
                 
             }
@@ -178,7 +212,24 @@ namespace HollowKnight
                     Quaternion.identity);
                 stone.GetComponent<Rigidbody2D>().gravityScale = Random.Range(1f, 2.5f);
             }
-            
+
+
+            for (int i = 0; i < deadbodySpawnNumPerTime; i++) {
+                int spawn = Random.Range(0, 2);
+
+                if (spawn == 0) {
+                    float pos = Random.Range(x1, x2);
+                    GameObject prefab = absorbableDeadBodyPrefab[Random.Range(0, absorbableDeadBodyPrefab.Count)];
+
+                    GameObject body = Instantiate(prefab, new Vector3(pos, stoneSpawnHeight + 5, 0),
+                        Quaternion.identity);
+
+                    body.GetComponent<IEnemyViewControllerAbsorbable>().BornToBeDead = true;
+
+                    body.GetComponent<Rigidbody2D>().gravityScale = Random.Range(3f, 5f);
+                }
+               
+            }
             //float x2 = 
         }
 
@@ -186,6 +237,7 @@ namespace HollowKnight
         {
             if (normalAttackTrigger.Triggered)
             {
+                AddForceToPlayer();
                 HurtPlayerWithCurrentAttackStage();
                
             }
@@ -197,7 +249,8 @@ namespace HollowKnight
             if (rightAttackTrigger.Triggered)
             {
                 HurtPlayerWithCurrentAttackStage();
-                
+                AddForceToPlayer();
+
             }
             this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(0.3f, 0.3f, 20, 90));
             SpawnStoneAndDeadBody();
@@ -277,7 +330,7 @@ namespace HollowKnight
                     animator.SetInteger("Motion", 1);
                 }
                 else { //cant jump because of wall -> turn
-                    transform.DOScaleX(transform.localScale.x * -1, 0);
+                    TurnBack();
                 }
 
             }else if (jumpState == BossJumpState.Jumping) {
@@ -329,7 +382,8 @@ namespace HollowKnight
         public void OnJumpAttackDown() {
             if (normalAttackTrigger.Triggered) {
                 HurtPlayerWithCurrentAttackStage();
-                
+
+                AddForceToPlayer();
             }
             this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(0.5f, 1f, 20, 90));
         }
@@ -348,6 +402,100 @@ namespace HollowKnight
         }
         #endregion
 
+        #region Walk
+        //depend on player's location and boss' location
+        //player:
+        //d1, d2: Turn, move back a small distance
+        //d3, d4: Move Forward,
+        //  until: Player in d1/d2  or  distance reach  
+
+        //boss:
+        //Face wall:Always Turn, jump forward
+
+        [SerializeField] private float walkSpeed = 5f;
+        private Vector2 targetWalkDest = Vector2.zero;
+
+        private WalkDecision walkDecision = WalkDecision.DecisionNotMadeYet;
+        enum WalkDecision {
+            DecisionNotMadeYet,
+            PlayerInD1D2,
+            PlayerInD3D4,
+          
+        }
+
+        private Vector2 lastWalkPos;
+        private float totalWalkDis=0;
+        private void Walk() {
+            float direction = FaceLeft ? -1 : 1;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * direction, 3, wallCheckMasks);
+
+            if (hit.collider != null) {
+                //face wall -> turn and jump forward
+                TurnBack();
+                SwitchToMotion(BossConfiguration.BossStages.JumpAttack);
+                return;
+            }
+
+
+
+            switch (walkDecision) {
+                case WalkDecision.DecisionNotMadeYet:
+                    if (rangeChecks[0].Triggered || rangeChecks[1].Triggered) {
+                        walkDecision = WalkDecision.PlayerInD1D2;
+                        TurnBack();
+                        direction = FaceLeft ? -1 : 1;
+                        targetWalkDest = new Vector2(transform.position.x + direction * Random.Range(3, 10),
+                            transform.position.y);
+                        animator.SetInteger("Motion", 3);
+                        
+                    }
+                    else if (rangeChecks[2].Triggered || rangeChecks[3].Triggered) {
+                        walkDecision = WalkDecision.PlayerInD3D4;
+                        targetWalkDest = new Vector2(transform.position.x + direction * Random.Range(3, 10),
+                            transform.position.y);
+                        animator.SetInteger("Motion", 3);
+                    }
+                    else { //player on the back
+                        TurnBack();
+                    }
+                    Debug.Log($"Target walk dest: {targetWalkDest.x}");
+
+                    break;
+                   
+                case WalkDecision.PlayerInD1D2:
+                    if (Vector2.Distance(transform.position, targetWalkDest) <= 1) {
+                        animator.SetTrigger("Dizzy");
+                        ToDizzyStage(3);
+                        return;
+                    }
+                    break;
+                case WalkDecision.PlayerInD3D4:
+                    if (Vector2.Distance(transform.position, targetWalkDest) <= 1) {
+                        animator.SetTrigger("Dizzy");
+                        ToDizzyStage(3);
+                        return;
+                    }else if (rangeChecks[0].Triggered || rangeChecks[1].Triggered) {
+                        animator.SetTrigger("Dizzy");
+                        ToDizzyStage(3);
+                        return;
+                    } 
+                    break;
+            }
+
+            totalWalkDis += Vector2.Distance(transform.position, lastWalkPos);
+            lastWalkPos = transform.position;
+
+            if (totalWalkDis >= 10) {
+                animator.SetTrigger("Dizzy");
+                ToDizzyStage(3);
+                return;
+            }
+
+            direction = FaceLeft ? -1 : 1;
+            rigidbody.velocity = new Vector2(direction * walkSpeed, 0);
+        }
+        #endregion
+        
         #region Attack
         private void Attack() {
             animator.SetInteger("Motion", 0);
@@ -357,15 +505,18 @@ namespace HollowKnight
             if (normalAttackTrigger.Triggered) {
                 Debug.Log("Attack hit player");
                 HurtPlayerWithCurrentAttackStage();
+                AddForceToPlayer();
 
-               
             }
             this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(0.3f, 0.5f, 20, 90));
 
             int shockWaveChance = Random.Range(0, 100);
-            if (shockWaveChance <= 50) {
+            if (shockWaveChance <= 50 || Attackable.Health.Value <= Attackable.MaxHealth/2
+            || (!rangeChecks[0].Triggered && !rangeChecks[1].Triggered)) {
                 SpawnShockWave(FaceLeft);
             }
+
+
             /*
             if (CurrentFSMStage == BossConfiguration.BossStages.Shockwave)
             {
@@ -390,26 +541,20 @@ namespace HollowKnight
             TriggerEvent(BossConfiguration.BossEvents.MovementFinish);
         }
 
+        private bool stageSwitched = false;
         private void DizzyCountDown()
         {
             animator.SetInteger("Motion", -1);
             dizzyTimer -= Time.deltaTime;
-            if (dizzyTimer <= 0) {
-                
-                BossConfiguration.BossStages nextMotion = SwitchStageDecision();
-
-                if (nextMotion == BossConfiguration.BossStages.Null)
-                { //turn
-                    transform.DOScaleX(transform.localScale.x * -1, 0);
-                }
-                else
-                {
-                    Debug.Log($"Decide to switch to {nextMotion}");
+            if (dizzyTimer <= 0 && !stageSwitched) {
+                stageSwitched = true;
+                StartCoroutine(SwitchStageDecision(bossStage => {
+                    Debug.Log($"Decide to switch to {bossStage}");
                     //dizzyTimer = 1;
                     //animator.SetBool("Dizzy", false);
-                    SwitchToMotion(nextMotion);
-                }
-
+                    SwitchToMotion(bossStage);
+                    stageSwitched = false;
+                }));
             }
         }
         #endregion
@@ -445,29 +590,36 @@ namespace HollowKnight
                     break;
                 case BossConfiguration.BossStages.Walk: //need some logics
                     LastStage = nextMotion;
+                    totalWalkDis = 0;
+                    lastWalkPos = transform.position;
+                    walkDecision = WalkDecision.DecisionNotMadeYet;
+                    TriggerEvent(BossConfiguration.BossEvents.MoveBack);
                     break;
             }
         }
 
 
-        private BossConfiguration.BossStages SwitchStageDecision()
-        {
+        private IEnumerator SwitchStageDecision(Action<BossConfiguration.BossStages> onFinished) {
             Trigger2DCheck rangePlayerIn = null;
-            foreach (Trigger2DCheck trigger2DCheck in rangeChecks)
-            {
-                if (trigger2DCheck.Triggered)
-                {
-                    rangePlayerIn = trigger2DCheck;
+
+            while (true) {
+                foreach (Trigger2DCheck trigger2DCheck in rangeChecks) {
+                    if (trigger2DCheck.Triggered) {
+                        rangePlayerIn = trigger2DCheck;
+                        break;
+                    }
+                }
+
+                if (rangePlayerIn != null) {
                     break;
+                }
+                else {
+                    TurnBack();
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
 
-            if (rangePlayerIn == null)
-            { //when player on the back of the boss
-                return BossConfiguration.BossStages.Null;
-            }
-            else
-            {
+            if (CurrentFSMStage != BossConfiguration.BossStages.Die) {
                 List<BossConfiguration.BossStages> currentRangeMainMotions = rangeMainMotions[rangePlayerIn];
                 List<BossConfiguration.BossStages> currentRangeOtherMotions = new List<BossConfiguration.BossStages>();
 
@@ -493,8 +645,10 @@ namespace HollowKnight
 
                 List<BossConfiguration.BossStages> targetMotionList = null;
 
-                if (motionType <= 80 || currentRangeOtherMotions.Count ==0)
+                if (motionType <= 80 || currentRangeOtherMotions.Count == 0)
                 {
+
+
                     targetMotionList = currentRangeMainMotions;
 
                 }
@@ -507,15 +661,30 @@ namespace HollowKnight
                 do
                 {
                     //main motions
+                    if (targetMotionList == currentRangeMainMotions && targetMotionList.Contains(BossConfiguration.BossStages.JumpAttack))
+                    {
+                        int jumpChance = Random.Range(0, 11);
+                        if (jumpChance >= 9)
+                        {
+                            targetStage = BossConfiguration.BossStages.JumpAttack;
+                            break;
+                        }
+                    }
+
                     int targetMotionIndex = Random.Range(0, targetMotionList.Count);
                     targetStage = targetMotionList[targetMotionIndex];
-                } while (targetStage == LastStage && targetMotionList.Count>1);
+                } while (targetStage == LastStage && targetMotionList.Count > 1);
 
-                return targetStage;
+                onFinished?.Invoke(targetStage);
             }
+           
         }
 
         #endregion
+
+        public void OnBossFallGround() {
+            this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(0.7f, 1.5f, 20, 100));
+        }
 
         private Vector2 GetRangeTriggerWorldPositionXVector2Range(Trigger2DCheck range) {
             float localX = range.gameObject.transform.localPosition.x;
@@ -538,9 +707,41 @@ namespace HollowKnight
           
         }
 
+        private void TurnBack() {
+            transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
+            foreach (Trigger2DCheck rangeCheck in rangeChecks) {
+                rangeCheck.Clear();
+            }
+        }
+
         public override void OnAttackingStage(Enum attackStage) { }
 
-        public override void OnAttacked(float damage) { }
+        private float hurtTimer = 0.3f;
+
+        public override void OnAttacked(float damage) {
+            this.SendEvent<OnBossHurt>(new OnBossHurt()
+                {currentHealth = Attackable.Health.Value, maxHealth = Attackable.MaxHealth});
+
+            if (Attackable.Health.Value > 0) {
+                spriteRenderer.color = Color.red;
+                hurtTimer = 0.3f;
+            }
+
+        }
+
+        [SerializeField] private Collider2D aliveCollider2D;
+       // [SerializeField] private Collider2D diecCollider2D;
+
+        public override void OnDie() {
+            base.OnDie();
+            animator.SetTrigger("Die");
+            this.SendEvent<OnBossHurt>(new OnBossHurt()
+                { currentHealth = 0, maxHealth = Attackable.MaxHealth });
+            rigidbody.gravityScale = 0;
+            aliveCollider2D.isTrigger = true;
+            mouseCheckTrigger.enabled = false;
+            TriggerEvent(BossConfiguration.BossEvents.Killed);
+        }
 
         protected override void OnMouseOver() { }
 
@@ -584,5 +785,10 @@ namespace HollowKnight
             outlineSpriteRenderer.enabled = true;
         }
 
+    }
+
+    public struct OnBossHurt{
+        public float currentHealth;
+        public float maxHealth;
     }
 }

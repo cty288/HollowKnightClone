@@ -11,8 +11,8 @@ namespace HollowKnight
 {
     public abstract class AbstractCanAttackEnemy<T, AttackStageEnum> : EnemyBaseViewController<T>,
          IEnemyViewControllerAttackable, IEnemyViewControllerCanAttack<AttackStageEnum>
-         where T : EnemyConfigurationItem, new() where AttackStageEnum : Enum
-    {
+         where T : EnemyConfigurationItem, new() where AttackStageEnum : Enum {
+
         protected Rigidbody2D rigidbody;
 
         protected IWeaponSystem weaponSystem;
@@ -94,6 +94,8 @@ namespace HollowKnight
         {
             Attackable.Attack(damage);
         }
+
+        public bool BornToBeDead { get; set; } = false;
 
         public virtual void OnDie() { }
 

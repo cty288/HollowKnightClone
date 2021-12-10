@@ -103,6 +103,8 @@ namespace HollowKnight
         public override void OnDie() {
             base.OnDie();
             spriteRenderer = deathWeaponSpriteRenderer;
+            aliveCollider2D.enabled = false;
+            dieCollider2D.enabled = true;
             animator.SetTrigger("Die");
             TriggerEvent(ChargeMonsterConfigurtion.ChargeMonsterEvents.Killed);
         }

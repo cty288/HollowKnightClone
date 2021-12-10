@@ -148,7 +148,7 @@ namespace HollowKnight {
         private void OnDie(OnPlayerDie e) {
             if (currentState != PlayerState.Die) {
                 currentState = PlayerState.Die;
-                animator.SetTrigger("Die");
+                animator.SetBool("Die", true);
                 this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(1, 0.5f, 30, 120));
                 this.SendCommand<TimeSlowCommand>(TimeSlowCommand.Allocate(2f, 0.2f));
             }
@@ -210,6 +210,7 @@ namespace HollowKnight {
         {
             //rb.simulated = true;
             rb.gravityScale = 2;
+            gameObject.layer = LayerMask.NameToLayer("Player");
         }
 
         private void OnTeleportAppearing(OnTeleportAppearing e)
@@ -217,7 +218,12 @@ namespace HollowKnight {
             this.transform.position = e.pos;
             //rb.simulated = false;
             rb.gravityScale = 0;
+            gameObject.layer = LayerMask.NameToLayer("Player");
             animator.SetTrigger("Teleport_Appear");
+        }
+
+        public void OnTeleportDisappear() {
+            gameObject.layer = LayerMask.NameToLayer("PlayerTeleporting");
         }
 
         private void OnTeleportStartPrepare(OnTeleportPrepare e)
@@ -348,19 +354,21 @@ namespace HollowKnight {
         }
 
         private void StateCheck() {
+
             if (attackSystem.AttackState == AttackState.NotAttacking &&
                 teleportSystem.TeleportState == TeleportState.NotTeleporting 
                 && absorbSystem.AbsorbState == AbsorbState.NotAbsorbing
                 && currentState != PlayerState.Hurt && currentState!=PlayerState.Die) {
                 currentState = PlayerState.Normal;
-            }else if (attackSystem.AttackState == AttackState.Attacking || attackSystem.AttackState == AttackState.Preparing) {
+            }else if ((attackSystem.AttackState == AttackState.Attacking || attackSystem.AttackState == AttackState.Preparing)
+                && currentState!= PlayerState.Die) {
                 currentState = PlayerState.Attack;
-            }else if (teleportSystem.TeleportState == TeleportState.PrepareTeleport ||
+            }else if ((teleportSystem.TeleportState == TeleportState.PrepareTeleport ||
                       teleportSystem.TeleportState == TeleportState.TeleportAppearing ||
-                      teleportSystem.TeleportState == TeleportState.Teleporting) {
+                      teleportSystem.TeleportState == TeleportState.Teleporting) && currentState!=PlayerState.Die) {
                 currentState = PlayerState.Teleport;
-            }else if (absorbSystem.AbsorbState == AbsorbState.Absorbing 
-                      || absorbSystem.AbsorbState == AbsorbState.AbsorbPreparing) {
+            }else if ((absorbSystem.AbsorbState == AbsorbState.Absorbing 
+                      || absorbSystem.AbsorbState == AbsorbState.AbsorbPreparing) && currentState!=PlayerState.Die) {
                 currentState = PlayerState.Absorb;
             }
         }

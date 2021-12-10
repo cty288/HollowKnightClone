@@ -1,7 +1,43 @@
 fileFormatVersion: 2
-guid: 0b161d313a0515944802a8d5d0176c50
+guid: 7de4b6b97a5cfe745b87779aabbd8868
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 1223170514279127612
+    second: UIs_0
+  - first:
+      213: -1087514676585825223
+    second: UIs_1
+  - first:
+      213: -7219843137389574659
+    second: UIs_2
+  - first:
+      213: 7007631435004787766
+    second: UIs_3
+  - first:
+      213: 6774955542125688270
+    second: UIs_4
+  - first:
+      213: 6192090474656480690
+    second: UIs_5
+  - first:
+      213: 5890272932472964419
+    second: UIs_6
+  - first:
+      213: 5255600631300413484
+    second: UIs_7
+  - first:
+      213: -7204311773341925182
+    second: UIs_8
+  - first:
+      213: -7761797889608413915
+    second: UIs_9
+  - first:
+      213: -7814620824173317195
+    second: UIs_10
+  - first:
+      213: -2558823746892180722
+    second: UIs_11
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -65,7 +101,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 16384
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -77,7 +113,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 16384
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -89,7 +125,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: iPhone
-    maxTextureSize: 16384
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -101,7 +137,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
-    maxTextureSize: 16384
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -113,7 +149,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
-    maxTextureSize: 16384
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -127,253 +163,253 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: playerDashSheet_0
+      name: UIs_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
+        x: 5
+        y: 92
+        width: 162
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 1, y: 0, z: 1, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3ad6532a1399f010800000000000000
+      internalID: 1223170514279127612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIs_1
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 84
+        width: 4
+        height: 9
+      alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bed57a4d0af8593a0800000000000000
-      internalID: -6659258553072132629
+      spriteID: 93cf31ed92f58e0f0800000000000000
+      internalID: -1087514676585825223
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_1
+      name: UIs_2
       rect:
         serializedVersion: 2
-        x: 224
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
+        x: 6
+        y: 81
+        width: 160
+        height: 5
+      alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fbbb9a71c19001020800000000000000
-      internalID: 2310356625101798335
+      spriteID: df54add3be6fdcb90800000000000000
+      internalID: -7219843137389574659
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_2
+      name: UIs_3
       rect:
         serializedVersion: 2
-        x: 448
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
+        x: 5
+        y: 69
+        width: 100
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63c325089ab104160800000000000000
+      internalID: 7007631435004787766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIs_4
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 59
+        width: 98
+        height: 5
+      alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 940dc5a5de44896c0800000000000000
-      internalID: -4136480471525830583
+      spriteID: ec537799b2a750e50800000000000000
+      internalID: 6774955542125688270
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_3
+      name: UIs_5
       rect:
         serializedVersion: 2
-        x: 672
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
+        x: 6
+        y: 46
+        width: 122
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 12, y: 1, z: 12, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bdbaf6ca79bee550800000000000000
+      internalID: 6192090474656480690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIs_6
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 37
+        width: 98
+        height: 5
+      alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29fa5db82f4fbf670800000000000000
-      internalID: 8573715638195171218
+      spriteID: 345462a26047eb150800000000000000
+      internalID: 5890272932472964419
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_4
+      name: UIs_7
       rect:
         serializedVersion: 2
-        x: 896
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
+        x: 6
+        y: 15
+        width: 440
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c28daf5cde4afe840800000000000000
+      internalID: 5255600631300413484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIs_8
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 27
+        width: 60
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 1, y: 1, z: 1, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c04acabc94250c90800000000000000
+      internalID: -7204311773341925182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIs_9
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 5
+        width: 438
+        height: 5
+      alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55cf03e3f783bfe10800000000000000
-      internalID: 2232440159447612501
+      spriteID: 52d838371fd884490800000000000000
+      internalID: -7761797889608413915
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_5
+      name: UIs_10
       rect:
         serializedVersion: 2
-        x: 1120
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
+        x: 71
+        y: 28
+        width: 58
+        height: 3
+      alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8a2c7db101bd5ccb0800000000000000
-      internalID: -4844224961934015832
+      spriteID: 5b377c893c3ec8390800000000000000
+      internalID: -7814620824173317195
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerDashSheet_6
+      name: UIs_11
       rect:
         serializedVersion: 2
-        x: 1344
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
+        x: 134
+        y: 26
+        width: 2
+        height: 7
+      alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3fcd6f3235dd23740800000000000000
-      internalID: 5130406274683821299
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerDashSheet_7
-      rect:
-        serializedVersion: 2
-        x: 1664
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 59881a57ac5e4a1e0800000000000000
-      internalID: -2187370861275543403
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerDashSheet_8
-      rect:
-        serializedVersion: 2
-        x: 1920
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
-      pivot: {x: 0.75, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 428c4aba6c2a55bb0800000000000000
-      internalID: -4947869641429694428
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerDashSheet_9
-      rect:
-        serializedVersion: 2
-        x: 2144
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
-      pivot: {x: 0.75, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fedfb407d869a75b0800000000000000
-      internalID: -5369814071467311633
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerDashSheet_10
-      rect:
-        serializedVersion: 2
-        x: 2368
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
-      pivot: {x: 0.75, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 727354673e2240560800000000000000
-      internalID: 7278981258074732327
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerDashSheet_11
-      rect:
-        serializedVersion: 2
-        x: 2592
-        y: 0
-        width: 96
-        height: 96
-      alignment: 9
-      pivot: {x: 0.75, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 78ecd1ba43a249760800000000000000
-      internalID: 7463636888157277831
+      spriteID: e0358a30c5b3d7cd0800000000000000
+      internalID: -2558823746892180722
       vertices: []
       indices: 
       edges: []

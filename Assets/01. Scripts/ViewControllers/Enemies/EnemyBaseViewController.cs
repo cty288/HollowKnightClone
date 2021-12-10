@@ -41,6 +41,8 @@ namespace HollowKnight {
 
         void AttackedByPlayer(int damage);
 
+        bool BornToBeDead { get; set; }
+
         /// <summary>
         /// This is only effect if the enemy is attackable
         /// </summary>
