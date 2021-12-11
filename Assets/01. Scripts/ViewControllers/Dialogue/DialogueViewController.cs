@@ -4,6 +4,7 @@ using HollowKnight;
 using MikroFramework.Architecture;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace HollowKnight {
@@ -28,22 +29,23 @@ namespace HollowKnight {
         private Queue<string> names;
         private Queue<Sprite> avatars;
         private Queue<Sprite> textboxes;
+        private Queue<UnityEvent> callbacks;
+
 
         string name;
         string sentence;
         Sprite avatar;
         Sprite textbox;
+        private UnityEvent callback;
 
         //GameObject player;
 
-        void Start()
-        {
+        void Start() {
+            callbacks = new Queue<UnityEvent>();
             names = new Queue<string>();
             sentences = new Queue<string>();
             avatars = new Queue<Sprite>();
             textboxes = new Queue<Sprite>();
-
-
         }
         void Update()
         {
@@ -79,7 +81,7 @@ namespace HollowKnight {
                 }
 
 
-                if (Input.GetKeyDown(KeyCode.E)) {
+                if (Input.GetKeyDown(KeyCode.W)) {
                    
                     if (DialogueUIController.Singleton.nextButton.enabled || 
                         !DialogueUIController.Singleton.textboxSprite.enabled) {
@@ -87,8 +89,7 @@ namespace HollowKnight {
                         //FindObjectOfType<PlayerMovement>().canMove = false;
                         talked = true;
 
-                        if (sentences.Count == 0)
-                        {
+                        if (sentences.Count == 0) {
                             talked = true;
                             EndDialogue();
 
@@ -99,14 +100,15 @@ namespace HollowKnight {
                         sentence = sentences.Dequeue();
                         avatar = avatars.Dequeue();
                         textbox = textboxes.Dequeue();
+                        callback = callbacks.Dequeue();
 
                         DialogueUIController.Singleton.ShowDialogueWithTypewriter(name,
-                            sentence,avatar,textbox);
+                            sentence,avatar,textbox, callback);
                     }
                     else if (!DialogueUIController.Singleton.nextButton.enabled &&
                              DialogueUIController.Singleton.textboxSprite.enabled) {
                         DialogueUIController.Singleton.ShowDialogueWithoutTypeWriter(
-                            name,sentence,avatar,textbox);
+                            name,sentence,avatar,textbox, callback);
                     }
                 }
             }
@@ -130,6 +132,7 @@ namespace HollowKnight {
                 sentences.Clear();
                 avatars.Clear();
                 textboxes.Clear();
+                callbacks.Clear();
 
                 foreach (string sentence in dialogue.sentences)
                 {
@@ -150,6 +153,12 @@ namespace HollowKnight {
                 {
                     textboxes.Enqueue(textbox);
                 }
+
+                foreach (UnityEvent call in dialogue.callbacks)
+                {
+                    callbacks.Enqueue(call);
+                }
+
 
 
             }
@@ -172,6 +181,7 @@ namespace HollowKnight {
             sentences.Clear();
             avatars.Clear();
             textboxes.Clear();
+            callbacks.Clear();
 
             foreach (string sentence in dialogue.sentences)
             {
@@ -191,6 +201,11 @@ namespace HollowKnight {
             foreach (Sprite textbox in dialogue.textboxs)
             {
                 textboxes.Enqueue(textbox);
+            }
+
+            foreach (UnityEvent callback in dialogue.callbacks)
+            {
+                callbacks.Enqueue(callback);
             }
 
             // FindObjectOfType<PlayerMovement>().canMove = true;

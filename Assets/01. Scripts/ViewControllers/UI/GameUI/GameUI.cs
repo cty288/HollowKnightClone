@@ -36,6 +36,10 @@ namespace HollowKnight {
             SliderBossHealth.gameObject.SetActive(true);
         }
 
+        public void Test() {
+            Debug.Log("23333");
+        }
+
         private void OnUltAttackStart(OnUltAttack e) {
             this.ultTime = e.LastTime;
             this.maxUltTime = e.LastTime;

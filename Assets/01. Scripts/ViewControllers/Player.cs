@@ -279,7 +279,7 @@ namespace HollowKnight {
                 horizontalDirection = GetInput().x;
 
 
-                if (onGround)
+                if (onGround && GameManager.Singleton.DaggerGet)
                 {
                     if (Input.GetKeyDown(KeyCode.Space))
                     {
@@ -293,8 +293,13 @@ namespace HollowKnight {
                 CheckShiftWeapon();
                 CheckDropWeapon();
                 AnimationControl();
-                CheckTeleport();
-                CheckAbsorb();
+
+                if (GameManager.Singleton.DaggerGet) {
+                    CheckTeleport();
+                    CheckAbsorb();
+                }
+               
+                
             }
            
         }

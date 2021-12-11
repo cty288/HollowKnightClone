@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEngine.Events;
 
 namespace HollowKnight {
 
@@ -12,6 +11,7 @@ namespace HollowKnight {
         public string[] names;
         public Sprite[] avatars;
         public Sprite[] textboxs;
+        public UnityEvent[] callbacks;
 
         [TextArea(5, 10)]
         public string[] sentences;

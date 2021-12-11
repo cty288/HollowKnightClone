@@ -21,6 +21,19 @@ namespace HollowKnight
             this.RegisterModel<IWeaponTypeConfigModel>(new WeaponTypeConfigModel());
             this.RegisterModel<IWeaponConfigModel>(new WeaponConfigModel());
             this.RegisterModel<IEnemyConfigurationModel>(new EnemyConfigurationModel());
+            
+        }
+
+        public void Reset() {
+            Debug.Log("All Reset");
+            this.GetSystem<IWeaponSystem>().Reset();
+            this.GetSystem<ITeleportSystem>().Reset();
+            this.GetSystem<IAbsorbSystem>().Reset();
+            this.GetSystem<IAttackSystem>().Reset();
+            this.GetSystem<ITimeSystem>().Reset();
+            this.GetSystem<IBuffSystem>().Reset();
+
+            this.GetSystem<IWeaponSystem>().Reset();
         }
     }
 }

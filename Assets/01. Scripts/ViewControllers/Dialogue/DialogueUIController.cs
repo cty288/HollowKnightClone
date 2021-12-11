@@ -6,6 +6,7 @@ using MikroFramework.Event;
 using MikroFramework.Singletons;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace HollowKnight
@@ -53,20 +54,23 @@ namespace HollowKnight
             Interactable.GetComponent<MeshRenderer>().enabled = false;
         }
 
-        public void ShowDialogueWithTypewriter(string name, string text, Sprite avatarSprite, Sprite textboxSprite)
+        public void ShowDialogueWithTypewriter(string name, string text, Sprite avatarSprite, Sprite textboxSprite,
+            UnityEvent callback)
         {
             StopAllCoroutines();
             this.avatarSprite.enabled = true;
             this.textboxSprite.enabled = true;
 
             nameText.text = name;
-            StartCoroutine(TypeSentence(text));
+            StartCoroutine(TypeSentence(text, callback));
 
             this.avatarSprite.GetComponent<Image>().sprite = avatarSprite;
             this.textboxSprite.GetComponent<Image>().sprite = textboxSprite;
+
         }
 
-        public void ShowDialogueWithoutTypeWriter(string name, string text, Sprite avatarSprite, Sprite textboxSprite)
+        public void ShowDialogueWithoutTypeWriter(string name, string text, Sprite avatarSprite, Sprite textboxSprite,
+            UnityEvent callback)
         {
             StopAllCoroutines();
             this.avatarSprite.enabled = true;
@@ -78,6 +82,8 @@ namespace HollowKnight
 
             this.avatarSprite.GetComponent<Image>().sprite = avatarSprite;
             this.textboxSprite.GetComponent<Image>().sprite = textboxSprite;
+
+            callback.Invoke();
         }
 
         public void EndDialogue()
@@ -93,7 +99,7 @@ namespace HollowKnight
             textboxSprite.GetComponent<Image>().sprite = null;
         }
 
-        IEnumerator TypeSentence(string sentence)
+        IEnumerator TypeSentence(string sentence, UnityEvent callback)
         {
             dialogueText.text = "";
             int charCount = 0;
@@ -112,6 +118,8 @@ namespace HollowKnight
                     nextButton.enabled = false;
                 }
             }
+
+            callback.Invoke();
 
         }
         public void OnSingletonInit()

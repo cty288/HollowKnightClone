@@ -37,6 +37,8 @@ namespace HollowKnight
         public float MaxAbsorbDistance { get; }
 
         public void AbsorbInterrupt();
+
+        void Reset();
     }
 
     public enum AbsorbState {

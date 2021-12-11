@@ -63,6 +63,8 @@ namespace HollowKnight
 
         public void StopAttack();
 
+        void Reset();
+
         public void CheckAttackPerFrame(PlayerState currentState);
     }
     public class AttackSystem : AbstractSystem, IAttackSystem {
@@ -99,14 +101,19 @@ namespace HollowKnight
                 ChargeAttackRelease(attackTimer);
                 
             }
+           Reset();
+            
+        }
+
+        public void Reset() {
             attackState = AttackState.NotAttacking;
             attackStopTimer = 0;
             targetAttackable = null;
             attackTimer = 0;
             canAttack = false;
             isUltPreparing = false;
-            
         }
+
         bool canAttack = false;
         public void CheckAttackPerFrame(PlayerState currentState) {
             Vector2 mousePos =  Camera.main.ScreenToWorldPoint(Input.mousePosition);

@@ -40,6 +40,8 @@ namespace HollowKnight
 
         int BackpackCapacity { get; }
         void ShiftWeapon(bool up);
+
+        void Reset();
     }
 
     public class WeaponSystem : AbstractSystem, IWeaponSystem, ICanSendCommand {
@@ -212,6 +214,12 @@ namespace HollowKnight
             }
         }
 
+        public void Reset() {
+            selectIndex = 0;
+            weaponList.Clear();
+            ongoingChargingCommand = null;
+        }
+
         public WeaponInfo GetWeaponFromConfig(WeaponName weaponName) {
             WeaponConfigItem configItem = configModel.GetWeaponByName(weaponName);
 
@@ -336,6 +344,8 @@ namespace HollowKnight
                 configItem.TypeConfigItem.UltNeedTarget);
             return weaponInfo;
         }
+
+
 
         
         
