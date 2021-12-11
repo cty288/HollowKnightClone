@@ -24,9 +24,16 @@ namespace HollowKnight {
             this.RegisterEvent<OnPlayerEnterBossRoom>(OnPlayerEnterBossRoom).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnBossHurt>(OnBossHurt).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnUltAttack>(OnUltAttackStart).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnCutsceneCameraSecondMoveComplete>(OnCutsceneCameraSecondMoveComplete)
+                .UnRegisterWhenGameObjectDestroyed(gameObject);
 
             OnUltChange(0,0);
             OnHealthChange(0,100);
+        }
+
+        private void OnCutsceneCameraSecondMoveComplete(OnCutsceneCameraSecondMoveComplete obj) {
+            
+            SliderBossHealth.gameObject.SetActive(true);
         }
 
         private void OnUltAttackStart(OnUltAttack e) {
@@ -90,7 +97,7 @@ namespace HollowKnight {
         }
 
         private void OnPlayerEnterBossRoom(OnPlayerEnterBossRoom e) {
-            SliderBossHealth.gameObject.SetActive(true);
+            
         }
 
         private void OnUltChargeToMax(OnUltChargeToMax e) {

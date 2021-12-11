@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using MikroFramework;
 using MikroFramework.Architecture;
+using MikroFramework.Event;
 using MikroFramework.Utilities;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -70,10 +71,30 @@ namespace HollowKnight
                 return transform.localScale.x > 0;
             }
         }
+
+        protected override void Awake() {
+            base.Awake();
+            this.RegisterEvent<OnCutsceneCameraFirstMoveComplete>(OnCutsceneCameraFirstMoveComplete)
+                .UnRegisterWhenGameObjectDestroyed(gameObject);
+
+            this.RegisterEvent<OnBossCutSceneComplete>(OnBossCutSceneComplete).UnRegisterWhenGameObjectDestroyed(gameObject);
+        }
+
+        private void OnBossCutSceneComplete(OnBossCutSceneComplete obj) {
+            playerEnterBossRoom = true;
+        }
+
+        private void OnCutsceneCameraFirstMoveComplete(OnCutsceneCameraFirstMoveComplete e) {
+            rigidbody.gravityScale = 5;
+            rigidbody.velocity += (FaceLeft ? -1 : 1) * new Vector2(5, 0);
+            this.TriggerEvent(BossConfiguration.BossEvents.JumpAttack);
+        }
+
         protected override void Start() {
             base.Start();
             animator = GetComponent<Animator>();
             ConfigureRangeMotions();
+            rigidbody.gravityScale = 0;
         }
 
         private void ConfigureRangeMotions() {
@@ -109,7 +130,7 @@ namespace HollowKnight
                 if (!playerEnterBossRoom) {
                     this.SendEvent<OnPlayerEnterBossRoom>();
                 }
-                playerEnterBossRoom = true;
+                //playerEnterBossRoom = true;
             }
 
 
@@ -153,6 +174,15 @@ namespace HollowKnight
                         Walk();
                         break;
                 }
+            }
+            else {
+                if (currentStage == BossConfiguration.BossStages.JumpAttack) {
+                    JumpAttack();
+                }
+                else {
+                    DizzyCountDown();
+                }
+               
             }
         }
 
@@ -323,8 +353,10 @@ namespace HollowKnight
                     }
 
                     Debug.Log($"Target Jump Pos: {targetjumpPos.x}");
-                   
 
+                    if (!playerEnterBossRoom) {
+                        targetjumpPos = new Vector2(this.transform.position.x, Player.Singleton.transform.position.y);
+                    }
                     //add force to rb
                     startJumpPos = transform.position;
                     animator.SetInteger("Motion", 1);
@@ -352,7 +384,7 @@ namespace HollowKnight
                     jumpState = BossJumpState.Landing;
                 }*/
             }else if (jumpState == BossJumpState.Landing) {
-                
+                Debug.Log("Landing");
 
                 if (playerHeadCheck.Triggered) {
                     gameObject.layer = LayerMask.NameToLayer("EnemyTraversable");
@@ -361,30 +393,42 @@ namespace HollowKnight
                 else {
                     gameObject.layer = LayerMask.NameToLayer("Enemy");
                 }
+
+                if (normalAttackTrigger.Triggered && !jumpAttackPlayerHurt) {
+                    jumpAttackPlayerHurt = true;
+                    HurtPlayerWithCurrentAttackStage();
+
+                    AddForceToPlayer();
+                }
             }
             
         }
 
+        private bool jumpAttackPlayerHurt = false;
         private Tween jumpTween;
         public void OnJumpAnimationReady() {
             jumpState = BossJumpState.Jumping;
             float direction = FaceLeft ? -1 : 1;
             float duration = Mathf.Abs(targetjumpPos.x - transform.position.x) / jumpSpeed;
             //rigidbody.AddForce(new Vector2(jumpVelocity.x * direction, jumpVelocity.y), ForceMode2D.Impulse);
-            jumpTween = transform.DOMove(new Vector3(targetjumpPos.x, transform.position.y + 4, 0), duration)
+            jumpTween = transform.DOMove(new Vector3(targetjumpPos.x, transform.position.y + 6, 0), duration)
                 .SetEase(Ease.OutQuad).OnComplete(() => {
+                    /*
                     rigidbody.AddForce(new Vector2(direction * 10, -200), ForceMode2D.Impulse);
                     animator.SetFloat("JumpAttackPercentage", 1);
-                    jumpState = BossJumpState.Landing;
+                    jumpState = BossJumpState.Landing;*/
                 });
         }
 
-        public void OnJumpAttackDown() {
-            if (normalAttackTrigger.Triggered) {
-                HurtPlayerWithCurrentAttackStage();
+        public void OnJumpAttackStartDown() {
+            float direction = FaceLeft ? -1 : 1;
+            rigidbody.AddForce(new Vector2(direction * 10, -100), ForceMode2D.Impulse);
+            jumpState = BossJumpState.Landing;
+        }
 
-                AddForceToPlayer();
-            }
+
+        public void OnJumpAttackDown() {
+            
             this.SendCommand<ShakeCameraCommand>(ShakeCameraCommand.Allocate(0.5f, 1f, 20, 90));
         }
 
@@ -393,10 +437,18 @@ namespace HollowKnight
             ToDizzyStage(1);
         }
 
+        [SerializeField] private LayerMask groundCheckLayers;
         private void OnCollisionEnter2D(Collision2D other) {
-            if (PhysicsUtility.IsInLayerMask(other.gameObject, LayerMask.NameToLayer("Ground"))) {
+            if (PhysicsUtility.IsInLayerMask(other.collider .gameObject, groundCheckLayers)) {
                 if (jumpTween != null) {
                     jumpTween.Kill(true);
+                }
+
+                Debug.Log("Boss hit ground");
+
+                if (jumpState == BossJumpState.Landing && (!playerEnterBossRoom || CurrentFSMStage == BossConfiguration.BossStages.JumpAttack)) {
+                    Debug.Log("Jump attack hit ground");
+                    animator.SetTrigger("JumpAttackHitGround");
                 }
             }
         }
@@ -546,16 +598,20 @@ namespace HollowKnight
         {
             animator.SetInteger("Motion", -1);
             dizzyTimer -= Time.deltaTime;
-            if (dizzyTimer <= 0 && !stageSwitched) {
-                stageSwitched = true;
-                StartCoroutine(SwitchStageDecision(bossStage => {
-                    Debug.Log($"Decide to switch to {bossStage}");
-                    //dizzyTimer = 1;
-                    //animator.SetBool("Dizzy", false);
-                    SwitchToMotion(bossStage);
-                    stageSwitched = false;
-                }));
+            if (playerEnterBossRoom) {
+                if (dizzyTimer <= 0 && !stageSwitched)
+                {
+                    stageSwitched = true;
+                    StartCoroutine(SwitchStageDecision(bossStage => {
+                        Debug.Log($"Decide to switch to {bossStage}");
+                        //dizzyTimer = 1;
+                        //animator.SetBool("Dizzy", false);
+                        SwitchToMotion(bossStage);
+                        stageSwitched = false;
+                    }));
+                }
             }
+            
         }
         #endregion
 
@@ -574,6 +630,7 @@ namespace HollowKnight
                 case BossConfiguration.BossStages.JumpAttack:
                     LastStage = nextMotion;
                     jumpTween = null;
+                    jumpAttackPlayerHurt = false;
                     animator.SetFloat("JumpAttackPercentage",0);
                     jumpState = BossJumpState.Prepare;
                     TriggerEvent(BossConfiguration.BossEvents.JumpAttack);

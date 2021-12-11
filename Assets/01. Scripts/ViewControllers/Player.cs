@@ -104,12 +104,17 @@ namespace HollowKnight {
             
             this.RegisterEvent<OnAttackAiming>(OnAiming).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnPlayerDie>(OnDie).UnRegisterWhenGameObjectDestroyed(gameObject);
-            
+
+            this.RegisterEvent<OnBossCutSceneComplete>(OnBossCutSceneComplete)
+                .UnRegisterWhenGameObjectDestroyed(gameObject);
+
             //this.RegisterEvent<OnEnemyAbsorbed>(OnAbsorb).UnRegisterWhenGameObjectDestroyed(gameObject);
             playerModel.Health.RegisterOnValueChaned(OnHealthChange).UnRegisterWhenGameObjectDestroyed(gameObject);
         }
 
-        
+        private void OnBossCutSceneComplete(OnBossCutSceneComplete obj) {
+            FrozePlayer(false);
+        }
 
         private void OnAttackAiming(OnAttackAiming e) {
             if (e.targetPosition.x > transform.position.x)
@@ -258,28 +263,40 @@ namespace HollowKnight {
         }
         #endregion
 
+        private bool frozen = false;
 
+        public void FrozePlayer(bool isFrozen) {
+            frozen = isFrozen;
+            if (isFrozen) {
+                rb.velocity = new Vector2(0, rb.velocity.y);
+                animator.SetTrigger("CutScene");
+            }
+        }
 
         private void Update()
         {
-            horizontalDirection = GetInput().x;
-            if (onGround) {
-                if (Input.GetKeyDown(KeyCode.Space)) {
-                    Jump();
+            if (!frozen) {
+                horizontalDirection = GetInput().x;
+
+
+                if (onGround)
+                {
+                    if (Input.GetKeyDown(KeyCode.Space))
+                    {
+                        Jump();
+                    }
                 }
+
+                StateCheck();
+                //attack
+                AttackControl();
+                CheckShiftWeapon();
+                CheckDropWeapon();
+                AnimationControl();
+                CheckTeleport();
+                CheckAbsorb();
             }
-
-            StateCheck();
-            
-            //attack
-            AttackControl();
-            
-
-            CheckShiftWeapon();
-            CheckDropWeapon();
-            AnimationControl();
-            CheckTeleport();
-            CheckAbsorb();
+           
         }
 
         private void CheckDropWeapon() {
@@ -430,10 +447,12 @@ namespace HollowKnight {
 
         private void FixedUpdate()
         {
-            CheckCollisions();
-            MoveCharacter();
-            if (onGround) {
-                playerModel.ResetRemainingJumpValue();
+            if (!frozen) {
+                CheckCollisions();
+                MoveCharacter();
+                if (onGround) {
+                    playerModel.ResetRemainingJumpValue();
+                }
             }
         }
 
