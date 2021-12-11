@@ -8,6 +8,7 @@ using MikroFramework.BindableProperty;
 using MikroFramework.Event;
 using MikroFramework.Singletons;
 using MikroFramework.Utilities;
+using MikroFramework.TimeSystem;
 
 using UnityEngine;
 using Object = System.Object;
@@ -48,7 +49,10 @@ namespace HollowKnight {
         [SerializeField] private float horizontalDirection;
 
         public bool FaceRight = true;
-        
+
+        public AudioSource audioSource;
+        private bool absorbPlaying = false;
+
         private bool changingDirection => ((rb.velocity.x > 0f && horizontalDirection < 0f) || (rb.velocity.x < 0f && horizontalDirection > 0f));
 
         public BindableProperty<float> Speed = new BindableProperty<float>();
@@ -56,6 +60,7 @@ namespace HollowKnight {
         private Trigger2DCheck groundCheck;
 
         private Animator animator;
+        public AudioAssets audioAssets;
 
         private ITeleportSystem teleportSystem;
         private IAbsorbSystem absorbSystem;
@@ -77,13 +82,13 @@ namespace HollowKnight {
             rb = GetComponent<Rigidbody2D>();
             playerModel = this.GetModel<IPlayerModel>();
             groundCheck = transform.Find("GroundCheck").GetComponent<Trigger2DCheck>();
-            animator = GetComponent<Animator>();
             teleportSystem = this.GetSystem<ITeleportSystem>();
             absorbSystem = this.GetSystem<IAbsorbSystem>();
             attackSystem = this.GetSystem<IAttackSystem>();
             currentState = PlayerState.Normal;
-            RegisterEvents();
 
+            animator = GetComponent<Animator>();
+            RegisterEvents();
         }
 
         private void RegisterEvents() {
@@ -124,7 +129,6 @@ namespace HollowKnight {
         private void OnPlayerHurt() {
             currentState = PlayerState.Hurt;
             attackSystem.StopAttack();
-           
             animator.SetTrigger("Hurt");
         }
 
@@ -135,6 +139,12 @@ namespace HollowKnight {
         private void OnStartAttack(OnAttackStartPrepare e)
         {
             animator.SetTrigger("Attack");
+            audioSource.PlayOneShot(audioAssets.hum,1.5f);
+            this.GetSystem<ITimeSystem>().AddDelayTask(0.8f, () =>
+            {
+                audioSource.PlayOneShot(audioAssets.cleaver);
+                audioSource.PlayOneShot(audioAssets.slash);
+            });
         }
 
         private void OnAttackStop(OnAttackStop e)
@@ -147,13 +157,31 @@ namespace HollowKnight {
 
         private void OnAbsorbStart(OnEnemyAbsorbPreparing e)
         {
-
             animator.SetTrigger("Absorb");
+            
+            if (!absorbPlaying)
+            {
+                absorbPlaying = true;
+                audioSource.PlayOneShot(audioAssets.slice, 0.6f);
+                this.GetSystem<ITimeSystem>().AddDelayTask(0.7f, () =>
+                {
+                    audioSource.PlayOneShot(audioAssets.rise, 1.2f);
+                    audioSource.PlayOneShot(audioAssets.beat, 1.2f);
+                });
+                this.GetSystem<ITimeSystem>().AddDelayTask(2.5f, () =>
+                {
+                    audioSource.PlayOneShot(audioAssets.onSpot, 1.2f);
+                });
+                this.GetSystem<ITimeSystem>().AddDelayTask(3f, () =>
+                {
+                    absorbPlaying = false;
+                });
+            }
+            
         }
 
         private void OnAbsorbInterrupted(OnAbsorbInterrupted obj)
         {
-          
            animator.SetTrigger("AbsorbInterrupt");
         }
 
@@ -274,7 +302,6 @@ namespace HollowKnight {
 
                         attackSystem.StopAttack();
                     }
-                    
                 }
                 else { //mouse up
                     absorbMouseHoldTime = 0;
@@ -325,7 +352,7 @@ namespace HollowKnight {
                                 StartCoroutine(AttackToTeleport(Input.mousePosition));
                             }
                             else {
-                                Debug.Log("Teleport 233");
+                                //Debug.Log("Teleport 233");
                                 teleportSystem.Teleport(Input.mousePosition);
                             }
                         }

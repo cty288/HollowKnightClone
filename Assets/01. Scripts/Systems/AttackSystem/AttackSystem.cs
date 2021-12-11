@@ -134,8 +134,9 @@ namespace HollowKnight
                             attackState = AttackState.Preparing;
                             this.SendEvent<OnAttackStartPrepare>();
                         }
-                       
-                    }else if (CheckUlt(out targetAttackable)) {
+
+                    }
+                    else if (CheckUlt(out targetAttackable)) {
                         isUltPreparing = true;
                         attackState = AttackState.Preparing;
                         this.SendEvent<OnAttackStartPrepare>();
@@ -182,7 +183,7 @@ namespace HollowKnight
                             return;
                         }
 
-                        Debug.Log(canAttack);
+                        //Debug.Log(canAttack);
                         if (Input.GetMouseButton(0) && canAttack)
                         { //charge
                             attackStopTimer = 0;
