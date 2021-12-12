@@ -26,9 +26,15 @@ namespace HollowKnight {
             this.RegisterEvent<OnUltAttack>(OnUltAttackStart).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnCutsceneCameraSecondMoveComplete>(OnCutsceneCameraSecondMoveComplete)
                 .UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnPlayerRespawned>(OnRespawn).UnRegisterWhenGameObjectDestroyed(gameObject);
 
             OnUltChange(0,0);
             OnHealthChange(0,100);
+        }
+
+        private void OnRespawn(OnPlayerRespawned obj) {
+            OnHealthChange(0, this.GetModel<IPlayerConfigurationModel>().MaxHealth);
+            OnBossHurt(new OnBossHurt(){currentHealth = 100, maxHealth = 100});
         }
 
         private void OnCutsceneCameraSecondMoveComplete(OnCutsceneCameraSecondMoveComplete obj) {

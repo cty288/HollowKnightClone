@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using MikroFramework.Architecture;
 using MikroFramework.Event;
 using MikroFramework.Singletons;
@@ -26,77 +27,70 @@ namespace HollowKnight
         [SerializeField]
         private GameObject Interactable;
 
-        public static DialogueUIController Singleton
-        {
-            get
-            {
-                return SingletonProperty<DialogueUIController>.Singleton;
-            }
-
-        }
+       
 
         private void Awake()
         {
             avatarSprite.enabled = false;
-            textboxSprite.enabled = false;
+            TurnOffTextBox();
             nextButton.enabled = false;
+            
+        }
+
+        private void ShowTextBox() {
+          
+            DOTween.To(() => textboxSprite.color, x => textboxSprite.color = x, new Color(1,1,1,1), 1);
+        }
+
+        private void TurnOffTextBox() {
+            DOTween.To(() => textboxSprite.color, x => textboxSprite.color = x, new Color(1, 1, 1, 0), 1);
         }
 
 
-        public void TurnOnInteractableObj(Vector3 position)
-        {
-            Interactable.GetComponent<MeshRenderer>().enabled = true;
-            Interactable.transform.position = new Vector3(position.x, position.y + 3, position.z);
-        }
+       
 
-        public void TurnOffInteractableObj()
-        {
-            Interactable.GetComponent<MeshRenderer>().enabled = false;
-        }
-
-        public void ShowDialogueWithTypewriter(string name, string text, Sprite avatarSprite, Sprite textboxSprite,
+        public void ShowDialogueWithTypewriter(string name, string text, Sprite avatarSprite,
             UnityEvent callback)
         {
             StopAllCoroutines();
             this.avatarSprite.enabled = true;
-            this.textboxSprite.enabled = true;
+            ShowTextBox();
 
             nameText.text = name;
             StartCoroutine(TypeSentence(text, callback));
 
             this.avatarSprite.GetComponent<Image>().sprite = avatarSprite;
-            this.textboxSprite.GetComponent<Image>().sprite = textboxSprite;
+            
 
         }
 
-        public void ShowDialogueWithoutTypeWriter(string name, string text, Sprite avatarSprite, Sprite textboxSprite,
+        public void ShowDialogueWithoutTypeWriter(string name, string text, Sprite avatarSprite, 
             UnityEvent callback)
         {
             StopAllCoroutines();
             this.avatarSprite.enabled = true;
-            this.textboxSprite.enabled = true;
+            ShowTextBox();
 
             nameText.text = name;
             dialogueText.text = text;
             nextButton.enabled = true;
 
             this.avatarSprite.GetComponent<Image>().sprite = avatarSprite;
-            this.textboxSprite.GetComponent<Image>().sprite = textboxSprite;
-
-            callback.Invoke();
+           
+            callback?.Invoke();
         }
 
         public void EndDialogue()
         {
             avatarSprite.enabled = false;
-            textboxSprite.enabled = false;
+            TurnOffTextBox();
             nextButton.enabled = false;
 
             nameText.text = "";
             dialogueText.text = "";
 
             avatarSprite.GetComponent<Image>().sprite = null;
-            textboxSprite.GetComponent<Image>().sprite = null;
+            
         }
 
         IEnumerator TypeSentence(string sentence, UnityEvent callback)
@@ -119,7 +113,7 @@ namespace HollowKnight
                 }
             }
 
-            callback.Invoke();
+            callback?.Invoke();
 
         }
         public void OnSingletonInit()

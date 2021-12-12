@@ -37,6 +37,8 @@ namespace HollowKnight
         public void Attack(float damage);
 
         public void Kill();
+
+        void Restore();
     }
 
     public interface ICanAttack {
@@ -75,6 +77,10 @@ namespace HollowKnight
 
         public void Kill() {
             Health.Value = 0;
+        }
+
+        public void Restore() {
+            Health.Value = MaxHealth;
         }
 
         public BindableProperty<bool> Absorbed { get; } = new BindableProperty<bool>() { Value = false };
@@ -126,10 +132,16 @@ namespace HollowKnight
             }
 
         }
+        
+        
 
         public void Kill()
         {
             Health.Value = 0;
+        }
+
+        public void Restore() {
+            Health.Value = MaxHealth;
         }
     }
     public class RatConfiguration : AbstractAbsorbableConfiguration, IAbsorbable {

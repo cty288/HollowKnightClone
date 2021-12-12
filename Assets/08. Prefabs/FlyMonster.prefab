@@ -363,6 +363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeParent: {fileID: 7756851572625273978}
+  originalPrefab: {fileID: 4063873006214060280}
   spriteRenderer: {fileID: 4063873006214060287}
   outlineSpriteRenderer: {fileID: 6939450079749685406}
   bulletStateSprites:

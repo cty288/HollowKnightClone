@@ -8,6 +8,8 @@ namespace HollowKnight
 {
     public class HollowKnight : Architecture<HollowKnight> { 
         protected override void Init() {
+            this.RegisterEvent<OnPlayerRespawned>(Reset);
+
           //  this.RegisterSystem<IMapSystem>(new MapSystem());
             this.RegisterSystem<IWeaponSystem>(new WeaponSystem());
             this.RegisterSystem<ITeleportSystem>(new TeleportSystem());
@@ -24,16 +26,16 @@ namespace HollowKnight
             
         }
 
-        public void Reset() {
+        public void Reset(OnPlayerRespawned e) {
             Debug.Log("All Reset");
-            this.GetSystem<IWeaponSystem>().Reset();
-            this.GetSystem<ITeleportSystem>().Reset();
-            this.GetSystem<IAbsorbSystem>().Reset();
-            this.GetSystem<IAttackSystem>().Reset();
-            this.GetSystem<ITimeSystem>().Reset();
-            this.GetSystem<IBuffSystem>().Reset();
+            this.RegisterSystem<IWeaponSystem>(new WeaponSystem());
+            this.RegisterSystem<ITeleportSystem>(new TeleportSystem());
+            this.RegisterSystem<IAbsorbSystem>(new AbsorbSystem());
+            this.RegisterSystem<IAttackSystem>(new AttackSystem());
+            this.RegisterSystem<ITimeSystem>(new TimeSystem());
+            this.RegisterSystem<IBuffSystem>(new BuffSystem());
 
-            this.GetSystem<IWeaponSystem>().Reset();
+            this.RegisterModel<IPlayerModel>(new PlayerModel());
         }
     }
 }

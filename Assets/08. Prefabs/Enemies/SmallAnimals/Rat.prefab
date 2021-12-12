@@ -262,6 +262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeParent: {fileID: 5235513592082551139}
+  originalPrefab: {fileID: 5235513592859967267}
   spriteRenderer: {fileID: 5235513593022632588}
   outlineSpriteRenderer: {fileID: 558872644}
   bulletStateSprites:

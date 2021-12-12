@@ -1143,6 +1143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeParent: {fileID: 0}
+  originalPrefab: {fileID: 98196631531049305}
   outlineSpriteRenderer: {fileID: 98196629842498447}
   rangeChecks:
   - {fileID: 98196629818354226}

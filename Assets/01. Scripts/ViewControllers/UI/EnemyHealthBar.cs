@@ -21,10 +21,21 @@ namespace HollowKnight {
             parentAttackable.Attackable.Health.RegisterOnValueChaned(OnHealthChange).
                 UnRegisterWhenGameObjectDestroyed(gameObject);
 
+            this.RegisterEvent<OnPlayerRespawned>(OnRespawn).UnRegisterWhenGameObjectDestroyed(gameObject);
             OnHealthChange(0, parentAttackable.Attackable.Health.Value);
         }
 
+        private void OnRespawn(OnPlayerRespawned e) {
+            OnHealthChange(0, parentAttackable.Attackable.MaxHealth);
+        }
+
         private void OnHealthChange(float oldHealth, float newHealth) {
+            if (newHealth >= parentAttackable.Attackable.MaxHealth) {
+                this.gameObject.SetActive(false);
+            }
+            else {
+                this.gameObject.SetActive(true);
+            }
             DOTween.To(() => SliderEnemyHealth.value,
                 x => SliderEnemyHealth.value = x, newHealth / parentAttackable.Attackable.MaxHealth,
                 0.2f);

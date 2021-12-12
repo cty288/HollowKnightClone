@@ -66,7 +66,7 @@ namespace HollowKnight
             this.RegisterEvent<OnEnemyAbsorbPreparing>(OnEnemyAbsorbStartPrepare).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnWeaponDropped>(OnWeaponDropped).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnAttackAiming>(OnAiming).UnRegisterWhenGameObjectDestroyed(gameObject);
-
+            //this.RegisterEvent<OnPlayerRespawned>(OnRespawned).UnRegisterWhenGameObjectDestroyed(gameObject);
             (configurationItem as IAttackable).Health.RegisterOnValueChaned(OnHealthChanged)
                 .UnRegisterWhenGameObjectDestroyed(gameObject);
 
@@ -80,6 +80,14 @@ namespace HollowKnight
 
             if (BornToBeDead) {
                 Attackable.Kill();
+                
+            }
+        }
+
+        private void OnRespawned(OnPlayerRespawned obj) {
+            if (!IsDie)
+            {
+                Attackable.Restore();
             }
         }
 
