@@ -40,7 +40,7 @@ namespace HollowKnight
         
         public int ExtraJumps { get; } = 1;
         public float DashSpeed { get; } = 0;
-        public int MaxUltChargeNeeded { get; } = 3;
+        public int MaxUltChargeNeeded { get; } = 30;
 
         public float MaxHealth { get; } = 100;
     }

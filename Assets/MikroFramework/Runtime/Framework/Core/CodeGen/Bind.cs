@@ -84,7 +84,7 @@ namespace MikroFramework.CodeGen
                 {
                     return;
                 }
-
+                
                 Component script = selectedObj.GetComponent(name);
                 string path = bindScript.ScriptGenerateRootPath;
 

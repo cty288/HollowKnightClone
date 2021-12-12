@@ -74,6 +74,8 @@ namespace HollowKnight
         private void OnEnemyAdded(OnAbsorbableEnemyViewControllerAddedToLayoutCircle e) {
             Transform parentTr = e.viewControllerGameObject.transform;
             parentTr.SetParent(circleLayoutGroup.transform);
+            parentTr.rotation = Quaternion.identity;
+            
 
             if (targetValue == 90) {
                 parentTr.SetAsFirstSibling();

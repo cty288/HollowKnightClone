@@ -1,0 +1,432 @@
+fileFormatVersion: 2
+guid: 9c250c93d10ad70438599aa73b56a5a6
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2975751422591009765
+    second: bossJumpAttackSheet_0
+  - first:
+      213: 8560403579937782260
+    second: bossJumpAttackSheet_1
+  - first:
+      213: 3329779448288853514
+    second: bossJumpAttackSheet_2
+  - first:
+      213: -7176230083046004337
+    second: bossJumpAttackSheet_3
+  - first:
+      213: -9053822616748337588
+    second: bossJumpAttackSheet_4
+  - first:
+      213: -940525812564786967
+    second: bossJumpAttackSheet_5
+  - first:
+      213: -7157744607046581357
+    second: bossJumpAttackSheet_6
+  - first:
+      213: 8949435143937713705
+    second: bossJumpAttackSheet_7
+  - first:
+      213: 5538043806886253849
+    second: bossJumpAttackSheet_8
+  - first:
+      213: -1920043838942793764
+    second: bossJumpAttackSheet_9
+  - first:
+      213: -5625038152402970465
+    second: bossJumpAttackSheet_10
+  - first:
+      213: 3746600055429891704
+    second: bossJumpAttackSheet_11
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e38663172efb4920800000000000000
+      internalID: 2975751422591009765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_1
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f97c2473b9acc670800000000000000
+      internalID: 8560403579937782260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_2
+      rect:
+        serializedVersion: 2
+        x: 836
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0e37ab24c0c53e20800000000000000
+      internalID: 3329779448288853514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_3
+      rect:
+        serializedVersion: 2
+        x: 1254
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f892291c2c8e86c90800000000000000
+      internalID: -7176230083046004337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_4
+      rect:
+        serializedVersion: 2
+        x: 1672
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c46515d9c4c5a5280800000000000000
+      internalID: -9053822616748337588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_5
+      rect:
+        serializedVersion: 2
+        x: 2090
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e08dffa1c492f2f0800000000000000
+      internalID: -940525812564786967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_6
+      rect:
+        serializedVersion: 2
+        x: 2508
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 393450804359aac90800000000000000
+      internalID: -7157744607046581357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_7
+      rect:
+        serializedVersion: 2
+        x: 2926
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 926edc6e8d7c23c70800000000000000
+      internalID: 8949435143937713705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_8
+      rect:
+        serializedVersion: 2
+        x: 3344
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 915d10420851bdc40800000000000000
+      internalID: 5538043806886253849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_9
+      rect:
+        serializedVersion: 2
+        x: 3762
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdf23a22d42aa55e0800000000000000
+      internalID: -1920043838942793764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_10
+      rect:
+        serializedVersion: 2
+        x: 4180
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9850066a99dfe1b0800000000000000
+      internalID: -5625038152402970465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bossJumpAttackSheet_11
+      rect:
+        serializedVersion: 2
+        x: 4598
+        y: 0
+        width: 418
+        height: 418
+      alignment: 9
+      pivot: {x: 0.5531008, y: 0.3433624}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8768b5b66e89ef330800000000000000
+      internalID: 3746600055429891704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -8,7 +8,7 @@ namespace HollowKnight
 {
     public class HollowKnight : Architecture<HollowKnight> { 
         protected override void Init() {
-            this.RegisterSystem<IMapSystem>(new MapSystem());
+          //  this.RegisterSystem<IMapSystem>(new MapSystem());
             this.RegisterSystem<IWeaponSystem>(new WeaponSystem());
             this.RegisterSystem<ITeleportSystem>(new TeleportSystem());
             this.RegisterSystem<IAbsorbSystem>(new AbsorbSystem());

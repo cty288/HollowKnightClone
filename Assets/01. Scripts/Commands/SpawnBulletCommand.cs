@@ -24,13 +24,16 @@ namespace HollowKnight
             return cmd;
         }
         protected override void OnExecute() {
-            Bullet bullet = GameObject.Instantiate(BulletPrefab, SpawnPosition,
-                Quaternion.identity).GetComponent<Bullet>();
+            
+                Bullet bullet = GameObject.Instantiate(BulletPrefab, SpawnPosition,
+                    Quaternion.identity).GetComponent<Bullet>();
 
-            Debug.Log(bullet.name);
-            bullet.Target = Target.transform;
-            bullet.Damage = Damage;
-            bullet.ShootInstant = ShootInstant;
+                Debug.Log(bullet.name);
+                bullet.Target = Target.transform;
+                bullet.Damage = Damage;
+                bullet.ShootInstant = ShootInstant;
+            
+           
         }
     }
 }

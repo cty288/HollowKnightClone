@@ -113,7 +113,7 @@ namespace HollowKnight
 
         public void AddUlt(float amount) {
             IPlayerConfigurationModel configuration = this.GetModel<IPlayerConfigurationModel>();
-            if (configuration.MaxUltChargeNeeded - UltChargeAccumlated.Value >= amount) {
+            if (configuration.MaxUltChargeNeeded - UltChargeAccumlated.Value > amount) {
                 UltChargeAccumlated.Value += amount;
             }
             else {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,16 @@ namespace MikroFramework.Utilities
             get { return enterRC.RefCount > 0; }
         }
 
+        private void OnTriggerStay2D(Collider2D other) {
+            if (PhysicsUtility.IsInLayerMask(other.gameObject, TargetLayers)) {
+                if (colliders.Contains(other)) {
+                    return;
+                }
+                enterRC.Retain();
+                colliders.Add(other);
+            }
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (PhysicsUtility.IsInLayerMask(other.gameObject, TargetLayers)) {
@@ -44,5 +55,10 @@ namespace MikroFramework.Utilities
            
         }
 
+        public void Clear() {
+            enterRC = new SimpleRC();
+            colliders.Clear();
+            
+        }
     }
 }

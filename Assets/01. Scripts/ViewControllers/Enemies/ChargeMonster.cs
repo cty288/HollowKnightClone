@@ -51,6 +51,7 @@ namespace HollowKnight
             min_X = startLocation.x - patrolRange;
             max_X = startLocation.x + patrolRange;
             waitTime = startWaitTime;
+            deathReady = false;
             nextSpot = new Vector2(Random.Range(min_X, max_X), startLocation.y);
         }
 
@@ -72,7 +73,7 @@ namespace HollowKnight
             }
         }
 
-        protected override void OnFSMStage(ChargeMonsterConfigurtion.ChargeMonsterStages currentStage)
+        public override void OnFSMStage(ChargeMonsterConfigurtion.ChargeMonsterStages currentStage)
         {
             //Debug.Log(currentStage.ToString());
             if (currentStage == ChargeMonsterConfigurtion.ChargeMonsterStages.Patrolling)
@@ -102,6 +103,8 @@ namespace HollowKnight
         public override void OnDie() {
             base.OnDie();
             spriteRenderer = deathWeaponSpriteRenderer;
+            aliveCollider2D.enabled = false;
+            dieCollider2D.enabled = true;
             animator.SetTrigger("Die");
             TriggerEvent(ChargeMonsterConfigurtion.ChargeMonsterEvents.Killed);
         }
@@ -117,6 +120,7 @@ namespace HollowKnight
             outlineSpriteRenderer = deathOutlineSpriteRenderer;
             aliveSpriteRenderer.enabled = false;
             deathWeaponSpriteRenderer.enabled = true;
+            deathReady = true;
         }
 
         private void WaitForDizzy() {
@@ -223,9 +227,9 @@ namespace HollowKnight
         }
 
 
-      
 
-        protected override void OnAttackingStage(Enum attackStage) {
+
+        public override void OnAttackingStage(Enum attackStage) {
             float direction = FaceLeft ? 1 : -1;
             waitTime = dizzyTime;
             this.GetSystem<IAbsorbSystem>().AbsorbInterrupt();
