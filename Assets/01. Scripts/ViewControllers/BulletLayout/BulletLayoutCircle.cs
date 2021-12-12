@@ -9,7 +9,7 @@ using UnityEngine;
 namespace HollowKnight
 {
     public class BulletLayoutCircle : AbstractMikroController<HollowKnight> {
-        private Player player;
+        
         private Rigidbody2D playerRb;
 
         [SerializeField] private float lerp = 0.1f;
@@ -20,8 +20,8 @@ namespace HollowKnight
         private float targetValue = 90;
         private float prevTarget = 90;
         private void Awake() {
-            player = Player.Singleton;
-            playerRb = player.GetComponent<Rigidbody2D>();
+            
+           
             targetLerp = lerp;
             circleLayoutGroup = GetComponentInChildren<CircleLayoutGroup>();
         }
@@ -30,10 +30,19 @@ namespace HollowKnight
             this.RegisterEvent<OnAbsorbableEnemyViewControllerAddedToLayoutCircle>(OnEnemyAdded).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnWeaponShifted>(OnWeaponShifted).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnWeaponDropped>(OnWeaponDropped).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnPlayerRespawned>(OnRespawn).UnRegisterWhenGameObjectDestroyed(gameObject);
             for (int i = 0; i < circleLayoutGroup.transform.childCount; i++)
             {
                 Transform cur = circleLayoutGroup.transform.GetChild(i);
                 cur.DOScaleX(-1, 0f);
+            }
+        }
+
+        private void OnRespawn(OnPlayerRespawned obj) {
+            for (int i = 0; i < circleLayoutGroup.transform.childCount; i++)
+            {
+                Destroy(circleLayoutGroup.transform.GetChild(i).gameObject);
+                
             }
         }
 
@@ -153,7 +162,7 @@ namespace HollowKnight
         }
 
         private void UpdateLerpSpeed() {
-            float speed = player.Speed.Value;
+            float speed = Player.Singleton.Speed.Value;
             if (speed <= 1 && speed >= 0)
             {
                 targetLerp = lerp;
@@ -166,7 +175,7 @@ namespace HollowKnight
         }
 
         private void FollowPlayer() {
-            Vector3 playerPos = player.transform.position;
+            Vector3 playerPos = Player.Singleton.transform.position;
             this.transform.position = Vector3.Lerp(transform.position, playerPos, targetLerp);
         }
     }

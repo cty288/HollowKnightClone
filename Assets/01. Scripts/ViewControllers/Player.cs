@@ -7,6 +7,7 @@ using MikroFramework.Architecture;
 using MikroFramework.BindableProperty;
 using MikroFramework.Event;
 using MikroFramework.Singletons;
+using MikroFramework.TimeSystem;
 using MikroFramework.Utilities;
 
 using UnityEngine;
@@ -108,8 +109,20 @@ namespace HollowKnight {
             this.RegisterEvent<OnBossCutSceneComplete>(OnBossCutSceneComplete)
                 .UnRegisterWhenGameObjectDestroyed(gameObject);
 
+            this.RegisterEvent<OnPlayerRespawned>(OnRespawn).UnRegisterWhenGameObjectDestroyed(gameObject);
+
             //this.RegisterEvent<OnEnemyAbsorbed>(OnAbsorb).UnRegisterWhenGameObjectDestroyed(gameObject);
             playerModel.Health.RegisterOnValueChaned(OnHealthChange).UnRegisterWhenGameObjectDestroyed(gameObject);
+        }
+
+        private void OnRespawn(OnPlayerRespawned e) {
+            playerModel = this.GetModel<IPlayerModel>();
+            teleportSystem = this.GetSystem<ITeleportSystem>();
+            absorbSystem = this.GetSystem<IAbsorbSystem>();
+            attackSystem = this.GetSystem<IAttackSystem>();
+            animator.SetBool("Die",false);
+            currentState = PlayerState.Normal;
+
         }
 
         private void OnBossCutSceneComplete(OnBossCutSceneComplete obj) {
@@ -144,10 +157,20 @@ namespace HollowKnight {
         }
 
         #region Animation Events
+
+        public void PlayWalkSound() {
+            AudioManager.Singleton.OnWalk();
+        }
+
+        public void PlayRunSound() {
+            AudioManager.Singleton.OnRun();
+        }
+
         private void OnEnemyAbsorbed(OnEnemyAbsorbed e)
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Absorb")) {
                 animator.SetTrigger("Absorb_Finish");
+                
             }
         }
         private void OnDie(OnPlayerDie e) {
@@ -170,6 +193,7 @@ namespace HollowKnight {
             currentState = PlayerState.Hurt;
             attackSystem.StopAttack();
             absorbSystem.AbsorbInterrupt();
+            UnMoveable(0.7f, null);
             animator.SetTrigger("Hurt");
         }
 
@@ -200,6 +224,7 @@ namespace HollowKnight {
         private void OnAbsorbDone(OnEnemyAbsorbed obj)
         {
             animator.SetBool("Absorbing", false);
+            PlayAbsorbAudio3();
         }
         private void OnAbsorbInterrupted(OnAbsorbInterrupted obj)
         {
@@ -273,13 +298,21 @@ namespace HollowKnight {
             }
         }
 
+        private bool canMove = true;
+        public void UnMoveable(float lastTime, Action onFinished) {
+            canMove = false;
+            this.GetSystem<ITimeSystem>().AddDelayTask(lastTime, () => {
+                canMove = true;
+                onFinished?.Invoke();
+            });
+        }
         private void Update()
         {
             if (!frozen) {
                 horizontalDirection = GetInput().x;
 
 
-                if (onGround)
+                if (onGround && GameManager.Singleton.DaggerGet)
                 {
                     if (Input.GetKeyDown(KeyCode.Space))
                     {
@@ -292,11 +325,16 @@ namespace HollowKnight {
                 AttackControl();
                 CheckShiftWeapon();
                 CheckDropWeapon();
-                AnimationControl();
-                CheckTeleport();
-                CheckAbsorb();
+                
+
+                if (GameManager.Singleton.DaggerGet) {
+                    CheckTeleport();
+                    CheckAbsorb();
+                }
+               
+                
             }
-           
+            AnimationControl();
         }
 
         private void CheckDropWeapon() {
@@ -304,6 +342,21 @@ namespace HollowKnight {
                 this.SendCommand<DropWeaponCommand>();
             }
         }
+
+        [SerializeField] private List<AudioClip> absorbAudios;
+        public void PlayAbsorbAudio1() {
+            AudioManager.Singleton.PlayAbsorbAudio(absorbAudios[0],1);
+        }
+        public void PlayAbsorbAudio2()
+        {
+            AudioManager.Singleton.PlayAbsorbAudio(absorbAudios[1], 1);
+            AudioManager.Singleton.PlayAbsorbAudio(absorbAudios[3], 1);
+        }
+        public void PlayAbsorbAudio3()
+        {
+            AudioManager.Singleton.PlayAbsorbAudio(absorbAudios[2], 1);
+        }
+
 
         private float scrollWheel;
         private float lastScroll;
@@ -449,7 +502,10 @@ namespace HollowKnight {
         {
             if (!frozen) {
                 CheckCollisions();
+                
                 MoveCharacter();
+                
+                
                 if (onGround) {
                     playerModel.ResetRemainingJumpValue();
                 }
@@ -491,7 +547,7 @@ namespace HollowKnight {
         private void MoveCharacter() {
             Speed.Value = Mathf.Abs(rb.velocity.magnitude);
 
-            if (horizontalDirection == 0) {
+            if (horizontalDirection == 0 || !canMove) {
                 rb.velocity = new Vector2(rb.velocity.x * playerModel.GroundLinearDrag.Value,
                     rb.velocity.y);
                 if (Mathf.Abs(rb.velocity.x) <= 0.1) {
@@ -504,7 +560,7 @@ namespace HollowKnight {
                 attackSystem.StopAttack();
             }
 
-            if (currentState == PlayerState.Normal) {
+            if (currentState == PlayerState.Normal && canMove) {
                 bool isWalking = !Input.GetKey(KeyCode.LeftShift);
 
                 float speed = !isWalking ? playerModel.RunSpeed.Value : playerModel.WalkSpeed.Value;
@@ -520,6 +576,7 @@ namespace HollowKnight {
                     {
                         if (targetSpeedX < 0.5)
                         {
+                            AudioManager.Singleton.OnWalkStop();
                             return;
                         }
                     }
@@ -537,8 +594,10 @@ namespace HollowKnight {
                     rb.velocity = rb.velocity - new Vector2(horizontalDirection * speed * Time.deltaTime, 0) * multiplier;
 
                 }
+                
             }
             else {
+                AudioManager.Singleton.OnWalkStop();
                 if (teleportSystem.TeleportState != TeleportState.NotTeleporting) {
                     rb.velocity = Vector2.zero;
                 }

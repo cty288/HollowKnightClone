@@ -106,6 +106,7 @@ MonoBehaviour:
   TargetPos: {x: 0, y: 0}
   ShootInstant: 1
   attackedEnemy: []
+  shootClip: {fileID: 8300000, guid: 6dc4053a7a2bb8b448e007492048fd6c, type: 3}
   Damage: 0
   shootSpeed: 40
 --- !u!1 &5199164959202554080

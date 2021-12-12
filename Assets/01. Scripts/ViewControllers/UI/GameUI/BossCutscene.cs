@@ -21,7 +21,8 @@ namespace HollowKnight
 
         [SerializeField] private Vector2 targetCameraDest;
         [SerializeField] private float cameraStopTime;
-        
+
+        [SerializeField] private float cameraMinBoundX;
 
         private void Awake() {
             animator = GetComponent<Animator>();

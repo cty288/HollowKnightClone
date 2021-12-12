@@ -36,7 +36,7 @@ namespace HollowKnight
             prevReleased = Released;
         }
 
-        void Init() {
+        protected virtual void Init() {
             if (TriggerByPhrase) {
                 timeSystem.AddDelayTask(WeaponInfo.ChargeAttackTime.Value, FinishPhrase);
                 //this.RegisterEvent<OnChargeAttackRelease>(OnChargeReleased);
@@ -84,6 +84,8 @@ namespace HollowKnight
             this.SendEvent<OnChargeAttackRelease>(e);
 
             this.GetSystem<IAttackSystem>().StopAttack();
+
+            
         }
     }
 }

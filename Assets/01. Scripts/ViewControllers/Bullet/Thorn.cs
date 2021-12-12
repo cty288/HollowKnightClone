@@ -14,7 +14,7 @@ namespace HollowKnight
         public List<GameObject> attackedEnemy;
         private Animator animator;
 
-        
+        [SerializeField] private AudioClip shootClip;
 
         public int Damage;
 
@@ -29,6 +29,7 @@ namespace HollowKnight
 
         private void Start() {
             Aim();
+            AudioManager.Singleton.OnThornShoot(shootClip, 1);
         }
 
      

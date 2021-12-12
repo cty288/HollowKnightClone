@@ -27,6 +27,7 @@ namespace HollowKnight
                 return (configurationItem) as IAttackable;
             }
         }
+
         protected virtual void Update()
         {
             
@@ -62,8 +63,16 @@ namespace HollowKnight
             (configurationItem as IAttackable).Health.RegisterOnValueChaned(OnHealthChanged)
                 .UnRegisterWhenGameObjectDestroyed(gameObject);
 
+            //this.RegisterEvent<OnPlayerRespawned>(OnRespawned).UnRegisterWhenGameObjectDestroyed(gameObject);
+
             weaponSystem = this.GetSystem<IWeaponSystem>();
 
+        }
+
+        private void OnRespawned(OnPlayerRespawned obj) {
+            if (!IsDie) {
+                Attackable.Restore();
+            }
         }
 
         private void OnHealthChanged(float old, float newHealth)

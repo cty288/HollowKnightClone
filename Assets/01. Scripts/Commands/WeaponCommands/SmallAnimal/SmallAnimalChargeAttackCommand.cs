@@ -14,6 +14,11 @@ namespace HollowKnight
 
         protected override bool TriggerByPhrase { get; } = true;
 
+        protected override void Init() {
+            base.Init();
+            AudioManager.Singleton.OnSmallAnimalStartCharge();
+        }
+
         protected override void OnOnePhaseFinished() {
             if (WeaponInfo.BulletCount.Value > 0) {
                 Debug.Log("One phrase finished");
@@ -30,7 +35,7 @@ namespace HollowKnight
                     WeaponInfo.ConsumeBullet(1);
                 }
 
-
+                AudioManager.Singleton.OnSmallAnimalStartCharge();
 
                 if (WeaponInfo.BulletCount.Value <= 0)
                 {
@@ -46,7 +51,7 @@ namespace HollowKnight
             this.GetSystem<ITimeSystem>().AddDelayTask(0.2f, () => {
                 this.SendEvent<OnSmallAnimalChargeReleased>();
             });
-
+            AudioManager.Singleton.OnSmallAnimalChargeReleased();
         }
 
         protected override void OnCharging() {

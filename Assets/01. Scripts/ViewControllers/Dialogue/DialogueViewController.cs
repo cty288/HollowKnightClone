@@ -4,6 +4,7 @@ using HollowKnight;
 using MikroFramework.Architecture;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace HollowKnight {
@@ -12,8 +13,9 @@ namespace HollowKnight {
         public Vector3 Position;
     }
 
-    public class DialogueViewController : AbstractMikroController<HollowKnight>
-    {
+    public class DialogueViewController : AbstractMikroController<HollowKnight> {
+        [SerializeField] private DialogueUIController uiController;
+
         [SerializeField]
         private Dialogue dialogue;
 
@@ -27,23 +29,37 @@ namespace HollowKnight {
         private Queue<string> sentences;
         private Queue<string> names;
         private Queue<Sprite> avatars;
-        private Queue<Sprite> textboxes;
+        
+        private Queue<UnityEvent> callbacks;
+
 
         string name;
         string sentence;
         Sprite avatar;
-        Sprite textbox;
+        
+        private UnityEvent callback;
+
+        [SerializeField] private bool triggerWhenEnter = true;
+        private bool triggerWhenEnterTriggered = false;
+
+        private bool hasTalked = false;
+        private bool isTalking = false;
+
+        [SerializeField]
+        private bool freezePlayer = false;
+
+        [SerializeField] private GameObject interactable;
+
+        [SerializeField] private bool canRepeat = false;
 
         //GameObject player;
 
-        void Start()
-        {
+        void Start() {
+            callbacks = new Queue<UnityEvent>();
             names = new Queue<string>();
             sentences = new Queue<string>();
             avatars = new Queue<Sprite>();
-            textboxes = new Queue<Sprite>();
-
-
+           
         }
         void Update()
         {
@@ -60,76 +76,99 @@ namespace HollowKnight {
                 }
             }
 
-            if (!talked && Mathf.Abs(transform.position.x - Player.Singleton.transform.position.x) <= 2.5f)
+            if (!talked && Mathf.Abs(transform.position.x - Player.Singleton.transform.position.x) <= 2.5f && !triggerWhenEnter)
             {
-                DialogueUIController.Singleton.TurnOnInteractableObj(transform.position);
+                TurnOnInteractableObj();
             }
 
 
             if (triggered)
             {
 
-                if (!DialogueUIController.Singleton.textboxSprite. enabled)
+                if (uiController.textboxSprite.color.a == 0 && !triggerWhenEnter)
                 {
-                    DialogueUIController.Singleton.TurnOnInteractableObj(transform.position);
+                    //Debug.Log("Turn on");
+                    TurnOnInteractableObj();
                 }
                 else
                 {
-                    DialogueUIController.Singleton.TurnOffInteractableObj();
+                    TurnOffInteractableObj();
                 }
 
 
-                if (Input.GetKeyDown(KeyCode.E)) {
-                   
-                    if (DialogueUIController.Singleton.nextButton.enabled || 
-                        !DialogueUIController.Singleton.textboxSprite.enabled) {
+                if ((Input.GetKeyDown(KeyCode.F) || (triggerWhenEnter && !triggerWhenEnterTriggered)) &&
+                    (!hasTalked || isTalking || canRepeat)) {
+
+                    if (freezePlayer) {
+                        Player.Singleton.FrozePlayer(true);
+                    }
+
+                    hasTalked = true;
+                    isTalking = true;
+
+                    triggerWhenEnterTriggered = true;
+                    if (uiController.nextButton.enabled || 
+                        uiController.textboxSprite.color.a == 0) {
 
                         //FindObjectOfType<PlayerMovement>().canMove = false;
                         talked = true;
 
-                        if (sentences.Count == 0)
-                        {
+                        if (sentences.Count == 0) {
                             talked = true;
+                            isTalking = false;
                             EndDialogue();
-
+                            Player.Singleton.FrozePlayer(false);
                             return;
                         }
 
+                        
                         name = names.Dequeue();
                         sentence = sentences.Dequeue();
                         avatar = avatars.Dequeue();
-                        textbox = textboxes.Dequeue();
+                        
+                        callback = callbacks.Dequeue();
 
-                        DialogueUIController.Singleton.ShowDialogueWithTypewriter(name,
-                            sentence,avatar,textbox);
+                        uiController.ShowDialogueWithTypewriter(name,
+                            sentence,avatar, callback);
                     }
-                    else if (!DialogueUIController.Singleton.nextButton.enabled &&
-                             DialogueUIController.Singleton.textboxSprite.enabled) {
-                        DialogueUIController.Singleton.ShowDialogueWithoutTypeWriter(
-                            name,sentence,avatar,textbox);
+                    else if (!uiController.nextButton.enabled &&
+                             uiController.textboxSprite.color.a == 1) {
+                        uiController.ShowDialogueWithoutTypeWriter(
+                            name,sentence,avatar, callback);
                     }
                 }
             }
             else
             {
-                DialogueUIController.Singleton.TurnOffInteractableObj();
+                 TurnOffInteractableObj();
             }
         }
 
 
+        private void TurnOnInteractableObj()
+        {
+            interactable.SetActive(true);
+           
+        }
 
-       
+        private void TurnOffInteractableObj()
+        {
+            interactable.SetActive(false);
+        }
+
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.CompareTag("Player"))
             {
                 triggered = true;
+                triggerWhenEnterTriggered = false;
 
                 names.Clear();
                 sentences.Clear();
                 avatars.Clear();
-                textboxes.Clear();
+               
+                callbacks.Clear();
 
                 foreach (string sentence in dialogue.sentences)
                 {
@@ -148,8 +187,14 @@ namespace HollowKnight {
 
                 foreach (Sprite textbox in dialogue.textboxs)
                 {
-                    textboxes.Enqueue(textbox);
+                    
                 }
+
+                foreach (UnityEvent call in dialogue.callbacks)
+                {
+                    callbacks.Enqueue(call);
+                }
+
 
 
             }
@@ -167,11 +212,12 @@ namespace HollowKnight {
         void EndDialogue()
         {
 
-            DialogueUIController.Singleton.EndDialogue();
+            uiController.EndDialogue();
             names.Clear();
             sentences.Clear();
             avatars.Clear();
-            textboxes.Clear();
+            
+            callbacks.Clear();
 
             foreach (string sentence in dialogue.sentences)
             {
@@ -188,9 +234,10 @@ namespace HollowKnight {
                 avatars.Enqueue(avatar);
             }
 
-            foreach (Sprite textbox in dialogue.textboxs)
+            
+            foreach (UnityEvent callback in dialogue.callbacks)
             {
-                textboxes.Enqueue(textbox);
+                callbacks.Enqueue(callback);
             }
 
             // FindObjectOfType<PlayerMovement>().canMove = true;

@@ -46,6 +46,8 @@ namespace HollowKnight
         void AddUlt(float amount);
 
         void ChangeHealth(float amount);
+
+        void Reset();
     }
     public class PlayerModel : AbstractModel, IPlayerModel
     {
@@ -92,6 +94,8 @@ namespace HollowKnight
             UltChargeAccumlated.Value = 0;
         }
 
+        
+
         public void ChangeHealth(float amount) {
             IPlayerConfigurationModel playerConfigurationModel = this.GetModel<IPlayerConfigurationModel>();
 
@@ -110,6 +114,10 @@ namespace HollowKnight
             }
         }
 
+        public void Reset() {
+            Health.Value = this.GetModel<IPlayerConfigurationModel>().MaxHealth;
+            UltChargeAccumlated.Value = 0;
+        }
 
         public void AddUlt(float amount) {
             IPlayerConfigurationModel configuration = this.GetModel<IPlayerConfigurationModel>();

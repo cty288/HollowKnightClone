@@ -123,11 +123,13 @@ namespace HollowKnight
             };
         }
 
+        private bool onEnterBossRommTriggered = false;
         protected override void Update() {
             base.Update();
             CheckMouseHover();
             if (rangeChecks[3].Triggered) {
-                if (!playerEnterBossRoom) {
+                if (!playerEnterBossRoom && !onEnterBossRommTriggered) {
+                    onEnterBossRommTriggered = true;
                     this.SendEvent<OnPlayerEnterBossRoom>();
                 }
                 //playerEnterBossRoom = true;

@@ -38,6 +38,7 @@ namespace HollowKnight
         [SerializeField] private Vector2 cameraPositionXRange = new Vector2(0, 100);
         [SerializeField] private Vector2 cameraPositionYRange = new Vector2(0, 100);
 
+        [SerializeField] private float cameraMinBoundBossRoomX;
 
         private bool inCutScene = false;
         private void Awake() {
@@ -69,7 +70,10 @@ namespace HollowKnight
                
                 this.GetSystem<ITimeSystem>().AddDelayTask(e.CameraStopTime, () => {
                     this.SendEvent<OnCutsceneCameraSecondMoveComplete>();
-                    transform.DOBlendableMoveBy(-moveBy, 3f).OnComplete(CutSceneCameraMoveComplete);
+
+                    Vector3 moveBackBy = (new Vector3(cameraMinBoundBossRoomX, transform.position.y, transform.position.z) - this.transform.position);
+                    cameraPositionXRange.x = cameraMinBoundBossRoomX;
+                    transform.DOBlendableMoveBy(moveBackBy, 3f).OnComplete(CutSceneCameraMoveComplete);
                     //inCutScene = false;
                 });
             }).SetAutoKill(false);

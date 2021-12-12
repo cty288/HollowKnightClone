@@ -22,6 +22,8 @@ namespace HollowKnight
         void OnReachDest(Vector2 arrowDest);
         float TeleportPrepareTime { get; }
         float TeleportFinishTime { get; }
+
+        void Reset();
     }
 
     public struct OnTeleportPrepare {
@@ -101,5 +103,8 @@ namespace HollowKnight
 
         public float TeleportPrepareTime { get; } = 0.4f;
         public float TeleportFinishTime { get; } = 0.7f;
+        public void Reset() {
+            TeleportState = TeleportState.NotTeleporting;
+        }
     }
 }

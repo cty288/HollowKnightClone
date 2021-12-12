@@ -31,6 +31,8 @@ namespace HollowKnight
 
         public float GetRemainingTime(BuffType buffType);
 
+        void Reset();
+
     }
     public class BuffSystem : AbstractSystem, IBuffSystem {
         private List<Buff> ongoingBuffs = new List<Buff>();
@@ -69,6 +71,10 @@ namespace HollowKnight
             }
 
             return 0;
+        }
+
+        public void Reset() {
+            ongoingBuffs.Clear();
         }
 
         private Buff GetBuff(BuffType type) {

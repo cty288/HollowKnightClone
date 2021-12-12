@@ -78,12 +78,15 @@ namespace HollowKnight {
             }
         }
 
+        protected Vector2 startPos;
+
         protected T configurationItem;
 
         protected IEnemyConfigurationModel enemyConfigurationModel;
         [SerializeField]
         protected Transform shakeParent;
 
+        [SerializeField] protected GameObject originalPrefab;
         public bool Attackable {
             get {
                 return typeof(T).GetInterface("IAttackable") != null; 
@@ -125,10 +128,14 @@ namespace HollowKnight {
             enemyConfigurationModel = this.GetModel<IEnemyConfigurationModel>();
             configurationItem = GetConfigurationItem();
             configurationItem.FSM.OnStateChanged.Register(OnFSMStateChanged);
+            this.RegisterEvent<OnPlayerRespawned>(OnPlayerRespawn).UnRegisterWhenGameObjectDestroyed(gameObject);
+            startPos = transform.position;
         }
 
-      
-        
+        private void OnPlayerRespawn(OnPlayerRespawned obj) {
+            Instantiate(originalPrefab, startPos, Quaternion.identity);
+            Destroy(this.gameObject);
+        }
 
         protected virtual void OnDestroy() {
             configurationItem.FSM.OnStateChanged.UnRegister(OnFSMStateChanged);
