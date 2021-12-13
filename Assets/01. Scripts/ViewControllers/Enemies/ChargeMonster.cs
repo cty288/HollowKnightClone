@@ -16,7 +16,7 @@ namespace HollowKnight
         [SerializeField] private float startWaitTime;
         [SerializeField] private float dizzyTime = 3f;
 
-        [SerializeField] private Vector2 nextSpot;
+        [SerializeField] private float nextSpotX;
 
         [SerializeField] private SpriteRenderer aliveOutlineSpriteRenderer;
         [SerializeField] private SpriteRenderer deathOutlineSpriteRenderer;
@@ -52,7 +52,7 @@ namespace HollowKnight
             max_X = startLocation.x + patrolRange;
             waitTime = startWaitTime;
             deathReady = false;
-            nextSpot = new Vector2(Random.Range(min_X, max_X), startLocation.y);
+            nextSpotX = Random.Range(min_X, max_X);
         }
 
         protected override void Start() {
@@ -135,7 +135,7 @@ namespace HollowKnight
             waitTime -= Time.deltaTime;
             if (waitTime <= 0) {
                 TriggerEvent(ChargeMonsterConfigurtion.ChargeMonsterEvents.WaitEnds);
-                nextSpot = DecideDistance(transform.position);
+                nextSpotX = DecideDistance(transform.position.x);
                 waitTime = startWaitTime;
             }
            
@@ -165,25 +165,32 @@ namespace HollowKnight
         {
             //Debug.Log("Patrolling");
             float direction = FaceLeft ? -1 : 1;
-            rigidbody.velocity = direction * new Vector2(speed, rigidbody.velocity.y);
+            if (Mathf.Abs(rigidbody.velocity.x) <= speed) {
+                //rigidbody.AddForce(direction * new Vector2(speed, 0));
+                rigidbody.velocity += direction * new Vector2(speed, 0);
+            }
+
+           
+
+           // rigidbody.velocity = direction * new Vector2(speed, rigidbody.velocity.y);
 
           //  transform.position = Vector2.MoveTowards(transform.position, new Vector2(nextSpot.x, startLocation.y), speed * Time.deltaTime);
 
-            FaceLeft = (nextSpot.x - transform.position.x) < 0;
+            FaceLeft = (nextSpotX - transform.position.x) < 0;
            
 
-            if (Vector2.Distance(transform.position, nextSpot) < 0.5f)
+            if (Mathf.Abs(transform.position.x - nextSpotX) < 0.5f)
             {
                 TriggerEvent(ChargeMonsterConfigurtion.ChargeMonsterEvents.WaitForChangeDirection);
             }
         }
 
-        private Vector2 DecideDistance(Vector2 currentSpot)
+        private float DecideDistance(float currentSpotX)
         {
-            Vector2 randomSpot = new Vector2(Random.Range(min_X, max_X), startLocation.y);
-            while (Vector2.Distance(currentSpot, randomSpot) < 5f)
+            float randomSpot = Random.Range(min_X, max_X);
+            while (Mathf.Abs(currentSpotX- randomSpot) < 5f)
             {
-                randomSpot = new Vector2(Random.Range(min_X, max_X), startLocation.y);
+                randomSpot = Random.Range(min_X, max_X);
             }
            
             return randomSpot;

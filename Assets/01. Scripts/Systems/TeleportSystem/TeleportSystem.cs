@@ -47,14 +47,14 @@ namespace HollowKnight
     }
 
     public class TeleportSystem : AbstractSystem, ITeleportSystem {
-        private Player player;
+       
         private TimeSystem timer;
-        private Camera cam;
+        
         protected override void OnInit() {
-            player = Player.Singleton;
+            
             timer = new TimeSystem();
             timer.Start();
-            cam = Camera.main;
+          
         }
 
         public TeleportState TeleportState { get; set; } = TeleportState.NotTeleporting;
@@ -65,9 +65,9 @@ namespace HollowKnight
 
         public void Teleport(Vector2 mousePosition) {
             if (TeleportState == TeleportState.NotTeleporting) {
-                Vector2 pos =  cam.ScreenToWorldPoint(mousePosition);
+                Vector2 pos =  Camera.main.ScreenToWorldPoint(mousePosition);
                
-                float dist = Mathf.Abs(Vector2.Distance(pos, player.transform.position));
+                float dist = Mathf.Abs(Vector2.Distance(pos, Player.Singleton.transform.position));
                 if (dist < MaxTeleportDistance && dist > MinTeleportDistance) {
                     //teleport success
                     TeleportState = TeleportState.PrepareTeleport;

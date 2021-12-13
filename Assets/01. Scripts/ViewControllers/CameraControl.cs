@@ -35,7 +35,7 @@ namespace HollowKnight
 
         [SerializeField] private float YOffset = 0;
 
-        [SerializeField] private Vector2 cameraPositionXRange = new Vector2(0, 100);
+        [SerializeField] public Vector2 cameraPositionXRange = new Vector2(0, 100);
         [SerializeField] private Vector2 cameraPositionYRange = new Vector2(0, 100);
 
         [SerializeField] private float cameraMinBoundBossRoomX;

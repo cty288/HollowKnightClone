@@ -17,6 +17,15 @@ namespace HollowKnight {
            
         }
 
+        private void Update() {
+            if (parentAttackable.GameObject.transform.lossyScale.x == 1) {
+                transform.DOScaleX(1,0);
+            }
+            else {
+                transform.DOScaleX(-1, 0);
+            }
+        }
+
         private void Start() {
             parentAttackable.Attackable.Health.RegisterOnValueChaned(OnHealthChange).
                 UnRegisterWhenGameObjectDestroyed(gameObject);

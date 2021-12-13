@@ -27,8 +27,8 @@ namespace HollowKnight
             if (!this.GetSystem<IBuffSystem>().HasBuff(BuffType.SmallAnimalUnlimitedBullet)) {
                 WeaponInfo.ConsumeBullet(1);
             }
-            
-           
+
+            AudioManager.Singleton.OnSmallAnimalNormal();
             //TargetAttackableViewController.AttackedByPlayer(WeaponInfo.AttackDamage.Value);
         }
     }

@@ -598,7 +598,7 @@ MonoBehaviour:
   - {fileID: -5432298021895082603, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
   mouseDetectionTrigger: {fileID: 3553109230068288649}
   eyePosition: {fileID: 3553109230267050389}
-  viewDistance: 10
+  viewDistance: 20
   eyeDetectLayers:
     serializedVersion: 2
     m_Bits: 512
@@ -606,15 +606,15 @@ MonoBehaviour:
   bulletPrefab: {fileID: 1202627793083566146, guid: 0cf4a62232553b14188576543fba83d6, type: 3}
   chaseSpeed: 5
   speed: 2
-  startLocation: {x: 0, y: 0}
+  startLocation: {x: -19.51, y: 0.7841834}
   startWaitTime: 3
   dizzyTime: 3
-  nextSpot: {x: 0, y: 0}
+  nextSpotX: 0
   aliveOutlineSpriteRenderer: {fileID: 3553109232046616347}
   deathOutlineSpriteRenderer: {fileID: 3553109231038910886}
   deathWeaponSpriteRenderer: {fileID: 3553109231868128091}
   target: {fileID: 0}
-  patrolRange: 10
+  patrolRange: 20
   attackTrigger2DCheck: {fileID: 3553109230143991908}
   animator: {fileID: 3553109230068288646}
   aliveCollider2D: {fileID: 3553109230068288652}
@@ -880,6 +880,8 @@ MonoBehaviour:
   TargetLayers:
     serializedVersion: 2
     m_Bits: 512
+  maxDistance: 1
+  detectTime: 1
   colliders: []
 --- !u!1 &3553109230267050388
 GameObject:

@@ -17,6 +17,10 @@ namespace MikroFramework.Singletons
 
         public static T Singleton {
             get {
+                if (typeof(MonoBehaviour).IsAssignableFrom(typeof(T))) {
+                    instance = Object.FindObjectOfType(typeof(T)) as T;
+                }
+                  
                 if (instance == null) {
                     if (typeof(MonoBehaviour).IsAssignableFrom(typeof(T))) { //is MonoBehavior
                         instance = SingletonCreator.CreateMonoSingleton<T>(true);

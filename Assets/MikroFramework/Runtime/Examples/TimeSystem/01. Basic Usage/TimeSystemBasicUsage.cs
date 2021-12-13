@@ -22,7 +22,7 @@ namespace MikroFramework.Examples
 
         IEnumerator Delay(TimeSystem.TimeSystem ts) {
             yield return new WaitForSeconds(6);
-            ts.Reset();
+            ts.Restart();
             ts.Pause();
             Debug.Log("reset and pause");
             StartCoroutine(Continue(ts));

@@ -15,6 +15,10 @@ namespace HollowKnight
     public struct OnPlayerEnterBossRoom {
 
     }
+
+    public struct OnBossDie {
+
+    }
     public class Boss : AbstractCanAttackEnemy<BossConfiguration, BossConfiguration.BossStages>, ICanSendEvent {
         /*                     internal state                     Animation State
         Attack                        0                                   0
@@ -25,6 +29,7 @@ namespace HollowKnight
         */
 
         [SerializeField] private List<Trigger2DCheck> rangeChecks = new List<Trigger2DCheck>();
+        [SerializeField] private Trigger2DCheck entryCheck;
 
         [SerializeField] private List<float> dizzyTimes = new List<float>();
 
@@ -127,7 +132,7 @@ namespace HollowKnight
         protected override void Update() {
             base.Update();
             CheckMouseHover();
-            if (rangeChecks[3].Triggered) {
+            if (entryCheck.Triggered) {
                 if (!playerEnterBossRoom && !onEnterBossRommTriggered) {
                     onEnterBossRommTriggered = true;
                     this.SendEvent<OnPlayerEnterBossRoom>();
@@ -796,8 +801,9 @@ namespace HollowKnight
             animator.SetTrigger("Die");
             this.SendEvent<OnBossHurt>(new OnBossHurt()
                 { currentHealth = 0, maxHealth = Attackable.MaxHealth });
-            rigidbody.gravityScale = 0;
-            aliveCollider2D.isTrigger = true;
+            this.SendEvent<OnBossDie>(new OnBossDie());
+            rigidbody.gravityScale = 5;
+            //aliveCollider2D.isTrigger = true;
             mouseCheckTrigger.enabled = false;
             TriggerEvent(BossConfiguration.BossEvents.Killed);
         }

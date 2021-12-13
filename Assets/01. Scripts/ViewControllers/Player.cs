@@ -25,12 +25,10 @@ namespace HollowKnight {
         Die
     }
 
-    public class Player : AbstractMikroController<HollowKnight>, ISingleton {
-        public static Player Singleton {
-            get {
-                return SingletonProperty<Player>.Singleton;
-            }
-        }
+    public class Player : AbstractMikroController<HollowKnight> {
+
+        public static Player Singleton;
+
         private IPlayerModel playerModel;
 
         [SerializeField]
@@ -73,8 +71,8 @@ namespace HollowKnight {
 
         [SerializeField] private bool onGround = true;
 
-        private void Awake()
-        {
+        private void Awake() {
+            Singleton = this;
             rb = GetComponent<Rigidbody2D>();
             playerModel = this.GetModel<IPlayerModel>();
             groundCheck = transform.Find("GroundCheck").GetComponent<Trigger2DCheck>();
@@ -308,7 +306,7 @@ namespace HollowKnight {
         }
         private void Update()
         {
-            if (!frozen) {
+            if (!frozen && GameManager.Singleton.State == GameState.Game) {
                 horizontalDirection = GetInput().x;
 
 
@@ -444,13 +442,15 @@ namespace HollowKnight {
         }
         [SerializeField]
         private int remainingTeleportTime = 2;
+
+        [SerializeField] private Trigger2DCheck teleportCheck;
         private void CheckTeleport() {
 
             if (currentState == PlayerState.Normal || attackSystem.AttackState == AttackState.Attacking 
             || this.GetSystem<ITeleportSystem>().TeleportState == TeleportState.Teleporting) {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    if (onGround) {
+                    if (teleportCheck.Triggered) {
                         remainingTeleportTime = 2;
                     }
 
@@ -644,9 +644,6 @@ namespace HollowKnight {
         }
 
 
-        void ISingleton.OnSingletonInit() {
-            
-        }
     }
 
 }

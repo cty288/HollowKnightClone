@@ -215,8 +215,8 @@ namespace HollowKnight
                 Start(ChargeMonsterStages.Patrolling);
         }
 
-        public override float MaxHealth { get; } = 6;
-        public override BindableProperty<float> Health { get; } = new BindableProperty<float>() {Value = 6};
+        public override float MaxHealth { get; } = 10;
+        public override BindableProperty<float> Health { get; } = new BindableProperty<float>() {Value = 10};
 
         public override bool CanAbsorbWhenAlive { get; } = false;
         public override WeaponName WeaponName { get; } = WeaponName.ChargeMonster;
@@ -228,7 +228,7 @@ namespace HollowKnight
 
 
         public override Dictionary<Enum, float> AttackSkillDamages { get; } = new Dictionary<Enum, float>() {
-            {ChargeMonsterStages.Attacking, 10}
+            {ChargeMonsterStages.Attacking, 3}
         };
         public override Dictionary<Enum, float> AttackFreqs { get; } = new Dictionary<Enum, float>() {
             {ChargeMonsterStages.Attacking, 2f}
@@ -261,8 +261,8 @@ namespace HollowKnight
                 Start(FlyMonsterStages.Patrolling);
         }
 
-        public override float MaxHealth { get; } = 3;
-        public override BindableProperty<float> Health { get; } = new BindableProperty<float>() { Value = 3 };
+        public override float MaxHealth { get; } = 6;
+        public override BindableProperty<float> Health { get; } = new BindableProperty<float>() { Value = 6 };
 
         public override bool CanAbsorbWhenAlive { get; } = false;
         public override WeaponName WeaponName { get; } = WeaponName.FlyMonster;
@@ -271,7 +271,7 @@ namespace HollowKnight
         public override List<Enum> AttackStageNames { get; } = new List<Enum>() { FlyMonsterStages.Engaging };
         
         public override Dictionary<Enum, float> AttackSkillDamages { get; } = new Dictionary<Enum, float>() {
-            {FlyMonsterStages.Engaging, 5}
+            {FlyMonsterStages.Engaging, 2}
         };
         public override Dictionary<Enum, float> AttackFreqs { get; } = new Dictionary<Enum, float>() {
             {FlyMonsterStages.Engaging, 2.5f}

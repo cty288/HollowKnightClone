@@ -8,7 +8,10 @@ namespace MikroFramework.Utilities
     public class Trigger2DCheck : MonoBehaviour {
         public LayerMask TargetLayers;
 
+        [SerializeField] private float maxDistance = 100;
+        [SerializeField] private float detectTime = 1f;
 
+        private float timer;
 
         private SimpleRC enterRC = new SimpleRC();
 
@@ -27,7 +30,33 @@ namespace MikroFramework.Utilities
             get { return enterRC.RefCount > 0; }
         }
 
+        private void Update() {
+            timer += Time.deltaTime;
+            if (timer >= detectTime) {
+                List<Collider2D> removedColliders = new List<Collider2D>();
+
+                foreach (Collider2D collider in colliders)
+                {
+                    if (Vector2.Distance(collider.gameObject.transform.position, transform.position)
+                        >= maxDistance)
+                    {
+                        enterRC.Release();
+                        removedColliders.Add(collider);
+                    }
+                }
+
+                foreach (Collider2D removedCollider in removedColliders)
+                {
+                    colliders.Remove(removedCollider);
+                }
+
+                timer = 0;
+            }
+            
+        }
+
         private void OnTriggerStay2D(Collider2D other) {
+            
             if (PhysicsUtility.IsInLayerMask(other.gameObject, TargetLayers)) {
                 if (colliders.Contains(other)) {
                     return;
@@ -49,8 +78,12 @@ namespace MikroFramework.Utilities
         private void OnTriggerExit2D(Collider2D other)
         {
             if (PhysicsUtility.IsInLayerMask(other.gameObject, TargetLayers)) {
-                enterRC.Release();
-                colliders.Remove(other);
+                //enterRC.Release();
+                int length = colliders.FindAll(col => col == other).Count;
+                for (int i = 0; i < length; i++) {
+                    enterRC.Release();
+                }
+                colliders.RemoveAll(col => col == other );
             }
            
         }

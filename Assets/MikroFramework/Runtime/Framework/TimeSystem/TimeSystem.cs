@@ -46,6 +46,12 @@ namespace MikroFramework.TimeSystem
             isStart = true;
         }
 
+        public void Reset() {
+            CurrentSeconds = 0;
+            delayTasks.Clear();
+            taskList.Clear();
+        }
+
         /// <summary>
         /// Pause the timer
         /// </summary>
@@ -117,7 +123,7 @@ namespace MikroFramework.TimeSystem
         /// <summary>
         /// Reset the timer
         /// </summary>
-        public void Reset() {
+        public void Restart() {
             CurrentSeconds = 0;
             delayTasks.Clear();
 

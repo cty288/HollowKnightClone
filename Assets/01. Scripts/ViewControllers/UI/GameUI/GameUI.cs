@@ -7,6 +7,7 @@ using MikroFramework;
 using TMPro;
 using MikroFramework.Architecture;
 using MikroFramework.Event;
+using MikroFramework.TimeSystem;
 
 namespace HollowKnight {
 	public partial class GameUI : AbstractMikroController<HollowKnight> {
@@ -14,8 +15,17 @@ namespace HollowKnight {
         private float maxUltTime = 0;
         private WeaponType ultWeaponType;
 
+        
+
         [SerializeField] private Sprite fullSprite;
         [SerializeField] private Sprite notFullSprite;
+
+        [SerializeField] private GameObject gameEndCanvas;
+
+        [SerializeField] private DialogueUIController speeDialogueUiController;
+
+        [SerializeField] private GameObject StartGameUI;
+        [SerializeField] private GameObject healthSlides;
         private void Start() {
             this.GetModel<IPlayerModel>().Health.RegisterOnValueChaned(OnHealthChange).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.GetModel<IPlayerModel>().UltChargeAccumlated.RegisterOnValueChaned(OnUltChange)
@@ -27,9 +37,37 @@ namespace HollowKnight {
             this.RegisterEvent<OnCutsceneCameraSecondMoveComplete>(OnCutsceneCameraSecondMoveComplete)
                 .UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnPlayerRespawned>(OnRespawn).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnBossDie>(OnBossDie).UnRegisterWhenGameObjectDestroyed(gameObject);
+            this.RegisterEvent<OnGameStart>(OnGameStart).UnRegisterWhenGameObjectDestroyed(gameObject);
+            
 
             OnUltChange(0,0);
             OnHealthChange(0,100);
+        }
+
+        private void OnGameStart(OnGameStart obj) {
+            StartGameUI.GetComponent<Animation>().Play();
+            this.GetSystem<ITimeSystem>().AddDelayTask(1, () => {
+                healthSlides.GetComponent<Animation>().Play();
+            });
+        }
+
+        private void OnBossDie(OnBossDie e) {
+            Player.Singleton.FrozePlayer(true);
+
+            CutSceneBars.Singleton.StartBars(1, () => {
+                this.GetSystem<ITimeSystem>().AddDelayTask(2, () => {
+
+                    speeDialogueUiController.ShowDialogueWithTypewriter("", "I must seek further...",
+                        null, null);
+                    AudioManager.Singleton.IMustSeekFurther();
+                });
+
+                this.GetSystem<ITimeSystem>().AddDelayTask(5, () => {
+                    gameEndCanvas.gameObject.SetActive(true);
+                    GameManager.Singleton.EndGame();
+                });
+            });
         }
 
         private void OnRespawn(OnPlayerRespawned obj) {

@@ -106,7 +106,7 @@ MonoBehaviour:
   speed: 12
   rb: {fileID: 5556946906514011420}
   bc: {fileID: 0}
-  damage: 5
+  damage: 2
 --- !u!1 &3277466460448300371
 GameObject:
   m_ObjectHideFlags: 0

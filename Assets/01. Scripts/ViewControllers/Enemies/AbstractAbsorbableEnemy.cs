@@ -297,11 +297,12 @@ namespace HollowKnight
 
         private void OnEnemyAbsorbing(OnEnemyAbsorbing e)
         {
-            rigidbody.gravityScale = 0;
+            
             if (e.absorbedEnemy && e.absorbedEnemy == gameObject)
             {
                 if (CanAbsorb)
                 {
+                    rigidbody.gravityScale = 0;
                     outlineSpriteRenderer.enabled = true;
                     spriteRenderer.color = new Color(1, 1 - e.absorbPercentage, 1 - e.absorbPercentage);
                     OnAbsorbing(e.absorbPercentage);
@@ -318,6 +319,7 @@ namespace HollowKnight
 
         private void OnEnemyAbsorbed(OnEnemyAbsorbed e)
         {
+            
             if (e.absorbedEnemy && e.absorbedEnemy == gameObject)
             {
                 if (CanAbsorb)

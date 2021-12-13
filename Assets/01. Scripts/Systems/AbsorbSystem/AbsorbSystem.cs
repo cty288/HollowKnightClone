@@ -53,8 +53,7 @@ namespace HollowKnight
 
         private bool cutSelfTriggered = false;
         private bool absorbPrepareFinished = false;
-        
-        private Camera cam;
+         
         private float timer;
 
         private GameObject lastAbsorbObj;
@@ -65,7 +64,7 @@ namespace HollowKnight
 
     protected override void OnInit() {
             absorbState = AbsorbState.NotAbsorbing;
-            cam = Camera.main;
+           
             timeSystem = new TimeSystem();
             timeSystem.Start();
         }
@@ -81,13 +80,13 @@ namespace HollowKnight
         private LayerMask Mask = LayerMask.GetMask("Enemy","EnemyTraversable");
         public bool Absorb(Vector2 mousePosition) {
 
-            RaycastHit2D ray = Physics2D.GetRayIntersection(cam.ScreenPointToRay(mousePosition),1000, Mask);
+            RaycastHit2D ray = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(mousePosition),1000, Mask);
 
             Collider2D collider = ray.collider;
 
             IEnemyViewController component = null;
 
-            Vector2 mousePos = cam.ScreenToWorldPoint(mousePosition);
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(mousePosition);
             
             if ((collider != null && collider.TryGetComponent<IEnemyViewController>(out component))
                 && Mathf.Abs(Vector2.Distance(mousePos, Player.Singleton.transform.position))<=MaxAbsorbDistance) {

@@ -10,6 +10,7 @@ namespace MikroFramework.TimeSystem
     {
         float CurrentSeconds { get; }
         ITimeSystem AddDelayTask(float seconds, Action onFinished);
+        void Restart();
         void Reset();
         void Pause();
     }

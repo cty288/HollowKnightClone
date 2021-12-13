@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace HollowKnight
 {
-    public class AudioManager : AbstractMikroController<HollowKnight>, ISingleton {
+    public class AudioManager : AbstractMikroController<HollowKnight> {
         [SerializeField] private AudioSource generalAudioSource;
         
         [SerializeField]
@@ -18,7 +18,7 @@ namespace HollowKnight
 
         [SerializeField] private AudioSource bgmAudioSource;
 
-        [SerializeField] private AudioClip bgm;
+        [SerializeField] private AudioClip[] bgms;
         [SerializeField] private AudioClip bossBGM;
 
         [SerializeField] private AudioSource playerWalkAudioSource;
@@ -32,18 +32,28 @@ namespace HollowKnight
         [SerializeField] private AudioClip normalAttackSound;
         [SerializeField] private AudioClip[] smallAnimalChargeSounds;
 
-        public static AudioManager Singleton {
-            get {
-                return SingletonProperty<AudioManager>.Singleton;
-            }
-        }
+        [SerializeField] private AudioClip iMustSeekFurtherSound;
+
+
+        public static AudioManager Singleton;
 
         private void Awake() {
             this.RegisterEvent<OnAbsorbInterrupted>(OnAbsorbInterrupted).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnAttackStartPrepare>(OnAttackPoint).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnNormalAttack>(OnNormalAttack).UnRegisterWhenGameObjectDestroyed(gameObject);
             this.RegisterEvent<OnPlayerEnterBossRoom>(OnBossRoom).UnRegisterWhenGameObjectDestroyed(gameObject);
-            
+            this.RegisterEvent<OnSceneSwitch>(OnSceneSwitch).UnRegisterWhenGameObjectDestroyed(gameObject);
+            Singleton = this;
+        }
+
+        private void OnSceneSwitch(OnSceneSwitch e) {
+            if (e.TargetScene == 1) {
+                bgmAudioSource.clip = bgms[1];
+            }else if (e.TargetScene == 2) {
+                bgmAudioSource.clip = bgms[0];
+            }
+
+            bgmAudioSource.Play();
         }
 
         private void OnBossRoom(OnPlayerEnterBossRoom e) {
@@ -51,6 +61,10 @@ namespace HollowKnight
             bgmAudioSource.Play();
         }
 
+        public void IMustSeekFurther() {
+            PlayGeneralAudio(iMustSeekFurtherSound, 1);
+        }
+        
         public void PlayGeneralAudio(AudioClip audio, float volume)
         {
             generalAudioSource.PlayOneShot(audio, volume);
@@ -78,6 +92,11 @@ namespace HollowKnight
             attackSystemSource.PlayOneShot(smallAnimalChargeSounds[0],1);
         }
 
+        public void OnSmallAnimalNormal()
+        {
+            attackSystemSource.PlayOneShot(smallAnimalChargeSounds[2], 1);
+        }
+
         public void OnSmallAnimalChargeReleased()
         {
             attackSystemSource.Stop();
@@ -93,8 +112,8 @@ namespace HollowKnight
 
 
         private void Start() {
-            //bgmAudioSource.clip = bgms[0];
-            //bgmAudioSource.Play();
+            bgmAudioSource.clip = bgms[0];
+            bgmAudioSource.Play();
         }
 
         #region Absorb

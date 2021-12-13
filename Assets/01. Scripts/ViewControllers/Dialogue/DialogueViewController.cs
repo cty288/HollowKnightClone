@@ -66,6 +66,7 @@ namespace HollowKnight {
 
             if (Mathf.Abs(transform.position.x - Player.Singleton.transform.position.x) <= 2.5f)
             {
+                /*
                 if (Mathf.Sign(transform.position.x - Player.Singleton.transform.position.x) == 1)
                 {
                     GetComponent<SpriteRenderer>().flipX = true;
@@ -73,10 +74,10 @@ namespace HollowKnight {
                 else
                 {
                     GetComponent<SpriteRenderer>().flipX = false;
-                }
+                }*/
             }
 
-            if (!talked && Mathf.Abs(transform.position.x - Player.Singleton.transform.position.x) <= 2.5f && !triggerWhenEnter)
+            if (!talked && Mathf.Abs(transform.position.x - Player.Singleton.transform.position.x) <= 0.1f && !triggerWhenEnter)
             {
                 TurnOnInteractableObj();
             }
