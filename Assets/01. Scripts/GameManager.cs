@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using MikroFramework.Architecture;
 using MikroFramework.Event;
 using MikroFramework.Singletons;
@@ -43,7 +44,7 @@ namespace HollowKnight
 
         [SerializeField] private GameObject playerPrefab;
 
-        [SerializeField] private GameObject[] scenes;
+        [SerializeField] private List<GameObject> scenes;
 
         [SerializeField] private GameObject churchChargeEnemy;
 
@@ -71,16 +72,17 @@ namespace HollowKnight
                     respawnPoint = -1;
                     DaggerGet = false;
                     CanLeaveChurch = false;
+                    sceneCount = 0;
 
-                    for (int i = 0; i < scenes.Length; i++)
-                    {
-                        if (i != sceneCount)
-                        {
-                            scenes[i].SetActive(false);
-                        }
-                    }
+                    StartCoroutine(ResetSceneDelay());
                 }
             }
+        }
+
+        IEnumerator ResetSceneDelay() {
+            yield return new WaitForSeconds(0.2f);
+            UpdateEnvironmentListAndRespawnPoint();
+            UpdateEnvironment();
         }
 
         public void SwitchScene(int sceneNum) {
@@ -125,9 +127,37 @@ namespace HollowKnight
         }
 
         private void Start() {
-            for (int i = 0; i< scenes.Length; i++) {
+            UpdateEnvironmentListAndRespawnPoint();
+            UpdateEnvironment();
+        }
+
+        public void UpdateEnvironmentListAndRespawnPoint() {
+            scenes.Clear();
+            respawnPositions.Clear();
+            churchChargeEnemy = GameObject.Find("ChurchChargeEnemy");
+            churchChargeEnemy.gameObject.SetActive(false);
+            int i = 1;
+            while (GameObject.Find($"Environment{i.ToString()}")) {
+                scenes.Add(GameObject.Find($"Environment{i.ToString()}"));
+                i++;
+            }
+
+            i = 1;
+
+            while (GameObject.Find($"RespawnPointRecord{i.ToString()}"))
+            {
+                respawnPositions.Add(GameObject.Find($"RespawnPointRecord{i.ToString()}").transform);
+                i++;
+            }
+        }
+
+        public void UpdateEnvironment() {
+            for (int i = 0; i < scenes.Count; i++) {
                 if (i != sceneCount) {
                     scenes[i].SetActive(false);
+                }
+                else {
+                    scenes[i].SetActive(true);
                 }
             }
         }

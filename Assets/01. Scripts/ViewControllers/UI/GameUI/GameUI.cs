@@ -54,7 +54,7 @@ namespace HollowKnight {
 
         private void OnBossDie(OnBossDie e) {
             Player.Singleton.FrozePlayer(true);
-
+            SliderBossHealth.gameObject.SetActive(false);
             CutSceneBars.Singleton.StartBars(1, () => {
                 this.GetSystem<ITimeSystem>().AddDelayTask(2, () => {
 

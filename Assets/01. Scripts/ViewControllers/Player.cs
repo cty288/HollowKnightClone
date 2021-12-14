@@ -132,6 +132,7 @@ namespace HollowKnight {
             absorbSystem = this.GetSystem<IAbsorbSystem>();
             attackSystem = this.GetSystem<IAttackSystem>();
             canMove = true;
+            playerModel.CanHurt.Value = true;
             frozen = false;
             animator.SetBool("Die",false);
             currentState = PlayerState.Normal;

@@ -165,8 +165,9 @@ namespace HollowKnight
         protected override void OnPlayerRespawn(OnPlayerRespawned obj) {
             if (!BornToBeDead) {
                 Instantiate(originalPrefab, startPos, Quaternion.identity, transform.parent);
-                Destroy(this.gameObject);
+               
             }
+            Destroy(this.gameObject);
         }
 
         private void OnWeaponDropped(OnWeaponDropped e)

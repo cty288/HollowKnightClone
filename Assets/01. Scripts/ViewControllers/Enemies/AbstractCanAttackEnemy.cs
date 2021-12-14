@@ -47,8 +47,9 @@ namespace HollowKnight
             if (!BornToBeDead)
             {
                 Instantiate(originalPrefab, startPos, Quaternion.identity, transform.parent);
-                Destroy(this.gameObject);
+                
             }
+            Destroy(this.gameObject);
         }
 
         protected void TriggerEvent(Enum eventEnum)

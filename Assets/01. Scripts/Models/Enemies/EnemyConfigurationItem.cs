@@ -315,7 +315,7 @@ namespace HollowKnight
             {BossStages.LeftRightAttack, 5}
         };
         public override Dictionary<Enum, float> AttackFreqs { get; }
-        public override float MaxHealth { get; } = 100;
+        public override float MaxHealth { get; } = 1;
 
         public override BindableProperty<float> Health { get; } = new BindableProperty<float>();
         public override EnemyName name { get; } = EnemyName.Boss;

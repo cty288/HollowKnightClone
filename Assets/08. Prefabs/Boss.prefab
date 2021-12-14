@@ -125,8 +125,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetLayers:
     serializedVersion: 2
-    m_Bits: 33280
-  maxDistance: 100
+    m_Bits: 164352
+  maxDistance: 300
   detectTime: 1
   colliders: []
 --- !u!1 &98196629749831984
@@ -254,8 +254,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetLayers:
     serializedVersion: 2
-    m_Bits: 33280
-  maxDistance: 100
+    m_Bits: 164352
+  maxDistance: 300
   detectTime: 1
   colliders: []
 --- !u!1 &98196629784475428
@@ -512,8 +512,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetLayers:
     serializedVersion: 2
-    m_Bits: 33280
-  maxDistance: 100
+    m_Bits: 164352
+  maxDistance: 300
   detectTime: 1
   colliders: []
 --- !u!1 &98196629842498446
@@ -724,8 +724,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetLayers:
     serializedVersion: 2
-    m_Bits: 33280
-  maxDistance: 100
+    m_Bits: 164352
+  maxDistance: 300
   detectTime: 1
   colliders: []
 --- !u!1 &98196630068977947
@@ -853,8 +853,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetLayers:
     serializedVersion: 2
-    m_Bits: 33280
-  maxDistance: 100
+    m_Bits: 164352
+  maxDistance: 300
   detectTime: 1
   colliders: []
 --- !u!1 &98196630198316285

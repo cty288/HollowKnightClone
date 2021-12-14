@@ -2448,8 +2448,8 @@ MonoBehaviour:
   uiController: {fileID: 1034428893}
   dialogue:
     names:
-    - ???
-    - ???
+    - 
+    - 
     avatars:
     - {fileID: 0}
     - {fileID: 0}
@@ -4103,7 +4103,7 @@ GameObject:
   - component: {fileID: 366355605}
   - component: {fileID: 366355604}
   m_Layer: 0
-  m_Name: RespawnPointRecord (1)
+  m_Name: RespawnPointRecord2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4438,7 +4438,7 @@ Transform:
   - {fileID: 153428531}
   - {fileID: 408617682}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &395989102 stripped
 Transform:
@@ -6887,7 +6887,7 @@ GameObject:
   - component: {fileID: 609592730}
   - component: {fileID: 609592729}
   m_Layer: 0
-  m_Name: RespawnPointRecord (3)
+  m_Name: RespawnPointRecord4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10406,9 +10406,9 @@ MonoBehaviour:
   uiController: {fileID: 1034428893}
   dialogue:
     names:
-    - ???
-    - ???
-    - ???
+    - 
+    - 
+    - 
     avatars:
     - {fileID: 0}
     - {fileID: 0}
@@ -13951,6 +13951,7 @@ GameObject:
   - component: {fileID: 1229912822}
   - component: {fileID: 1229912821}
   - component: {fileID: 1229912820}
+  - component: {fileID: 1229912824}
   m_Layer: 0
   m_Name: Tutorial 1 (2)
   m_TagString: Untagged
@@ -14001,9 +14002,9 @@ MonoBehaviour:
         m_Calls: []
     - m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1402956079}
-          m_TargetAssemblyTypeName: HollowKnight.GameManager, HollowKnight
-          m_MethodName: ChurchChargeEnemyActivate
+        - m_Target: {fileID: 1229912824}
+          m_TargetAssemblyTypeName: HollowKnight.ChurchPage, HollowKnight
+          m_MethodName: Triggered
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -14122,6 +14123,18 @@ Transform:
   m_Father: {fileID: 1218226734}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1229912824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229912819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe093a0eb181f664aa1386fa22ebf31f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1241383594 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5235513592859967268, guid: 960c88e24301e5946bc1d12cffb77ebb, type: 3}
@@ -15722,17 +15735,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DaggerGet: 0
-  respawnPositions:
-  - {fileID: 1905976030}
-  - {fileID: 366355606}
-  - {fileID: 1670609853}
-  - {fileID: 609592731}
+  respawnPositions: []
   playerPrefab: {fileID: 2834731066197028346, guid: 8f13882c0aa690b43a3df8756c9bc89f, type: 3}
-  scenes:
-  - {fileID: 522451559}
-  - {fileID: 1218226733}
-  - {fileID: 395830894}
-  churchChargeEnemy: {fileID: 1410509986}
+  scenes: []
+  churchChargeEnemy: {fileID: 0}
   CanLeaveChurch: 0
 --- !u!4 &1402956080
 Transform:
@@ -15748,11 +15754,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1410509986 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3553109230068288645, guid: 97b39811c3533964bb7709f3ac4bfe79, type: 3}
-  m_PrefabInstance: {fileID: 1897949877}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1410509994 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3553109230068288650, guid: 97b39811c3533964bb7709f3ac4bfe79, type: 3}
@@ -18563,7 +18564,7 @@ GameObject:
   - component: {fileID: 1670609851}
   - component: {fileID: 1670609854}
   m_Layer: 0
-  m_Name: RespawnPointRecord (2)
+  m_Name: RespawnPointRecord3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20302,7 +20303,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.187
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -21287,23 +21288,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 484033932, guid: 97b39811c3533964bb7709f3ac4bfe79, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 484033932, guid: 97b39811c3533964bb7709f3ac4bfe79, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1047567896, guid: 97b39811c3533964bb7709f3ac4bfe79, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1047567896, guid: 97b39811c3533964bb7709f3ac4bfe79, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1047567896, guid: 97b39811c3533964bb7709f3ac4bfe79, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3553109230068288645, guid: 97b39811c3533964bb7709f3ac4bfe79, type: 3}
       propertyPath: m_Name
@@ -21311,7 +21312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3553109230068288645, guid: 97b39811c3533964bb7709f3ac4bfe79, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3553109230068288650, guid: 97b39811c3533964bb7709f3ac4bfe79, type: 3}
       propertyPath: m_RootOrder
@@ -21652,7 +21653,7 @@ GameObject:
   - component: {fileID: 1905976029}
   - component: {fileID: 1905976028}
   m_Layer: 0
-  m_Name: RespawnPointRecord
+  m_Name: RespawnPointRecord1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22838,8 +22839,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2072687085}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 142.5, y: -1.5409, z: 0}
-  m_LocalScale: {x: 72.29973, y: 1.2181768, z: 1}
+  m_LocalPosition: {x: 142.5, y: -1.6667, z: 0}
+  m_LocalScale: {x: 72.29973, y: 0.9666233, z: 1}
   m_Children: []
   m_Father: {fileID: 395830895}
   m_RootOrder: 41
@@ -23442,17 +23443,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 98196631531049298, guid: 80bee79d679448144b4448f4ed85f08c, type: 3}
-      propertyPath: spawnStoneXRange.x
-      value: 330.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 98196631531049298, guid: 80bee79d679448144b4448f4ed85f08c, type: 3}
-      propertyPath: spawnStoneXRange.y
-      value: 380
-      objectReference: {fileID: 0}
     - target: {fileID: 98196631531049301, guid: 80bee79d679448144b4448f4ed85f08c, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 98196631531049301, guid: 80bee79d679448144b4448f4ed85f08c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -23507,6 +23500,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1380761946, guid: 8f13882c0aa690b43a3df8756c9bc89f, type: 3}
+      propertyPath: maxDistance
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2834731066075598129, guid: 8f13882c0aa690b43a3df8756c9bc89f, type: 3}
+      propertyPath: maxDistance
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 2834731066197028326, guid: 8f13882c0aa690b43a3df8756c9bc89f, type: 3}
       propertyPath: m_Color.b
       value: 0.9811321
