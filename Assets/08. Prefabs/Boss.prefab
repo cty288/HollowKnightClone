@@ -126,6 +126,8 @@ MonoBehaviour:
   TargetLayers:
     serializedVersion: 2
     m_Bits: 33280
+  maxDistance: 100
+  detectTime: 1
   colliders: []
 --- !u!1 &98196629749831984
 GameObject:
@@ -253,6 +255,8 @@ MonoBehaviour:
   TargetLayers:
     serializedVersion: 2
     m_Bits: 33280
+  maxDistance: 100
+  detectTime: 1
   colliders: []
 --- !u!1 &98196629784475428
 GameObject:
@@ -380,6 +384,8 @@ MonoBehaviour:
   TargetLayers:
     serializedVersion: 2
     m_Bits: 33280
+  maxDistance: 100
+  detectTime: 1
   colliders: []
 --- !u!1 &98196629818354228
 GameObject:
@@ -507,6 +513,8 @@ MonoBehaviour:
   TargetLayers:
     serializedVersion: 2
     m_Bits: 33280
+  maxDistance: 100
+  detectTime: 1
   colliders: []
 --- !u!1 &98196629842498446
 GameObject:
@@ -717,6 +725,8 @@ MonoBehaviour:
   TargetLayers:
     serializedVersion: 2
     m_Bits: 33280
+  maxDistance: 100
+  detectTime: 1
   colliders: []
 --- !u!1 &98196630068977947
 GameObject:
@@ -844,6 +854,8 @@ MonoBehaviour:
   TargetLayers:
     serializedVersion: 2
     m_Bits: 33280
+  maxDistance: 100
+  detectTime: 1
   colliders: []
 --- !u!1 &98196630198316285
 GameObject:
@@ -1001,6 +1013,8 @@ MonoBehaviour:
   TargetLayers:
     serializedVersion: 2
     m_Bits: 512
+  maxDistance: 1.2
+  detectTime: 1
   colliders: []
 --- !u!1 &98196631512158088
 GameObject:
@@ -1128,6 +1142,8 @@ MonoBehaviour:
   TargetLayers:
     serializedVersion: 2
     m_Bits: 512
+  maxDistance: 1.2
+  detectTime: 1
   colliders: []
 --- !u!1 &98196631531049305
 GameObject:
@@ -1308,7 +1324,7 @@ MonoBehaviour:
   stoneSpawnHeight: 18
   stoneSpawnNumPerTime: 2
   deadbodySpawnNumPerTime: 1
-  spawnStoneXRange: {x: -20, y: 20}
+  spawnStoneXRange: {x: 330.9, y: 380}
   groundCheckLayers:
     serializedVersion: 2
     m_Bits: 256

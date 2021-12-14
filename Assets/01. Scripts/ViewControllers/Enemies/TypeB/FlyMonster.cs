@@ -211,7 +211,7 @@ namespace HollowKnight
             }
 
             CheckMouseHover();
-         
+            hurtTimer -= Time.deltaTime;
             if (hurtTimer <= 0)
             {
                 spriteRenderer.color = Color.white;

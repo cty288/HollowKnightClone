@@ -40,10 +40,10 @@ namespace HollowKnight {
 
         private void OnHealthChange(float oldHealth, float newHealth) {
             if (newHealth >= parentAttackable.Attackable.MaxHealth) {
-                this.gameObject.SetActive(false);
+                SliderEnemyHealth.gameObject.SetActive(false);
             }
             else {
-                this.gameObject.SetActive(true);
+                SliderEnemyHealth.gameObject.SetActive(true);
             }
             DOTween.To(() => SliderEnemyHealth.value,
                 x => SliderEnemyHealth.value = x, newHealth / parentAttackable.Attackable.MaxHealth,
@@ -51,7 +51,7 @@ namespace HollowKnight {
             
 
             if (newHealth <= 0) {
-                this.gameObject.SetActive(false);
+                SliderEnemyHealth.gameObject.SetActive(false);
             }
         }
     }

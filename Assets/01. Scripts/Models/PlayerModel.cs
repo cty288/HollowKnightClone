@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using MikroFramework.Architecture;
 using MikroFramework.BindableProperty;
+using MikroFramework.TimeSystem;
 using UnityEngine;
 
 namespace HollowKnight
@@ -39,6 +40,8 @@ namespace HollowKnight
 
         BindableProperty<float> Health { get; }
 
+        BindableProperty<bool> CanHurt { get; }
+
         void ChangeRemainingJumpValue(int value);
 
         void ResetRemainingJumpValue();
@@ -49,7 +52,7 @@ namespace HollowKnight
 
         void Reset();
     }
-    public class PlayerModel : AbstractModel, IPlayerModel
+    public class PlayerModel : AbstractModel, IPlayerModel, ICanGetSystem
     {
        
         public BindableProperty<float> WalkSpeed { get; } = new BindableProperty<float>();
@@ -67,6 +70,7 @@ namespace HollowKnight
         public BindableProperty<float> GroundRaycastLength { get; } = new BindableProperty<float>();
         public BindableProperty<float> UltChargeAccumlated { get; } = new BindableProperty<float>();
         public BindableProperty<float> Health { get; } = new BindableProperty<float>();
+        public BindableProperty<bool> CanHurt { get; } = new BindableProperty<bool>() {Value = true};
 
         public void ChangeRemainingJumpValue(int value) {
             RemainingExtraJump.Value += value;
@@ -97,7 +101,21 @@ namespace HollowKnight
         
 
         public void ChangeHealth(float amount) {
+            
             IPlayerConfigurationModel playerConfigurationModel = this.GetModel<IPlayerConfigurationModel>();
+
+            if (amount < 0) {
+                if (!CanHurt.Value) {
+                    return;
+                }
+
+                CanHurt.Value = false;
+
+                this.GetSystem<ITimeSystem>().AddDelayTask(2, () => {
+                    CanHurt.Value = true;
+                });
+            }
+
 
             if (Health.Value + amount > playerConfigurationModel.MaxHealth) {
                 amount = playerConfigurationModel.MaxHealth - Health.Value;

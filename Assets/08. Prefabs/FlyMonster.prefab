@@ -369,6 +369,8 @@ MonoBehaviour:
   bulletStateSprites:
   - {fileID: 7196525094419441766, guid: b1855de3c4f5ded42873869558ac03ca, type: 3}
   - {fileID: -3644566914479440955, guid: b1855de3c4f5ded42873869558ac03ca, type: 3}
+  - {fileID: -3644566914479440955, guid: b1855de3c4f5ded42873869558ac03ca, type: 3}
+  - {fileID: 8688727211847943278, guid: b1855de3c4f5ded42873869558ac03ca, type: 3}
   - {fileID: 8688727211847943278, guid: b1855de3c4f5ded42873869558ac03ca, type: 3}
   mouseDetectionTrigger: {fileID: 2184790234770849366}
   eyePosition: {fileID: 0}
@@ -594,6 +596,8 @@ MonoBehaviour:
   TargetLayers:
     serializedVersion: 2
     m_Bits: 512
+  maxDistance: 100
+  detectTime: 1
   colliders: []
 --- !u!1 &5142063826562325806
 GameObject:

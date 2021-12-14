@@ -348,7 +348,7 @@ namespace HollowKnight
         /// <returns></returns>
         private bool CheckUlt(out IEnemyViewControllerAttackable target) {
             target = null;
-            if (Input.GetKeyDown(KeyCode.R)) {
+            if (Input.GetKeyDown(KeyCode.Q)) {
                 
                 IPlayerModel playerModel = this.GetModel<IPlayerModel>();
                 IPlayerConfigurationModel playerConfigurationModel = this.GetModel<IPlayerConfigurationModel>();

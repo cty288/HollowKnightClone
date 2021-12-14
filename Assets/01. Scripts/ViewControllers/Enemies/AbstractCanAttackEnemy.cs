@@ -42,6 +42,14 @@ namespace HollowKnight
             
             OnFSMStage(CurrentFSMStage);
         }
+        protected override void OnPlayerRespawn(OnPlayerRespawned obj)
+        {
+            if (!BornToBeDead)
+            {
+                Instantiate(originalPrefab, startPos, Quaternion.identity, transform.parent);
+                Destroy(this.gameObject);
+            }
+        }
 
         protected void TriggerEvent(Enum eventEnum)
         {

@@ -593,7 +593,10 @@ MonoBehaviour:
   bulletStateSprites:
   - {fileID: 5036429184065876246, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
   - {fileID: -1638580192433812642, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
+  - {fileID: -1638580192433812642, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
   - {fileID: -338985359088144285, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
+  - {fileID: -338985359088144285, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
+  - {fileID: -187955316564476414, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
   - {fileID: -187955316564476414, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
   - {fileID: -5432298021895082603, guid: 28ce93ce13da79b42b95ccdd7420dca7, type: 3}
   mouseDetectionTrigger: {fileID: 3553109230068288649}

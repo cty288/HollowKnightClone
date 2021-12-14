@@ -108,9 +108,22 @@ namespace HollowKnight {
                 .UnRegisterWhenGameObjectDestroyed(gameObject);
 
             this.RegisterEvent<OnPlayerRespawned>(OnRespawn).UnRegisterWhenGameObjectDestroyed(gameObject);
-
+            playerModel.CanHurt.RegisterOnValueChaned(OnCanHurtChange).UnRegisterWhenGameObjectDestroyed(gameObject);
             //this.RegisterEvent<OnEnemyAbsorbed>(OnAbsorb).UnRegisterWhenGameObjectDestroyed(gameObject);
             playerModel.Health.RegisterOnValueChaned(OnHealthChange).UnRegisterWhenGameObjectDestroyed(gameObject);
+        }
+
+        private void OnCanHurtChange(bool old, bool newCanHurt) {
+            if (newCanHurt) {
+                gameObject.layer = LayerMask.NameToLayer("Player");
+                GetComponent<SpriteRenderer>().color = new Color(0.9811321f,
+                    0.9811321f, 0.9811321f, 1);
+            }
+            else {
+                gameObject.layer = LayerMask.NameToLayer("PlayerTransparent");
+                GetComponent<SpriteRenderer>().color = new Color(0.9811321f,
+                    0.9811321f, 0.9811321f, 0.5f);
+            }
         }
 
         private void OnRespawn(OnPlayerRespawned e) {
@@ -118,6 +131,8 @@ namespace HollowKnight {
             teleportSystem = this.GetSystem<ITeleportSystem>();
             absorbSystem = this.GetSystem<IAbsorbSystem>();
             attackSystem = this.GetSystem<IAttackSystem>();
+            canMove = true;
+            frozen = false;
             animator.SetBool("Die",false);
             currentState = PlayerState.Normal;
 
@@ -191,7 +206,7 @@ namespace HollowKnight {
             currentState = PlayerState.Hurt;
             attackSystem.StopAttack();
             absorbSystem.AbsorbInterrupt();
-            UnMoveable(0.7f, null);
+            UnMoveable(0.4f, null);
             animator.SetTrigger("Hurt");
         }
 
@@ -288,6 +303,7 @@ namespace HollowKnight {
 
         private bool frozen = false;
 
+
         public void FrozePlayer(bool isFrozen) {
             frozen = isFrozen;
             if (isFrozen) {
@@ -336,7 +352,7 @@ namespace HollowKnight {
         }
 
         private void CheckDropWeapon() {
-            if (Input.GetKeyDown(KeyCode.Q)) {
+            if (Input.GetKeyDown(KeyCode.G)) {
                 this.SendCommand<DropWeaponCommand>();
             }
         }

@@ -102,7 +102,7 @@ namespace HollowKnight
         }
 
         public float TeleportPrepareTime { get; } = 0.4f;
-        public float TeleportFinishTime { get; } = 0.7f;
+        public float TeleportFinishTime { get; } = 0.3f;
         public void Reset() {
             TeleportState = TeleportState.NotTeleporting;
         }

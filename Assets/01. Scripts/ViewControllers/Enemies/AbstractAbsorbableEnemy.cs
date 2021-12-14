@@ -162,6 +162,13 @@ namespace HollowKnight
             transform.SetParent(transformer);
         }
 
+        protected override void OnPlayerRespawn(OnPlayerRespawned obj) {
+            if (!BornToBeDead) {
+                Instantiate(originalPrefab, startPos, Quaternion.identity, transform.parent);
+                Destroy(this.gameObject);
+            }
+        }
+
         private void OnWeaponDropped(OnWeaponDropped e)
         {
             if (e.DroppedWeapon == weaponInfo)

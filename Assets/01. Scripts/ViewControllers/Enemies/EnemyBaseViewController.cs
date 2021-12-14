@@ -132,8 +132,9 @@ namespace HollowKnight {
             startPos = transform.position;
         }
 
-        private void OnPlayerRespawn(OnPlayerRespawned obj) {
-            Instantiate(originalPrefab, startPos, Quaternion.identity);
+        protected virtual void OnPlayerRespawn(OnPlayerRespawned obj) {
+            
+            Instantiate(originalPrefab, startPos, Quaternion.identity,transform.parent);
             Destroy(this.gameObject);
         }
 

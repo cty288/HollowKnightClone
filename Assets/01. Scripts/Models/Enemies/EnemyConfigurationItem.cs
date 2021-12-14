@@ -228,7 +228,7 @@ namespace HollowKnight
 
 
         public override Dictionary<Enum, float> AttackSkillDamages { get; } = new Dictionary<Enum, float>() {
-            {ChargeMonsterStages.Attacking, 3}
+            {ChargeMonsterStages.Attacking, 5}
         };
         public override Dictionary<Enum, float> AttackFreqs { get; } = new Dictionary<Enum, float>() {
             {ChargeMonsterStages.Attacking, 2f}
@@ -271,7 +271,7 @@ namespace HollowKnight
         public override List<Enum> AttackStageNames { get; } = new List<Enum>() { FlyMonsterStages.Engaging };
         
         public override Dictionary<Enum, float> AttackSkillDamages { get; } = new Dictionary<Enum, float>() {
-            {FlyMonsterStages.Engaging, 2}
+            {FlyMonsterStages.Engaging, 3}
         };
         public override Dictionary<Enum, float> AttackFreqs { get; } = new Dictionary<Enum, float>() {
             {FlyMonsterStages.Engaging, 2.5f}

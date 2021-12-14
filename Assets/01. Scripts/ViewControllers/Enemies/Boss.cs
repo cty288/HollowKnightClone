@@ -214,7 +214,10 @@ namespace HollowKnight
 
         [SerializeField] private float hitPlayerForce = 20;
         private void AddForceToPlayer() {
-            Player.Singleton.GetComponent<Rigidbody2D>().AddForce(new Vector2((FaceLeft ? -1 : 1) * hitPlayerForce, 5), ForceMode2D.Impulse);
+            if (this.GetModel<IPlayerModel>().CanHurt.Value) {
+                Player.Singleton.GetComponent<Rigidbody2D>().AddForce(new Vector2((FaceLeft ? -1 : 1) * hitPlayerForce, 5), ForceMode2D.Impulse);
+            }
+           
         }
 
         #region LeftRightAttack
@@ -446,7 +449,7 @@ namespace HollowKnight
 
         [SerializeField] private LayerMask groundCheckLayers;
         private void OnCollisionEnter2D(Collision2D other) {
-            if (PhysicsUtility.IsInLayerMask(other.collider .gameObject, groundCheckLayers)) {
+            if (PhysicsUtility.IsInLayerMask(other.collider.gameObject, groundCheckLayers)) {
                 if (jumpTween != null) {
                     jumpTween.Kill(true);
                 }
@@ -457,6 +460,11 @@ namespace HollowKnight
                     Debug.Log("Jump attack hit ground");
                     animator.SetTrigger("JumpAttackHitGround");
                 }
+            }
+
+            if (other.collider.gameObject == Player.Singleton.gameObject) {
+                HurtPlayerNoMatterWhatAttackStage(5f);
+                AddForceToPlayer();
             }
         }
         #endregion
@@ -574,15 +582,6 @@ namespace HollowKnight
             || (!rangeChecks[0].Triggered && !rangeChecks[1].Triggered)) {
                 SpawnShockWave(FaceLeft);
             }
-
-
-            /*
-            if (CurrentFSMStage == BossConfiguration.BossStages.Shockwave)
-            {
-                //spawn shock wave
-                SpawnShockWave(FaceLeft);
-                Debug.Log("Spawn shock wave!");
-            }*/
         }
 
         public void OnAnimationAttackFinished() {
