@@ -1,9 +1,11 @@
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
-[Bb]uild/
+[Bb]uild_Big/
 [Bb]uilds/
 [Ll]ogs/
+[Bb]uilds/
+[Bb]uild_Big.zip
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # [Aa]ssets/AssetStoreTools*
